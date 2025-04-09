@@ -1,9 +1,7 @@
 package com.beiramar.beiramar.api.entity;
 
 import jakarta.persistence.*;
-import org.springframework.context.annotation.EnableLoadTimeWeaving;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -11,29 +9,33 @@ public class Agendamento {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-
-    @ManyToOne
-    @JoinColumn(name = "fkServico", nullable = false)
-    private Servico servico;
+    private Integer idAgendamento;
 
     private LocalDateTime dtHora;
     private String status;
 
-    public Integer getId() {
-        return id;
+    @ManyToOne
+    @JoinColumn(name = "id_cliente")
+    private Usuario cliente;
+
+    @ManyToOne
+    @JoinColumn(name = "id_funcionario")
+    private Usuario funcionario;
+
+    @ManyToOne
+    @JoinColumn(name = "id_pacote")
+    private Pacote pacote;
+
+    @ManyToOne
+    @JoinColumn(name = "id_servico")
+    private Servico servico;
+
+    public Integer getIdAgendamento() {
+        return idAgendamento;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Servico getServico() {
-        return servico;
-    }
-
-    public void setServico(Servico servico) {
-        this.servico = servico;
+    public void setIdAgendamento(Integer idAgendamento) {
+        this.idAgendamento = idAgendamento;
     }
 
     public LocalDateTime getDtHora() {
@@ -50,5 +52,37 @@ public class Agendamento {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public Usuario getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Usuario cliente) {
+        this.cliente = cliente;
+    }
+
+    public Usuario getFuncionario() {
+        return funcionario;
+    }
+
+    public void setFuncionario(Usuario funcionario) {
+        this.funcionario = funcionario;
+    }
+
+    public Pacote getPacote() {
+        return pacote;
+    }
+
+    public void setPacote(Pacote pacote) {
+        this.pacote = pacote;
+    }
+
+    public Servico getServico() {
+        return servico;
+    }
+
+    public void setServico(Servico servico) {
+        this.servico = servico;
     }
 }

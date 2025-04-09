@@ -1,28 +1,36 @@
 package com.beiramar.beiramar.api.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+
+import java.util.List;
 
 @Entity
 public class Servico {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Integer idServico;
+
     private String nome;
     private Double preco;
     private Integer duracao;
     private String descricao;
-    private Integer fkPacote;
 
-    public Integer getId() {
-        return id;
+
+    @OneToMany(mappedBy = "servico")
+    private List<Agendamento> agendamentos;
+
+    @OneToMany(mappedBy = "servico")
+    private List<Sessao> sessoes;
+
+
+
+    public Integer getIdServico() {
+        return idServico;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setIdServico(Integer idServico) {
+        this.idServico = idServico;
     }
 
     public String getNome() {
@@ -57,11 +65,19 @@ public class Servico {
         this.descricao = descricao;
     }
 
-    public Integer getFkPacote() {
-        return fkPacote;
+    public List<Agendamento> getAgendamentos() {
+        return agendamentos;
     }
 
-    public void setFkPacote(Integer fkPacote) {
-        this.fkPacote = fkPacote;
+    public void setAgendamentos(List<Agendamento> agendamentos) {
+        this.agendamentos = agendamentos;
+    }
+
+    public List<Sessao> getSessoes() {
+        return sessoes;
+    }
+
+    public void setSessoes(List<Sessao> sessoes) {
+        this.sessoes = sessoes;
     }
 }

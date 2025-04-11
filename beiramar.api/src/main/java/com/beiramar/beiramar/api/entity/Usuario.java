@@ -15,9 +15,14 @@ public class Usuario {
     private String nome;
     private String email;
     private String telefone;
+    private String cpf;
+    private String cargo;
+    private String cep;
+    private String logradouro;
+    private Integer numeroLogradouro;
+    private String complementoEndereco;
     private String senha;
     private LocalDate dtNasc;
-    private Integer nivelAcesso;
 
     @OneToMany(mappedBy = "cliente")
     private List<Agendamento> agendamentosCliente;
@@ -64,6 +69,54 @@ public class Usuario {
         this.telefone = telefone;
     }
 
+    public String getCpf() {
+        return cpf;
+    }
+
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
+    }
+
+    public String getCargo() {
+        return cargo;
+    }
+
+    public void setCargo(String cargo) {
+        this.cargo = cargo;
+    }
+
+    public String getCep() {
+        return cep;
+    }
+
+    public void setCep(String cep) {
+        this.cep = cep;
+    }
+
+    public String getLogradouro() {
+        return logradouro;
+    }
+
+    public void setLogradouro(String logradouro) {
+        this.logradouro = logradouro;
+    }
+
+    public Integer getNumeroLogradouro() {
+        return numeroLogradouro;
+    }
+
+    public void setNumeroLogradouro(Integer numeroLogradouro) {
+        this.numeroLogradouro = numeroLogradouro;
+    }
+
+    public String getComplementoEndereco() {
+        return complementoEndereco;
+    }
+
+    public void setComplementoEndereco(String complementoEndereco) {
+        this.complementoEndereco = complementoEndereco;
+    }
+
     public String getSenha() {
         return senha;
     }
@@ -80,13 +133,6 @@ public class Usuario {
         this.dtNasc = dtNasc;
     }
 
-    public Integer getNivelAcesso() {
-        return nivelAcesso;
-    }
-
-    public void setNivelAcesso(Integer nivelAcesso) {
-        this.nivelAcesso = nivelAcesso;
-    }
 
     public List<Agendamento> getAgendamentosCliente() {
         return agendamentosCliente;

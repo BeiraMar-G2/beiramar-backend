@@ -17,12 +17,12 @@ public class Usuario {
     private String telefone;
     private String cpf;
     private String cargo;
-    private String cep;
-    private String logradouro;
-    private Integer numeroLogradouro;
-    private String complementoEndereco;
     private String senha;
     private LocalDate dtNasc;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private TipoUsuarioEnum tipoUsuario;
 
     @OneToMany(mappedBy = "cliente")
     private List<Agendamento> agendamentosCliente;
@@ -85,38 +85,6 @@ public class Usuario {
         this.cargo = cargo;
     }
 
-    public String getCep() {
-        return cep;
-    }
-
-    public void setCep(String cep) {
-        this.cep = cep;
-    }
-
-    public String getLogradouro() {
-        return logradouro;
-    }
-
-    public void setLogradouro(String logradouro) {
-        this.logradouro = logradouro;
-    }
-
-    public Integer getNumeroLogradouro() {
-        return numeroLogradouro;
-    }
-
-    public void setNumeroLogradouro(Integer numeroLogradouro) {
-        this.numeroLogradouro = numeroLogradouro;
-    }
-
-    public String getComplementoEndereco() {
-        return complementoEndereco;
-    }
-
-    public void setComplementoEndereco(String complementoEndereco) {
-        this.complementoEndereco = complementoEndereco;
-    }
-
     public String getSenha() {
         return senha;
     }
@@ -133,6 +101,13 @@ public class Usuario {
         this.dtNasc = dtNasc;
     }
 
+    public TipoUsuarioEnum getTipoUsuario() {
+        return tipoUsuario;
+    }
+
+    public void setTipoUsuario(TipoUsuarioEnum tipoUsuario) {
+        this.tipoUsuario = tipoUsuario;
+    }
 
     public List<Agendamento> getAgendamentosCliente() {
         return agendamentosCliente;

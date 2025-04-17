@@ -2,11 +2,12 @@ package com.beiramar.beiramar.api.dto.mapper;
 
 import com.beiramar.beiramar.api.dto.FuncionarioCadastroDto;
 import com.beiramar.beiramar.api.dto.FuncionarioListagemDto;
+import com.beiramar.beiramar.api.entity.TipoUsuarioEnum;
 import com.beiramar.beiramar.api.entity.Usuario;
 
 public class FuncionarioMapper {
 
-    public static Usuario toUsuario(FuncionarioCadastroDto request) {
+    public static Usuario toFuncionarioDto(FuncionarioCadastroDto request) {
         Usuario funcionario = new Usuario();
 
         funcionario.setNome(request.getNome());
@@ -15,16 +16,13 @@ public class FuncionarioMapper {
         funcionario.setTelefone(request.getTelefone());
         funcionario.setCargo(request.getCargo());
         funcionario.setDtNasc(request.getDtNasc());
-        funcionario.setCep(request.getCep());
-        funcionario.setLogradouro(request.getLogradouro());
-        funcionario.setNumeroLogradouro(request.getNumeroLogradouro());
         funcionario.setSenha(request.getSenha());
+        funcionario.setTipoUsuario(TipoUsuarioEnum.FUNCIONARIO); // novo
 
         return funcionario;
     }
 
     public static FuncionarioListagemDto toFuncionarioListagemDto(Usuario funcionario){
-
         FuncionarioListagemDto response = new FuncionarioListagemDto();
 
         response.setIdFuncionario(funcionario.getIdPessoa());
@@ -34,9 +32,6 @@ public class FuncionarioMapper {
         response.setTelefone(funcionario.getTelefone());
         response.setCargo(funcionario.getCargo());
         response.setDtNasc(funcionario.getDtNasc());
-        response.setCep(funcionario.getCep());
-        response.setLogradouro(funcionario.getLogradouro());
-        response.setNumeroLogradouro(funcionario.getNumeroLogradouro());
         response.setSenha(funcionario.getSenha());
 
         return response;

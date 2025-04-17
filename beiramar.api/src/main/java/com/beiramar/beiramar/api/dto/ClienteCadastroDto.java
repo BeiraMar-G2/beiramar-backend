@@ -1,12 +1,14 @@
 package com.beiramar.beiramar.api.dto;
 
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import org.hibernate.validator.constraints.br.CPF;
 
 import java.time.LocalDate;
 
-public class FuncionarioCadastroDto {
-
+public class ClienteCadastroDto {
 
     @NotBlank
     private String nome;
@@ -20,11 +22,7 @@ public class FuncionarioCadastroDto {
     private String email;
 
     @NotBlank
-    private String cargo;
-
-    @NotBlank
     private String telefone;
-
 
     @NotBlank
     //@Size(min = 8, max = 15, message = "Senha deve ser de 8 a 15 digitos")
@@ -33,6 +31,18 @@ public class FuncionarioCadastroDto {
     @NotNull
     private LocalDate dtNasc;
 
+
+    public ClienteCadastroDto() {
+    }
+
+    public ClienteCadastroDto(String nome, String cpf, String email, String telefone, String senha, LocalDate dtNasc) {
+        this.nome = nome;
+        this.cpf = cpf;
+        this.email = email;
+        this.telefone = telefone;
+        this.senha = senha;
+        this.dtNasc = dtNasc;
+    }
 
     public String getNome() {
         return nome;
@@ -58,14 +68,6 @@ public class FuncionarioCadastroDto {
         this.email = email;
     }
 
-    public String getCargo() {
-        return cargo;
-    }
-
-    public void setCargo(String cargo) {
-        this.cargo = cargo;
-    }
-
     public String getTelefone() {
         return telefone;
     }
@@ -73,7 +75,6 @@ public class FuncionarioCadastroDto {
     public void setTelefone(String telefone) {
         this.telefone = telefone;
     }
-
 
     public String getSenha() {
         return senha;

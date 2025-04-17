@@ -15,11 +15,11 @@ public class FuncionarioListagemDto {
     private String nome;
 
     @NotBlank
-    @CPF
+    //@CPF
     private String cpf;
 
     @NotBlank
-    @Email
+    //@Email
     private String email;
 
     @NotBlank
@@ -29,19 +29,7 @@ public class FuncionarioListagemDto {
     private String telefone;
 
     @NotBlank
-    @Size(min = 8, max = 8, message = "CEP deve ter 8 digitos")
-    private String cep;
-
-    @NotBlank
-    private String logradouro;
-
-    @NotNull
-    private Integer numeroLogradouro;
-
-    private String complementoEndereco;
-
-    @NotBlank
-    @Size(min = 8, max = 15, message = "Senha deve ser de 8 a 15 digitos")
+    //@Size(min = 8, max = 15, message = "Senha deve ser de 8 a 15 digitos")
     private String senha;
 
     @NotNull
@@ -96,37 +84,6 @@ public class FuncionarioListagemDto {
         this.telefone = telefone;
     }
 
-    public String getCep() {
-        return cep;
-    }
-
-    public void setCep(String cep) {
-        this.cep = cep;
-    }
-
-    public String getLogradouro() {
-        return logradouro;
-    }
-
-    public void setLogradouro(String logradouro) {
-        this.logradouro = logradouro;
-    }
-
-    public Integer getNumeroLogradouro() {
-        return numeroLogradouro;
-    }
-
-    public void setNumeroLogradouro(Integer numeroLogradouro) {
-        this.numeroLogradouro = numeroLogradouro;
-    }
-
-    public String getComplementoEndereco() {
-        return complementoEndereco;
-    }
-
-    public void setComplementoEndereco(String complementoEndereco) {
-        this.complementoEndereco = complementoEndereco;
-    }
 
     public String getSenha() {
         return senha;

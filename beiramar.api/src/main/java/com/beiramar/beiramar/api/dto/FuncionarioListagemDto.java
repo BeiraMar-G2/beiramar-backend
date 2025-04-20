@@ -1,47 +1,26 @@
 package com.beiramar.beiramar.api.dto;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
-import org.hibernate.validator.constraints.br.CPF;
-
-import java.time.LocalDate;
-
 public class FuncionarioListagemDto {
 
-    private Integer idFuncionario;
-    @NotBlank
+
+    private Integer id;
     private String nome;
-
-    @NotBlank
-    //@CPF
-    private String cpf;
-
-    @NotBlank
-    //@Email
     private String email;
-
-    @NotBlank
-    private String cargo;
-
-    @NotBlank
     private String telefone;
 
-    @NotBlank
-    //@Size(min = 8, max = 15, message = "Senha deve ser de 8 a 15 digitos")
-    private String senha;
-
-    @NotNull
-    private LocalDate dtNasc;
-
-
-    public Integer getIdFuncionario() {
-        return idFuncionario;
+    public FuncionarioListagemDto(Integer id, String nome, String email, String telefone) {
+        this.id = id;
+        this.nome = nome;
+        this.email = email;
+        this.telefone = telefone;
     }
 
-    public void setIdFuncionario(Integer idFuncionario) {
-        this.idFuncionario = idFuncionario;
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getNome() {
@@ -52,14 +31,6 @@ public class FuncionarioListagemDto {
         this.nome = nome;
     }
 
-    public String getCpf() {
-        return cpf;
-    }
-
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
-    }
-
     public String getEmail() {
         return email;
     }
@@ -68,36 +39,11 @@ public class FuncionarioListagemDto {
         this.email = email;
     }
 
-    public String getCargo() {
-        return cargo;
-    }
-
-    public void setCargo(String cargo) {
-        this.cargo = cargo;
-    }
-
     public String getTelefone() {
         return telefone;
     }
 
     public void setTelefone(String telefone) {
         this.telefone = telefone;
-    }
-
-
-    public String getSenha() {
-        return senha;
-    }
-
-    public void setSenha(String senha) {
-        this.senha = senha;
-    }
-
-    public LocalDate getDtNasc() {
-        return dtNasc;
-    }
-
-    public void setDtNasc(LocalDate dtNasc) {
-        this.dtNasc = dtNasc;
     }
 }

@@ -3,8 +3,10 @@ package com.beiramar.beiramar.api.service;
 import com.beiramar.beiramar.api.dto.FuncionarioCadastroDto;
 import com.beiramar.beiramar.api.dto.FuncionarioListagemDto;
 import com.beiramar.beiramar.api.dto.mapper.FuncionarioMapper;
-import com.beiramar.beiramar.api.entity.TipoUsuarioEnum;
+import com.beiramar.beiramar.api.entity.Cargo;
 import com.beiramar.beiramar.api.entity.Usuario;
+import com.beiramar.beiramar.api.exception.EntidadeNaoEncontradaException;
+import com.beiramar.beiramar.api.repository.CargoRepository;
 import com.beiramar.beiramar.api.repository.UsuarioRepository;
 import org.springframework.stereotype.Service;
 
@@ -15,22 +17,30 @@ import java.util.stream.Collectors;
 public class FuncionarioService {
 
     private final UsuarioRepository usuarioRepository;
+    private final CargoRepository cargoRepository;
 
-    public FuncionarioService(UsuarioRepository usuarioRepository) {
+    public FuncionarioService(UsuarioRepository usuarioRepository, CargoRepository cargoRepository) {
         this.usuarioRepository = usuarioRepository;
+        this.cargoRepository = cargoRepository;
     }
 
-    public FuncionarioListagemDto cadastrar(FuncionarioCadastroDto dto) {
-        Usuario funcionario = FuncionarioMapper.toFuncionarioDto(dto);
-        funcionario.setTipoUsuario(TipoUsuarioEnum.FUNCIONARIO);
+    public FuncionarioListagemDto cadastrarFuncionario(FuncionarioCadastroDto dto) {
+
+        Cargo cargoFuncionario = cargoRepository.findByNomeIgnoreCase("FUNCIONARIO")
+                .orElseThrow(() -> new EntidadeNaoEncontradaException("Cargo FUNCIONARIO não encontrado"));
+
+        Usuario funcionario = FuncionarioMapper.toEntity(dto, cargoFuncionario);
         Usuario salvo = usuarioRepository.save(funcionario);
-        return FuncionarioMapper.toFuncionarioListagemDto(salvo);
+
+        return FuncionarioMapper.toDto(salvo);
     }
 
-    public List<FuncionarioListagemDto> listarTodos() {
-        return usuarioRepository.findAllByTipoUsuario(TipoUsuarioEnum.FUNCIONARIO)
-                .stream()
-                .map(FuncionarioMapper::toFuncionarioListagemDto)
+    public List<FuncionarioListagemDto> listarTodosFuncionarios() {
+        Cargo cargoFuncionario = cargoRepository.findByNomeIgnoreCase("FUNCIONARIO")
+                .orElseThrow(() -> new EntidadeNaoEncontradaException("Cargo FUNCIONARIO não encontrado"));
+
+        return usuarioRepository.findByCargo(cargoFuncionario).stream()
+                .map(FuncionarioMapper::toDto)
                 .collect(Collectors.toList());
     }
 }

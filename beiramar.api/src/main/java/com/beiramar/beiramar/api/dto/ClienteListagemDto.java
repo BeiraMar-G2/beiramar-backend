@@ -10,36 +10,24 @@ import java.time.LocalDate;
 
 public class ClienteListagemDto {
 
-    private Integer idCliente;
-
-    @NotBlank
+    private Integer id;
     private String nome;
-
-    @NotBlank
-    //@CPF
-    private String cpf;
-
-    @NotBlank
-    //@Email
     private String email;
-
-    @NotBlank
     private String telefone;
 
-    @NotBlank
-    //@Size(min = 8, max = 15, message = "Senha deve ser de 8 a 15 digitos")
-    private String senha;
-
-    @NotNull
-    private LocalDate dtNasc;
-
-
-    public Integer getIdCliente() {
-        return idCliente;
+    public ClienteListagemDto(Integer id, String nome, String email, String telefone) {
+        this.id = id;
+        this.nome = nome;
+        this.email = email;
+        this.telefone = telefone;
     }
 
-    public void setIdCliente(Integer idCliente) {
-        this.idCliente = idCliente;
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getNome() {
@@ -50,14 +38,6 @@ public class ClienteListagemDto {
         this.nome = nome;
     }
 
-    public String getCpf() {
-        return cpf;
-    }
-
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
-    }
-
     public String getEmail() {
         return email;
     }
@@ -66,29 +46,11 @@ public class ClienteListagemDto {
         this.email = email;
     }
 
-
     public String getTelefone() {
         return telefone;
     }
 
     public void setTelefone(String telefone) {
         this.telefone = telefone;
-    }
-
-
-    public String getSenha() {
-        return senha;
-    }
-
-    public void setSenha(String senha) {
-        this.senha = senha;
-    }
-
-    public LocalDate getDtNasc() {
-        return dtNasc;
-    }
-
-    public void setDtNasc(LocalDate dtNasc) {
-        this.dtNasc = dtNasc;
     }
 }

@@ -4,7 +4,6 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import org.hibernate.validator.constraints.br.CPF;
 
 import java.time.LocalDate;
 
@@ -14,35 +13,19 @@ public class ClienteCadastroDto {
     private String nome;
 
     @NotBlank
-    //@CPF
-    private String cpf;
-
-    @NotBlank
-    //@Email
+    @Email
     private String email;
 
     @NotBlank
     private String telefone;
 
     @NotBlank
-    //@Size(min = 8, max = 15, message = "Senha deve ser de 8 a 15 digitos")
+    @Size(min = 8, max = 15, message = "Senha deve ser de 8 a 15 digitos")
     private String senha;
 
     @NotNull
     private LocalDate dtNasc;
 
-
-    public ClienteCadastroDto() {
-    }
-
-    public ClienteCadastroDto(String nome, String cpf, String email, String telefone, String senha, LocalDate dtNasc) {
-        this.nome = nome;
-        this.cpf = cpf;
-        this.email = email;
-        this.telefone = telefone;
-        this.senha = senha;
-        this.dtNasc = dtNasc;
-    }
 
     public String getNome() {
         return nome;
@@ -50,14 +33,6 @@ public class ClienteCadastroDto {
 
     public void setNome(String nome) {
         this.nome = nome;
-    }
-
-    public String getCpf() {
-        return cpf;
-    }
-
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
     }
 
     public String getEmail() {

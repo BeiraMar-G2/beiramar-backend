@@ -1,0 +1,2 @@
+INSERT INTO cargo (nome) VALUES ('FUNCIONARIO');
+INSERT INTO cargo (nome) VALUES ('CLIENTE');

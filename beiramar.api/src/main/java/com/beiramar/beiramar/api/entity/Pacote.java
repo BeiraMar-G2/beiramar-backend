@@ -11,16 +11,16 @@ public class Pacote {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idPacote;
 
-    private Double valorPacote;
+    private Integer qtdSessaoTotal;
+    private Integer qtdSessaoFalta;
+    private Integer tempoLimiteDias;
 
     @OneToMany(mappedBy = "pacote")
-    private List<PacoteDisponivel> pacotesDisponiveis;
+    private List<SessoesPacote> sessoes;
 
     @OneToMany(mappedBy = "pacote")
-    private List<Sessao> sessoes;
+    private List<ValorPacote> valores;
 
-    @OneToMany(mappedBy = "pacote")
-    private List<Agendamento> agendamentos;
 
     public Integer getIdPacote() {
         return idPacote;
@@ -30,35 +30,43 @@ public class Pacote {
         this.idPacote = idPacote;
     }
 
-    public Double getValorPacote() {
-        return valorPacote;
+    public Integer getQtdSessaoTotal() {
+        return qtdSessaoTotal;
     }
 
-    public void setValorPacote(Double valorPacote) {
-        this.valorPacote = valorPacote;
+    public void setQtdSessaoTotal(Integer qtdSessaoTotal) {
+        this.qtdSessaoTotal = qtdSessaoTotal;
     }
 
-    public List<PacoteDisponivel> getPacotesDisponiveis() {
-        return pacotesDisponiveis;
+    public Integer getQtdSessaoFalta() {
+        return qtdSessaoFalta;
     }
 
-    public void setPacotesDisponiveis(List<PacoteDisponivel> pacotesDisponiveis) {
-        this.pacotesDisponiveis = pacotesDisponiveis;
+    public void setQtdSessaoFalta(Integer qtdSessaoFalta) {
+        this.qtdSessaoFalta = qtdSessaoFalta;
     }
 
-    public List<Sessao> getSessoes() {
+    public Integer getTempoLimiteDias() {
+        return tempoLimiteDias;
+    }
+
+    public void setTempoLimiteDias(Integer tempoLimiteDias) {
+        this.tempoLimiteDias = tempoLimiteDias;
+    }
+
+    public List<SessoesPacote> getSessoes() {
         return sessoes;
     }
 
-    public void setSessoes(List<Sessao> sessoes) {
+    public void setSessoes(List<SessoesPacote> sessoes) {
         this.sessoes = sessoes;
     }
 
-    public List<Agendamento> getAgendamentos() {
-        return agendamentos;
+    public List<ValorPacote> getValores() {
+        return valores;
     }
 
-    public void setAgendamentos(List<Agendamento> agendamentos) {
-        this.agendamentos = agendamentos;
+    public void setValores(List<ValorPacote> valores) {
+        this.valores = valores;
     }
 }

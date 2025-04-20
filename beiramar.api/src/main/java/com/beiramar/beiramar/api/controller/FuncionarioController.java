@@ -21,13 +21,13 @@ public class FuncionarioController {
 
     @PostMapping
     public ResponseEntity<FuncionarioListagemDto> cadastrar(@RequestBody @Valid FuncionarioCadastroDto dto) {
-        FuncionarioListagemDto funcionarioCadastrado = funcionarioService.cadastrar(dto);
+        FuncionarioListagemDto funcionarioCadastrado = funcionarioService.cadastrarFuncionario(dto);
         return ResponseEntity.status(201).body(funcionarioCadastrado);
     }
 
     @GetMapping
     public ResponseEntity<List<FuncionarioListagemDto>> listar() {
-        List<FuncionarioListagemDto> funcionarios = funcionarioService.listarTodos();
+        List<FuncionarioListagemDto> funcionarios = funcionarioService.listarTodosFuncionarios();
 
         if (funcionarios.isEmpty()){
             return ResponseEntity.status(204).build();

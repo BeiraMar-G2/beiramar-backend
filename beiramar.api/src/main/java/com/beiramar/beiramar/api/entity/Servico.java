@@ -21,7 +21,7 @@ public class Servico {
     private List<Agendamento> agendamentos;
 
     @OneToMany(mappedBy = "servico")
-    private List<Sessao> sessoes;
+    private List<SessoesPacote> sessoes;
 
 
 
@@ -73,11 +73,11 @@ public class Servico {
         this.agendamentos = agendamentos;
     }
 
-    public List<Sessao> getSessoes() {
+    public List<SessoesPacote> getSessoes() {
         return sessoes;
     }
 
-    public void setSessoes(List<Sessao> sessoes) {
+    public void setSessoes(List<SessoesPacote> sessoes) {
         this.sessoes = sessoes;
     }
 }

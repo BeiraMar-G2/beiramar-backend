@@ -10,39 +10,37 @@ public class Usuario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer idPessoa;
+    private Integer idUsuario;
 
     private String nome;
     private String email;
     private String telefone;
-    private String cpf;
-    private String cargo;
     private String senha;
     private LocalDate dtNasc;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private TipoUsuarioEnum tipoUsuario;
+    @ManyToOne
+    @JoinColumn(name = "fkCargo")
+    private Cargo cargo;
 
     @OneToMany(mappedBy = "cliente")
-    private List<Agendamento> agendamentosCliente;
+    private List<Agendamento> agendamentosComoCliente;
 
     @OneToMany(mappedBy = "funcionario")
-    private List<Agendamento> agendamentosFuncionario;
+    private List<Agendamento> agendamentosComoFuncionario;
 
     @OneToMany(mappedBy = "funcionario")
     private List<Disponibilidade> disponibilidades;
 
-    @OneToMany(mappedBy = "cliente")
-    private List<PacoteDisponivel> pacotesAdquiridos;
+    @OneToMany(mappedBy = "usuario")
+    private List<ValorPacote> pacotes;
 
 
-    public Integer getIdPessoa() {
-        return idPessoa;
+    public Integer getIdUsuario() {
+        return idUsuario;
     }
 
-    public void setIdPessoa(Integer idPessoa) {
-        this.idPessoa = idPessoa;
+    public void setIdUsuario(Integer idUsuario) {
+        this.idUsuario = idUsuario;
     }
 
     public String getNome() {
@@ -69,22 +67,6 @@ public class Usuario {
         this.telefone = telefone;
     }
 
-    public String getCpf() {
-        return cpf;
-    }
-
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
-    }
-
-    public String getCargo() {
-        return cargo;
-    }
-
-    public void setCargo(String cargo) {
-        this.cargo = cargo;
-    }
-
     public String getSenha() {
         return senha;
     }
@@ -101,28 +83,28 @@ public class Usuario {
         this.dtNasc = dtNasc;
     }
 
-    public TipoUsuarioEnum getTipoUsuario() {
-        return tipoUsuario;
+    public Cargo getCargo() {
+        return cargo;
     }
 
-    public void setTipoUsuario(TipoUsuarioEnum tipoUsuario) {
-        this.tipoUsuario = tipoUsuario;
+    public void setCargo(Cargo cargo) {
+        this.cargo = cargo;
     }
 
-    public List<Agendamento> getAgendamentosCliente() {
-        return agendamentosCliente;
+    public List<Agendamento> getAgendamentosComoCliente() {
+        return agendamentosComoCliente;
     }
 
-    public void setAgendamentosCliente(List<Agendamento> agendamentosCliente) {
-        this.agendamentosCliente = agendamentosCliente;
+    public void setAgendamentosComoCliente(List<Agendamento> agendamentosComoCliente) {
+        this.agendamentosComoCliente = agendamentosComoCliente;
     }
 
-    public List<Agendamento> getAgendamentosFuncionario() {
-        return agendamentosFuncionario;
+    public List<Agendamento> getAgendamentosComoFuncionario() {
+        return agendamentosComoFuncionario;
     }
 
-    public void setAgendamentosFuncionario(List<Agendamento> agendamentosFuncionario) {
-        this.agendamentosFuncionario = agendamentosFuncionario;
+    public void setAgendamentosComoFuncionario(List<Agendamento> agendamentosComoFuncionario) {
+        this.agendamentosComoFuncionario = agendamentosComoFuncionario;
     }
 
     public List<Disponibilidade> getDisponibilidades() {
@@ -133,11 +115,11 @@ public class Usuario {
         this.disponibilidades = disponibilidades;
     }
 
-    public List<PacoteDisponivel> getPacotesAdquiridos() {
-        return pacotesAdquiridos;
+    public List<ValorPacote> getPacotes() {
+        return pacotes;
     }
 
-    public void setPacotesAdquiridos(List<PacoteDisponivel> pacotesAdquiridos) {
-        this.pacotesAdquiridos = pacotesAdquiridos;
+    public void setPacotes(List<ValorPacote> pacotes) {
+        this.pacotes = pacotes;
     }
 }

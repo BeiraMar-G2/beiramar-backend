@@ -21,13 +21,13 @@ public class ClienteController {
 
     @PostMapping
     public ResponseEntity<ClienteListagemDto> cadastrar(@RequestBody @Valid ClienteCadastroDto dto) {
-        ClienteListagemDto clienteCadastrado = clienteService.cadastrar(dto);
+        ClienteListagemDto clienteCadastrado = clienteService.cadastrarCliente(dto);
         return ResponseEntity.status(201).body(clienteCadastrado);
     }
 
     @GetMapping
     public ResponseEntity<List<ClienteListagemDto>> listar() {
-        List<ClienteListagemDto> clientes = clienteService.listarTodos();
+        List<ClienteListagemDto> clientes = clienteService.listarTodosClientes();
 
         if (clientes.isEmpty()){
             return ResponseEntity.status(204).build();

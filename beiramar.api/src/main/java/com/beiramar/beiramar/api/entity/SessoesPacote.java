@@ -3,21 +3,20 @@ package com.beiramar.beiramar.api.entity;
 import jakarta.persistence.*;
 
 @Entity
-public class Sessao {
+public class SessoesPacote {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     private Integer qtdSessoes;
-    private Integer qtdSessoesConcluidas;
 
     @ManyToOne
-    @JoinColumn(name = "id_pacote")
+    @JoinColumn(name = "fkPacote")
     private Pacote pacote;
 
     @ManyToOne
-    @JoinColumn(name = "id_servico")
+    @JoinColumn(name = "fkServico")
     private Servico servico;
 
 
@@ -35,14 +34,6 @@ public class Sessao {
 
     public void setQtdSessoes(Integer qtdSessoes) {
         this.qtdSessoes = qtdSessoes;
-    }
-
-    public Integer getQtdSessoesConcluidas() {
-        return qtdSessoesConcluidas;
-    }
-
-    public void setQtdSessoesConcluidas(Integer qtdSessoesConcluidas) {
-        this.qtdSessoesConcluidas = qtdSessoesConcluidas;
     }
 
     public Pacote getPacote() {

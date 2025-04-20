@@ -3,22 +3,21 @@ package com.beiramar.beiramar.api.entity;
 import jakarta.persistence.*;
 
 @Entity
-public class PacoteDisponivel {
+public class ValorPacote {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private Double valorPago;
+    private Double valorTotal;
 
     @ManyToOne
-    @JoinColumn(name = "id_cliente")
-    private Usuario cliente;
+    @JoinColumn(name = "fkUsuario")
+    private Usuario usuario;
 
     @ManyToOne
-    @JoinColumn(name = "id_pacote")
+    @JoinColumn(name = "fkPacote")
     private Pacote pacote;
-
 
     public Integer getId() {
         return id;
@@ -28,20 +27,20 @@ public class PacoteDisponivel {
         this.id = id;
     }
 
-    public Double getValorPago() {
-        return valorPago;
+    public Double getValorTotal() {
+        return valorTotal;
     }
 
-    public void setValorPago(Double valorPago) {
-        this.valorPago = valorPago;
+    public void setValorTotal(Double valorTotal) {
+        this.valorTotal = valorTotal;
     }
 
-    public Usuario getCliente() {
-        return cliente;
+    public Usuario getUsuario() {
+        return usuario;
     }
 
-    public void setCliente(Usuario cliente) {
-        this.cliente = cliente;
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 
     public Pacote getPacote() {

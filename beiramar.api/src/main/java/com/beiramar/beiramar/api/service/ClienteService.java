@@ -3,8 +3,10 @@ package com.beiramar.beiramar.api.service;
 import com.beiramar.beiramar.api.dto.ClienteCadastroDto;
 import com.beiramar.beiramar.api.dto.ClienteListagemDto;
 import com.beiramar.beiramar.api.dto.mapper.ClienteMapper;
-import com.beiramar.beiramar.api.entity.TipoUsuarioEnum;
+import com.beiramar.beiramar.api.entity.Cargo;
 import com.beiramar.beiramar.api.entity.Usuario;
+import com.beiramar.beiramar.api.exception.EntidadeNaoEncontradaException;
+import com.beiramar.beiramar.api.repository.CargoRepository;
 import com.beiramar.beiramar.api.repository.UsuarioRepository;
 import org.springframework.stereotype.Service;
 
@@ -16,21 +18,30 @@ public class ClienteService {
 
     private final UsuarioRepository usuarioRepository;
 
-    public ClienteService(UsuarioRepository usuarioRepository) {
+    private final CargoRepository cargoRepository;
+
+    public ClienteService(UsuarioRepository usuarioRepository, CargoRepository cargoRepository) {
         this.usuarioRepository = usuarioRepository;
+        this.cargoRepository = cargoRepository;
     }
 
-    public ClienteListagemDto cadastrar(ClienteCadastroDto dto) {
-        Usuario cliente = ClienteMapper.toClienteDto(dto);
-        cliente.setTipoUsuario(TipoUsuarioEnum.CLIENTE);
+    public ClienteListagemDto cadastrarCliente(ClienteCadastroDto dto) {
+
+        Cargo cargoCliente = cargoRepository.findByNomeIgnoreCase("CLIENTE")
+                .orElseThrow(() -> new EntidadeNaoEncontradaException("Cargo CLIENTE não encontrado"));
+
+        Usuario cliente = ClienteMapper.toEntity(dto, cargoCliente);
         Usuario salvo = usuarioRepository.save(cliente);
-        return ClienteMapper.toClienteListagemDto(salvo);
+
+        return ClienteMapper.toDto(salvo);
     }
 
-    public List<ClienteListagemDto> listarTodos() {
-        return usuarioRepository.findAllByTipoUsuario(TipoUsuarioEnum.CLIENTE)
-                .stream()
-                .map(ClienteMapper::toClienteListagemDto)
+    public List<ClienteListagemDto> listarTodosClientes() {
+        Cargo cargoCliente = cargoRepository.findByNomeIgnoreCase("CLIENTE")
+                .orElseThrow(() -> new EntidadeNaoEncontradaException("Cargo CLIENTE não encontrado"));
+
+        return usuarioRepository.findByCargo(cargoCliente).stream()
+                .map(ClienteMapper::toDto)
                 .collect(Collectors.toList());
     }
 }

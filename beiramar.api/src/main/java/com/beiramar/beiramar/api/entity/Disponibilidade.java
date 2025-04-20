@@ -2,6 +2,7 @@ package com.beiramar.beiramar.api.entity;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 
 @Entity
@@ -14,10 +15,17 @@ public class Disponibilidade {
     private String diaSemana;
     private LocalTime horaInicio;
     private LocalTime horaFim;
+    private LocalDate diaMes;
+    private Boolean tipo;
 
     @ManyToOne
-    @JoinColumn(name = "id_funcionario")
+    @JoinColumn(name = "fkFuncionario")
     private Usuario funcionario;
+
+    @ManyToOne
+    @JoinColumn(name = "fkFuncExcecao")
+    private Usuario funcionarioExcecao;
+
 
     public Integer getIdDisponibilidade() {
         return idDisponibilidade;
@@ -51,11 +59,35 @@ public class Disponibilidade {
         this.horaFim = horaFim;
     }
 
+    public LocalDate getDiaMes() {
+        return diaMes;
+    }
+
+    public void setDiaMes(LocalDate diaMes) {
+        this.diaMes = diaMes;
+    }
+
+    public Boolean getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(Boolean tipo) {
+        this.tipo = tipo;
+    }
+
     public Usuario getFuncionario() {
         return funcionario;
     }
 
     public void setFuncionario(Usuario funcionario) {
         this.funcionario = funcionario;
+    }
+
+    public Usuario getFuncionarioExcecao() {
+        return funcionarioExcecao;
+    }
+
+    public void setFuncionarioExcecao(Usuario funcionarioExcecao) {
+        this.funcionarioExcecao = funcionarioExcecao;
     }
 }

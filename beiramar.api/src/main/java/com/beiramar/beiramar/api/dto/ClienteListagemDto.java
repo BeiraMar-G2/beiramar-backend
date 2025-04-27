@@ -1,5 +1,6 @@
 package com.beiramar.beiramar.api.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -8,11 +9,16 @@ import org.hibernate.validator.constraints.br.CPF;
 
 import java.time.LocalDate;
 
+@Schema(description = "DTO para listagem de clientes sem expor dados sensíveis")
 public class ClienteListagemDto {
 
+    @Schema(description = "Identificador único do usuário no DTO de listagem", example = "1")
     private Integer id;
+    @Schema(description = "Nome do usuário no DTO de listagem", example = "Gisele")
     private String nome;
+    @Schema(description = "Email do usuário no DTO de listagem", example = "gisele@gmail.com")
     private String email;
+    @Schema(description = "Telefone do usuário no DTO de listagem", example = "11999999999")
     private String telefone;
 
     public ClienteListagemDto(Integer id, String nome, String email, String telefone) {

@@ -1,9 +1,16 @@
 package com.beiramar.beiramar.api.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
+@Schema(description = "DTO para listagem de serviços sem expor dados sensíveis")
 public class ServicoListagemDto {
+    @Schema(description = "Identificador único do serviço no DTO de listagem", example = "1")
     private Integer idServico;
+    @Schema(description = "Nome do serviço no DTO de listagem", example = "Design de Sobrancelha")
     private String nome;
+    @Schema(description = "Preço do serviço no DTO de listagem", example = "100,00")
     private Double preco;
+    @Schema(description = "Duração em minutos do serviço no DTO de listagem", example = "30")
     private Integer duracao;
 
     public Integer getIdServico() { return idServico; }

@@ -14,7 +14,7 @@ public class Servico {
     private String nome;
     private Double preco;
     private Integer duracao;
-    private String descricao;
+
 
 
     @OneToMany(mappedBy = "servico")
@@ -55,14 +55,6 @@ public class Servico {
 
     public void setDuracao(Integer duracao) {
         this.duracao = duracao;
-    }
-
-    public String getDescricao() {
-        return descricao;
-    }
-
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
     }
 
     public List<Agendamento> getAgendamentos() {

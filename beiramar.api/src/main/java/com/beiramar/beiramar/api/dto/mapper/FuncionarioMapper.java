@@ -1,5 +1,6 @@
 package com.beiramar.beiramar.api.dto.mapper;
 
+import com.beiramar.beiramar.api.dto.FuncionarioAtualizacaoDto;
 import com.beiramar.beiramar.api.dto.FuncionarioCadastroDto;
 import com.beiramar.beiramar.api.dto.FuncionarioListagemDto;
 import com.beiramar.beiramar.api.entity.Cargo;
@@ -25,5 +26,12 @@ public class FuncionarioMapper {
                 usuario.getEmail(),
                 usuario.getTelefone()
         );
+    }
+
+    public static void atualizarEntity(Usuario usuario, FuncionarioAtualizacaoDto dto) {
+        usuario.setNome(dto.getNome());
+        usuario.setEmail(dto.getEmail());
+        usuario.setTelefone(dto.getTelefone());
+        usuario.setDtNasc(dto.getDtNasc());
     }
 }

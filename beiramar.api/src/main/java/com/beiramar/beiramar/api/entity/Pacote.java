@@ -10,16 +10,11 @@ public class Pacote {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idPacote;
-
+    private String nome;
+    private Double preco;
     private Integer qtdSessaoTotal;
     private Integer qtdSessaoFalta;
     private Integer tempoLimiteDias;
-
-    @OneToMany(mappedBy = "pacote")
-    private List<SessoesPacote> sessoes;
-
-    @OneToMany(mappedBy = "pacote")
-    private List<ValorPacote> valores;
 
 
     public Integer getIdPacote() {
@@ -30,12 +25,20 @@ public class Pacote {
         this.idPacote = idPacote;
     }
 
-    public Integer getQtdSessaoTotal() {
-        return qtdSessaoTotal;
+    public String getNome() {
+        return nome;
     }
 
-    public void setQtdSessaoTotal(Integer qtdSessaoTotal) {
-        this.qtdSessaoTotal = qtdSessaoTotal;
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public Double getPreco() {
+        return preco;
+    }
+
+    public void setPreco(Double preco) {
+        this.preco = preco;
     }
 
     public Integer getQtdSessaoFalta() {
@@ -46,27 +49,19 @@ public class Pacote {
         this.qtdSessaoFalta = qtdSessaoFalta;
     }
 
+    public Integer getQtdSessaoTotal() {
+        return qtdSessaoTotal;
+    }
+
+    public void setQtdSessaoTotal(Integer qtdSessaoTotal) {
+        this.qtdSessaoTotal = qtdSessaoTotal;
+    }
+
     public Integer getTempoLimiteDias() {
         return tempoLimiteDias;
     }
 
     public void setTempoLimiteDias(Integer tempoLimiteDias) {
         this.tempoLimiteDias = tempoLimiteDias;
-    }
-
-    public List<SessoesPacote> getSessoes() {
-        return sessoes;
-    }
-
-    public void setSessoes(List<SessoesPacote> sessoes) {
-        this.sessoes = sessoes;
-    }
-
-    public List<ValorPacote> getValores() {
-        return valores;
-    }
-
-    public void setValores(List<ValorPacote> valores) {
-        this.valores = valores;
     }
 }

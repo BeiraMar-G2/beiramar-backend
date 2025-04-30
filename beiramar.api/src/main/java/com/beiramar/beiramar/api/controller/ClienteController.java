@@ -1,8 +1,8 @@
 package com.beiramar.beiramar.api.controller;
 
+import com.beiramar.beiramar.api.dto.ClienteAtualizacaoDto;
 import com.beiramar.beiramar.api.dto.ClienteCadastroDto;
 import com.beiramar.beiramar.api.dto.ClienteListagemDto;
-import com.beiramar.beiramar.api.entity.Usuario;
 import com.beiramar.beiramar.api.service.ClienteService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -50,7 +50,7 @@ public class ClienteController {
                                 @ExampleObject(
                                         name = "Exemplo de cliente válido que retorna o código 201",
                                         summary = "Exemplo de cliente válido",
-                                        value = "{\"id\": \"1\", \"nome\": \"Gisele\", \"email\": \"gisele@gmail.com\", \"telefone\": \"11999999999\"}"
+                                        value = "{ \"nome\": \"Gisele\", \"email\": \"gisele@gmail.com\", \"telefone\": \"11999999999\", \"cpf\": \"12345678911\", \"senha\": \"BeiraMar123\", \"dtNasc\": \"2000-01-01\" }"
                                 ),
                                 @ExampleObject(
                                         name = "Exemplo de cliente inválido (email e telefone) que retorna o código 400",
@@ -83,4 +83,24 @@ public class ClienteController {
 
         return ResponseEntity.status(200).body(clientes);
     }
+
+    @Operation(summary = "Buscar cliente por ID")
+    @GetMapping("/{id}")
+    public ResponseEntity<ClienteListagemDto> buscarPorId(@PathVariable Integer id) {
+        return ResponseEntity.ok(clienteService.buscarPorId(id));
+    }
+
+    @Operation(summary = "Atualizar cliente")
+    @PutMapping("/{id}")
+    public ResponseEntity<ClienteListagemDto> atualizar(@PathVariable Integer id, @RequestBody @Valid ClienteAtualizacaoDto dto) {
+        return ResponseEntity.ok(clienteService.atualizarCliente(id, dto));
+    }
+
+    @Operation(summary = "Deletar cliente")
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletar(@PathVariable Integer id) {
+        clienteService.deletarCliente(id);
+        return ResponseEntity.noContent().build();
+    }
+
 }

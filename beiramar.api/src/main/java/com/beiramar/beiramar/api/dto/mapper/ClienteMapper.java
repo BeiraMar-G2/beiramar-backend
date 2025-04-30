@@ -1,5 +1,6 @@
 package com.beiramar.beiramar.api.dto.mapper;
 
+import com.beiramar.beiramar.api.dto.ClienteAtualizacaoDto;
 import com.beiramar.beiramar.api.dto.ClienteCadastroDto;
 import com.beiramar.beiramar.api.dto.ClienteListagemDto;
 import com.beiramar.beiramar.api.entity.Cargo;
@@ -25,5 +26,12 @@ public class ClienteMapper {
                 usuario.getEmail(),
                 usuario.getTelefone()
         );
+    }
+
+    public static void atualizarEntity(Usuario usuario, ClienteAtualizacaoDto dto) {
+        usuario.setNome(dto.getNome());
+        usuario.setEmail(dto.getEmail());
+        usuario.setTelefone(dto.getTelefone());
+        usuario.setDtNasc(dto.getDtNasc());
     }
 }

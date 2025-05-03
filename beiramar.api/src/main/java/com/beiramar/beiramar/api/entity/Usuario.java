@@ -20,6 +20,11 @@ public class Usuario {
     private String senha;
     private LocalDate dtNasc;
 
+
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
+    private List<LogSenha>logsSenha;
+
+
     @ManyToOne
     @JoinColumn(name = "fkCargo")
     private Cargo cargo;
@@ -123,5 +128,13 @@ public class Usuario {
 
     public void setPacotes(List<ValorPacote> pacotes) {
         this.pacotes = pacotes;
+    }
+
+    public List<LogSenha> getLogsSenha() {
+        return logsSenha;
+    }
+
+    public void setLogsSenha(List<LogSenha> logsSenha) {
+        this.logsSenha = logsSenha;
     }
 }

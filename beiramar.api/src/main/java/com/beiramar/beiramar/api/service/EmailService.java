@@ -59,6 +59,25 @@ public class EmailService {
         }
 
     }
+    public void enviarAutenticacao(String email){
+        Email from = new Email("beiramar.estetica@gmail.com");
+        String subject = "Código de recuperação usado";
+        Email to = new Email(email);
+
+        Content content = new Content("text/plain", "Código autenticado com sucesso!");
+        Mail mail = new Mail(from, subject, to, content);
+        SendGrid sg = new SendGrid(sendGridApiKey);
+        Request request = new Request();
+        try{
+            request.setMethod(Method.POST);
+            request.setEndpoint("mail/send");
+            request.setBody(mail.build());
+            sg.api(request);
+        }catch(IOException ex){
+            throw new RuntimeException("Erro ao enviar e-mail", ex);
+        }
+
+    }
 
 
 

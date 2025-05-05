@@ -59,7 +59,7 @@ public class RecuperacaoSenhaService {
 
         log.setStatus(StatusLogSenha.COD_ALTENTICADO);
         logSenhaRepository.save(log);
-
+        emailService.enviarAutenticacao(email);
         return true;
 
     }

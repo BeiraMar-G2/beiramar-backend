@@ -27,11 +27,24 @@ public class EmailService {
         Email from = new Email("beiramar.estetica@gmail.com");
         String subject = "Código de recuperação se senha";
         Email to = new Email(email);
-        Content content = new Content("text/plain", "Seu código de recuperação é " +  codigo);
+        String htmlContent = """
+<html>
+  <body style="font-family: Arial, sans-serif; text-align: center; padding: 20px;">
+    <h2 style="color: #333;">Recuperação de Senha</h2>
+    <p style="font-size: 16px;">Olá,</p>
+    <p style="font-size: 16px;">Seu código de recuperação é:</p>
+    <div style="font-size: 32px; font-weight: bold; color: #007BFF; margin: 20px 0;">
+      """ + codigo + """
+    </div>
+    <p style="font-size: 14px; color: #777;">Se você não solicitou isso, ignore esta mensagem.</p>
+  </body>
+</html>
+""";
+
+        Content content = new Content("text/html", htmlContent);
         Mail mail = new Mail(from, subject, to, content);
         SendGrid sg = new SendGrid(sendGridApiKey);
         Request request = new Request();
-
         try{
             request.setMethod(Method.POST);
             request.setEndpoint("mail/send");

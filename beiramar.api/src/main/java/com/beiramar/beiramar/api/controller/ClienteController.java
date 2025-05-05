@@ -45,7 +45,7 @@ public class ClienteController {
                     description = "Dados do cliente a ser cadastrado",
                     required = true,
                     content = @Content(
-                            schema = @Schema(implementation = ClienteListagemDto.class),
+                            schema = @Schema(implementation = ClienteCadastroDto.class),
                             examples = {
                                 @ExampleObject(
                                         name = "Exemplo de cliente válido que retorna o código 201",
@@ -53,9 +53,14 @@ public class ClienteController {
                                         value = "{ \"nome\": \"Gisele\", \"email\": \"gisele@gmail.com\", \"telefone\": \"11999999999\", \"cpf\": \"12345678911\", \"senha\": \"BeiraMar123\", \"dtNasc\": \"2000-01-01\" }"
                                 ),
                                 @ExampleObject(
-                                        name = "Exemplo de cliente inválido (email e telefone) que retorna o código 400",
+                                        name = "Exemplo de cliente inválido que retorna o código 400",
                                         summary = "Exemplo de cliente inválido",
-                                        value = "{\"id\": \"1\", \"nome\": \"Gisele\", \"email\": \"gisele\", \"telefone\": \"11\"}"
+                                        value = "{\"nome\": \"Gisele\", \"email\": \"gisele\", \"telefone\": \"11777777777\", \"cpf\": \"12345678888\", \"senha\": \"Beira\", \"dtNasc\": \"2000-01-01\" }"
+                                ),
+                                @ExampleObject(
+                                        name = "Exemplo de recuperação de senha",
+                                        summary = "Exemplo de recuperação de senha",
+                                        value = "{\"nome\": \"Vitor\", \"email\": \"vitorhideo.mf@gmail.com\", \"telefone\": \"11888888888\", \"cpf\": \"12345678900\", \"senha\": \"BeiraMar2025\", \"dtNasc\": \"2000-01-01\"}"
                                 )
     })) @RequestBody @Valid ClienteCadastroDto dto) {
         ClienteListagemDto clienteCadastrado = clienteService.cadastrarCliente(dto);

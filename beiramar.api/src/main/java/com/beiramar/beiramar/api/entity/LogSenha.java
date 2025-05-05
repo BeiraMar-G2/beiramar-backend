@@ -1,10 +1,12 @@
 package com.beiramar.beiramar.api.entity;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 
 @Entity
+@Schema(description = "Log de recuperação de senha")
 public class LogSenha {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

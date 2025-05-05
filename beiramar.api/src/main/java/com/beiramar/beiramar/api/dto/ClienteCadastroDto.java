@@ -26,7 +26,7 @@ public class ClienteCadastroDto {
 
     @Schema(description = "Senha do usuário no DTO de cadastro", example = "Senha123")
     @NotBlank
-    @Size(min = 8, max = 15, message = "Senha deve ser de 8 a 15 digitos")
+    @Size(min = 8, max = 15, message = "Senha deve ser de 8 a 15 dígitos")
     private String senha;
 
     @Schema(description = "Data de nascimento do usuário no DTO de cadastro", example = "2001-01-01")

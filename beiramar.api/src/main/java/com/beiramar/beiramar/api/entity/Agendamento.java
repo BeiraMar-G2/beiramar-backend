@@ -1,5 +1,6 @@
 package com.beiramar.beiramar.api.entity;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import jdk.dynalink.linker.LinkerServices;
 
@@ -7,6 +8,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
+@Schema(description = "Agendamento da consulta")
 public class Agendamento {
 
     @Id

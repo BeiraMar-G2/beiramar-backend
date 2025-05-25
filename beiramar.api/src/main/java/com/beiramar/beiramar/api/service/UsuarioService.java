@@ -1,8 +1,8 @@
 package com.beiramar.beiramar.api.service;
 
 import com.beiramar.beiramar.api.config.GerenciadorTokenJwt;
-import com.beiramar.beiramar.api.dto.UsuarioLoginDto;
-import com.beiramar.beiramar.api.dto.UsuarioTokenDto;
+import com.beiramar.beiramar.api.dto.autenticacaoDtos.UsuarioLoginDto;
+import com.beiramar.beiramar.api.dto.autenticacaoDtos.UsuarioTokenDto;
 import com.beiramar.beiramar.api.entity.Usuario;
 import com.beiramar.beiramar.api.repository.UsuarioRepository;
 import org.springframework.security.authentication.AuthenticationManager;

@@ -9,7 +9,7 @@ public class LogStatus {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer idLogStatus;
 
     private String status;
     private LocalDateTime dataAlteracao;
@@ -18,12 +18,12 @@ public class LogStatus {
     @JoinColumn(name = "fkAgendamento")
     private Agendamento agendamento;
 
-    public Long getId() {
-        return id;
+    public Integer getIdLogStatus() {
+        return idLogStatus;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setIdLogStatus(Integer idLogStatus) {
+        this.idLogStatus = idLogStatus;
     }
 
     public String getStatus() {

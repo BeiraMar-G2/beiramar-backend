@@ -1,4 +1,4 @@
-package com.beiramar.beiramar.api.dto;
+package com.beiramar.beiramar.api.dto.cargoDtos;
 
 public class CargoListagemDto {
 

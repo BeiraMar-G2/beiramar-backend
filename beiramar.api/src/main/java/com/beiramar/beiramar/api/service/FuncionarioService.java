@@ -1,8 +1,8 @@
 package com.beiramar.beiramar.api.service;
 
-import com.beiramar.beiramar.api.dto.FuncionarioAtualizacaoDto;
-import com.beiramar.beiramar.api.dto.FuncionarioCadastroDto;
-import com.beiramar.beiramar.api.dto.FuncionarioListagemDto;
+import com.beiramar.beiramar.api.dto.funcionarioDtos.FuncionarioAtualizacaoDto;
+import com.beiramar.beiramar.api.dto.funcionarioDtos.FuncionarioCadastroDto;
+import com.beiramar.beiramar.api.dto.funcionarioDtos.FuncionarioListagemDto;
 import com.beiramar.beiramar.api.dto.mapper.FuncionarioMapper;
 import com.beiramar.beiramar.api.entity.Cargo;
 import com.beiramar.beiramar.api.entity.Usuario;

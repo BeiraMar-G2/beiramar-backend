@@ -1,9 +1,8 @@
 package com.beiramar.beiramar.api.controller;
 
-import com.beiramar.beiramar.api.dto.ClienteListagemDto;
-import com.beiramar.beiramar.api.dto.FuncionarioAtualizacaoDto;
-import com.beiramar.beiramar.api.dto.FuncionarioCadastroDto;
-import com.beiramar.beiramar.api.dto.FuncionarioListagemDto;
+import com.beiramar.beiramar.api.dto.funcionarioDtos.FuncionarioAtualizacaoDto;
+import com.beiramar.beiramar.api.dto.funcionarioDtos.FuncionarioCadastroDto;
+import com.beiramar.beiramar.api.dto.funcionarioDtos.FuncionarioListagemDto;
 import com.beiramar.beiramar.api.service.FuncionarioService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;

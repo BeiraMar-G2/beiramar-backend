@@ -1,4 +1,4 @@
-package com.beiramar.beiramar.api.dto;
+package com.beiramar.beiramar.api.dto.funcionarioDtos;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
 
-public class ClienteAtualizacaoDto {
+public class FuncionarioAtualizacaoDto {
 
     @NotBlank
     private String nome;

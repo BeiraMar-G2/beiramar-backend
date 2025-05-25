@@ -1,8 +1,8 @@
 package com.beiramar.beiramar.api.dto.mapper;
 
 
-import com.beiramar.beiramar.api.dto.ServicoCadastroDto;
-import com.beiramar.beiramar.api.dto.ServicoListagemDto;
+import com.beiramar.beiramar.api.dto.servicoDtos.ServicoCadastroDto;
+import com.beiramar.beiramar.api.dto.servicoDtos.ServicoListagemDto;
 import com.beiramar.beiramar.api.entity.Servico;
 
 public class ServicoMapper {
@@ -11,6 +11,7 @@ public class ServicoMapper {
         Servico servico = new Servico();
         servico.setNome(dto.getNome());
         servico.setPreco(dto.getPreco());
+        servico.setDescricao(dto.getDescricao());
         servico.setDuracao(dto.getDuracao());
         return servico;
     }
@@ -20,6 +21,7 @@ public class ServicoMapper {
         dto.setIdServico(entity.getIdServico());
         dto.setNome(entity.getNome());
         dto.setPreco(entity.getPreco());
+        dto.setDescricao(entity.getDescricao());
         dto.setDuracao(entity.getDuracao());
         return dto;
     }

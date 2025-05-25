@@ -1,6 +1,6 @@
 package com.beiramar.beiramar.api.service;
 
-import com.beiramar.beiramar.api.dto.UsuarioDetalhesDto;
+import com.beiramar.beiramar.api.dto.autenticacaoDtos.UsuarioDetalhesDto;
 import com.beiramar.beiramar.api.repository.UsuarioRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

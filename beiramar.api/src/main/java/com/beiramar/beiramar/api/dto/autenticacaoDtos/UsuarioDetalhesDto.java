@@ -1,4 +1,4 @@
-package com.beiramar.beiramar.api.dto;
+package com.beiramar.beiramar.api.dto.autenticacaoDtos;
 
 import com.beiramar.beiramar.api.entity.Usuario;
 import org.springframework.security.core.GrantedAuthority;

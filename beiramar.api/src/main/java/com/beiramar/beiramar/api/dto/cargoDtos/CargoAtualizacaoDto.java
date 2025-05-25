@@ -1,8 +1,8 @@
-package com.beiramar.beiramar.api.dto;
+package com.beiramar.beiramar.api.dto.cargoDtos;
 
 import jakarta.validation.constraints.NotBlank;
 
-public class CargoCadastroDto {
+public class CargoAtualizacaoDto {
 
     @NotBlank
     private String nome;

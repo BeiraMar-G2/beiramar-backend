@@ -1,8 +1,8 @@
 package com.beiramar.beiramar.api.dto.mapper;
 
-import com.beiramar.beiramar.api.dto.CargoAtualizacaoDto;
-import com.beiramar.beiramar.api.dto.CargoCadastroDto;
-import com.beiramar.beiramar.api.dto.CargoListagemDto;
+import com.beiramar.beiramar.api.dto.cargoDtos.CargoAtualizacaoDto;
+import com.beiramar.beiramar.api.dto.cargoDtos.CargoCadastroDto;
+import com.beiramar.beiramar.api.dto.cargoDtos.CargoListagemDto;
 import com.beiramar.beiramar.api.entity.Cargo;
 
 public class CargoMapper {

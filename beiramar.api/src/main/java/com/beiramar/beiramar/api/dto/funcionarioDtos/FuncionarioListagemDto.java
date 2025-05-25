@@ -1,4 +1,4 @@
-package com.beiramar.beiramar.api.dto;
+package com.beiramar.beiramar.api.dto.funcionarioDtos;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
@@ -6,7 +6,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 public class FuncionarioListagemDto {
 
     @Schema(description = "Identificador único do funcionário no DTO de listagem", example = "1")
-    private Integer id;
+    private Integer idFuncionario;
     @Schema(description = "Nome do funcionário no DTO de listagem", example = "Ana")
     private String nome;
     @Schema(description = "Email do funcionário no DTO de listagem", example = "ana@gmail.com")
@@ -14,19 +14,19 @@ public class FuncionarioListagemDto {
     @Schema(description = "Telefone do funcionário no DTO de listagem", example = "11888888888")
     private String telefone;
 
-    public FuncionarioListagemDto(Integer id, String nome, String email, String telefone) {
-        this.id = id;
+    public FuncionarioListagemDto(Integer idFuncionario, String nome, String email, String telefone) {
+        this.idFuncionario = idFuncionario;
         this.nome = nome;
         this.email = email;
         this.telefone = telefone;
     }
 
-    public Integer getId() {
-        return id;
+    public Integer getIdFuncionario() {
+        return idFuncionario;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setIdFuncionario(Integer idFuncionario) {
+        this.idFuncionario = idFuncionario;
     }
 
     public String getNome() {

@@ -1,4 +1,4 @@
-package com.beiramar.beiramar.api.dto;
+package com.beiramar.beiramar.api.dto.notificacaoDtos;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 

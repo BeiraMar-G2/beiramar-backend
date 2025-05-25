@@ -9,7 +9,7 @@ public class ValorPacote {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Integer idValorPacote;
 
     private Double valorTotal;
 
@@ -21,12 +21,13 @@ public class ValorPacote {
     @JoinColumn(name = "fkPacote")
     private Pacote pacote;
 
-    public Integer getId() {
-        return id;
+
+    public Integer getIdValorPacote() {
+        return idValorPacote;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setIdValorPacote(Integer idValorPacote) {
+        this.idValorPacote = idValorPacote;
     }
 
     public Double getValorTotal() {

@@ -16,6 +16,7 @@ public class Agendamento {
     private Integer idAgendamento;
 
     private LocalDateTime dtHora;
+    private Double valorPago;
     private String status;
 
     @Enumerated(EnumType.STRING)
@@ -32,6 +33,10 @@ public class Agendamento {
     @ManyToOne
     @JoinColumn(name = "fkServico")
     private Servico servico;
+
+    @ManyToOne
+    @JoinColumn(name = "fkPacote")
+    private Pacote pacote;
 
     @OneToMany(mappedBy = "agendamento", cascade = CascadeType.ALL)
     private List<LogStatus> logsStatus;
@@ -50,6 +55,14 @@ public class Agendamento {
 
     public void setDtHora(LocalDateTime dtHora) {
         this.dtHora = dtHora;
+    }
+
+    public Double getValorPago() {
+        return valorPago;
+    }
+
+    public void setValorPago(Double valorPago) {
+        this.valorPago = valorPago;
     }
 
     public String getStatus() {
@@ -90,6 +103,14 @@ public class Agendamento {
 
     public void setServico(Servico servico) {
         this.servico = servico;
+    }
+
+    public Pacote getPacote() {
+        return pacote;
+    }
+
+    public void setPacote(Pacote pacote) {
+        this.pacote = pacote;
     }
 
     public List<LogStatus> getLogsStatus() {

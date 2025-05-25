@@ -1,8 +1,7 @@
 package com.beiramar.beiramar.api.controller;
 
-import com.beiramar.beiramar.api.dto.ClienteCadastroDto;
-import com.beiramar.beiramar.api.dto.UsuarioLoginDto;
-import com.beiramar.beiramar.api.dto.UsuarioTokenDto;
+import com.beiramar.beiramar.api.dto.autenticacaoDtos.UsuarioLoginDto;
+import com.beiramar.beiramar.api.dto.autenticacaoDtos.UsuarioTokenDto;
 import com.beiramar.beiramar.api.service.UsuarioService;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;

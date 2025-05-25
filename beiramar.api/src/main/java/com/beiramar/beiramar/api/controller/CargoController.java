@@ -1,12 +1,13 @@
 package com.beiramar.beiramar.api.controller;
 
-import com.beiramar.beiramar.api.dto.*;
+import com.beiramar.beiramar.api.dto.cargoDtos.CargoAtualizacaoDto;
+import com.beiramar.beiramar.api.dto.cargoDtos.CargoCadastroDto;
+import com.beiramar.beiramar.api.dto.cargoDtos.CargoListagemDto;
 import com.beiramar.beiramar.api.exception.EntidadeNaoEncontradaException;
 import com.beiramar.beiramar.api.service.CargoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

@@ -8,7 +8,7 @@ public class SessoesPacote {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Integer idSessoesPacote;
 
     private Integer qtdSessoes;
 
@@ -20,13 +20,12 @@ public class SessoesPacote {
     @JoinColumn(name = "fkServico")
     private Servico servico;
 
-
-    public Integer getId() {
-        return id;
+    public Integer getIdSessoesPacote() {
+        return idSessoesPacote;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setIdSessoesPacote(Integer idSessoesPacote) {
+        this.idSessoesPacote = idSessoesPacote;
     }
 
     public Integer getQtdSessoes() {

@@ -1,11 +1,10 @@
 package com.beiramar.beiramar.api.service;
 
-import com.beiramar.beiramar.api.dto.*;
+import com.beiramar.beiramar.api.dto.cargoDtos.CargoAtualizacaoDto;
+import com.beiramar.beiramar.api.dto.cargoDtos.CargoCadastroDto;
+import com.beiramar.beiramar.api.dto.cargoDtos.CargoListagemDto;
 import com.beiramar.beiramar.api.dto.mapper.CargoMapper;
-import com.beiramar.beiramar.api.dto.mapper.ClienteMapper;
-import com.beiramar.beiramar.api.dto.mapper.ServicoMapper;
 import com.beiramar.beiramar.api.entity.Cargo;
-import com.beiramar.beiramar.api.entity.Usuario;
 import com.beiramar.beiramar.api.exception.EntidadeNaoEncontradaException;
 import com.beiramar.beiramar.api.repository.CargoRepository;
 import org.springframework.stereotype.Service;

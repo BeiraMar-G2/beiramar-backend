@@ -12,12 +12,20 @@ public class Pacote {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idPacote;
+
     private String nome;
-    private Double preco;
-    private Integer qtdSessaoTotal;
-    private Integer qtdSessaoFalta;
+    private Double precoTotalSemDesconto;
+    private Integer qtdSessoesTotal;
     private Integer tempoLimiteDias;
 
+    @OneToMany(mappedBy = "pacote")
+    private List<SessoesPacote> sessoes;
+
+    @OneToMany(mappedBy = "pacote")
+    private List<Agendamento> agendamentos;
+
+    @OneToMany(mappedBy = "pacote")
+    private List<ValorPacote> valoresPacote;
 
     public Integer getIdPacote() {
         return idPacote;
@@ -35,28 +43,20 @@ public class Pacote {
         this.nome = nome;
     }
 
-    public Double getPreco() {
-        return preco;
+    public Double getPrecoTotalSemDesconto() {
+        return precoTotalSemDesconto;
     }
 
-    public void setPreco(Double preco) {
-        this.preco = preco;
+    public void setPrecoTotalSemDesconto(Double precoTotalSemDesconto) {
+        this.precoTotalSemDesconto = precoTotalSemDesconto;
     }
 
-    public Integer getQtdSessaoFalta() {
-        return qtdSessaoFalta;
+    public Integer getQtdSessoesTotal() {
+        return qtdSessoesTotal;
     }
 
-    public void setQtdSessaoFalta(Integer qtdSessaoFalta) {
-        this.qtdSessaoFalta = qtdSessaoFalta;
-    }
-
-    public Integer getQtdSessaoTotal() {
-        return qtdSessaoTotal;
-    }
-
-    public void setQtdSessaoTotal(Integer qtdSessaoTotal) {
-        this.qtdSessaoTotal = qtdSessaoTotal;
+    public void setQtdSessoesTotal(Integer qtdSessoesTotal) {
+        this.qtdSessoesTotal = qtdSessoesTotal;
     }
 
     public Integer getTempoLimiteDias() {
@@ -65,5 +65,29 @@ public class Pacote {
 
     public void setTempoLimiteDias(Integer tempoLimiteDias) {
         this.tempoLimiteDias = tempoLimiteDias;
+    }
+
+    public List<SessoesPacote> getSessoes() {
+        return sessoes;
+    }
+
+    public void setSessoes(List<SessoesPacote> sessoes) {
+        this.sessoes = sessoes;
+    }
+
+    public List<Agendamento> getAgendamentos() {
+        return agendamentos;
+    }
+
+    public void setAgendamentos(List<Agendamento> agendamentos) {
+        this.agendamentos = agendamentos;
+    }
+
+    public List<ValorPacote> getValoresPacote() {
+        return valoresPacote;
+    }
+
+    public void setValoresPacote(List<ValorPacote> valoresPacote) {
+        this.valoresPacote = valoresPacote;
     }
 }

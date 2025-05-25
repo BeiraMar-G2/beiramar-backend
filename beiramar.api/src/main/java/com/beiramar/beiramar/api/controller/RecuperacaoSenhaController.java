@@ -1,8 +1,7 @@
 package com.beiramar.beiramar.api.controller;
 
-import com.beiramar.beiramar.api.dto.ClienteListagemDto;
-import com.beiramar.beiramar.api.dto.CodigoSenhaRequestDTO;
-import com.beiramar.beiramar.api.dto.EmailRequestDTO;
+import com.beiramar.beiramar.api.dto.notificacaoDtos.CodigoSenhaRequestDTO;
+import com.beiramar.beiramar.api.dto.notificacaoDtos.EmailRequestDTO;
 import com.beiramar.beiramar.api.repository.LogSenhaRepository;
 import com.beiramar.beiramar.api.service.RecuperacaoSenhaService;
 import io.swagger.v3.oas.annotations.Operation;

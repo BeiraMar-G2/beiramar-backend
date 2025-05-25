@@ -1,13 +1,12 @@
 package com.beiramar.beiramar.api.service;
 
-import com.beiramar.beiramar.api.dto.ServicoCadastroDto;
-import com.beiramar.beiramar.api.dto.ServicoListagemDto;
+import com.beiramar.beiramar.api.dto.servicoDtos.ServicoCadastroDto;
+import com.beiramar.beiramar.api.dto.servicoDtos.ServicoListagemDto;
 import com.beiramar.beiramar.api.dto.mapper.ServicoMapper;
 import com.beiramar.beiramar.api.entity.Servico;
 import com.beiramar.beiramar.api.exception.EntidadeNaoEncontradaException;
 import com.beiramar.beiramar.api.repository.ServicoRepository;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
 import java.util.stream.Collectors;

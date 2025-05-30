@@ -1,31 +1,28 @@
-package com.beiramar.beiramar.api.entity;
+package com.beiramar.beiramar.api.dto.disponibilidadeDtos;
 
-import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.persistence.*;
-
-import java.time.LocalDate;
 import java.time.LocalTime;
 
-@Entity
-@Schema(description = "Disponibilidade do Funcionário/Cliente")
-public class Disponibilidade {
+public class DisponibilidadeListagemDto {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idDisponibilidade;
-
     private String diaSemana;
     private LocalTime horaInicio;
     private LocalTime horaFim;
     private String diaMes;
-
-    @ManyToOne
-    @JoinColumn(name = "fkFuncionario")
-    private Usuario funcionario;
-
+    private String nomeFuncionario;
     private Boolean disponibilidadeExcecao;
     private String fkFuncionarioExcecaoNome;
 
+    public DisponibilidadeListagemDto(Integer idDisponibilidade, String diaSemana, LocalTime horaInicio, LocalTime horaFim, String diaMes, String nomeFuncionario, Boolean disponibilidadeExcecao, String fkFuncionarioExcecaoNome) {
+        this.idDisponibilidade = idDisponibilidade;
+        this.diaSemana = diaSemana;
+        this.horaInicio = horaInicio;
+        this.horaFim = horaFim;
+        this.diaMes = diaMes;
+        this.nomeFuncionario = nomeFuncionario;
+        this.disponibilidadeExcecao = disponibilidadeExcecao;
+        this.fkFuncionarioExcecaoNome = fkFuncionarioExcecaoNome;
+    }
 
     public Integer getIdDisponibilidade() {
         return idDisponibilidade;
@@ -67,12 +64,12 @@ public class Disponibilidade {
         this.diaMes = diaMes;
     }
 
-    public Usuario getFuncionario() {
-        return funcionario;
+    public String getNomeFuncionario() {
+        return nomeFuncionario;
     }
 
-    public void setFuncionario(Usuario funcionario) {
-        this.funcionario = funcionario;
+    public void setNomeFuncionario(String nomeFuncionario) {
+        this.nomeFuncionario = nomeFuncionario;
     }
 
     public Boolean getDisponibilidadeExcecao() {

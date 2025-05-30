@@ -1,39 +1,30 @@
-package com.beiramar.beiramar.api.entity;
+package com.beiramar.beiramar.api.dto.disponibilidadeDtos;
 
-import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
-import java.time.LocalDate;
 import java.time.LocalTime;
 
-@Entity
-@Schema(description = "Disponibilidade do Funcionário/Cliente")
-public class Disponibilidade {
+public class DisponibilidadeCadastroDto {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer idDisponibilidade;
-
+    @NotBlank
     private String diaSemana;
+
+    @NotNull
     private LocalTime horaInicio;
+
+    @NotNull
     private LocalTime horaFim;
+
+    @NotBlank
     private String diaMes;
 
-    @ManyToOne
-    @JoinColumn(name = "fkFuncionario")
-    private Usuario funcionario;
+    @NotNull
+    private Integer idFuncionario;
+
 
     private Boolean disponibilidadeExcecao;
     private String fkFuncionarioExcecaoNome;
-
-
-    public Integer getIdDisponibilidade() {
-        return idDisponibilidade;
-    }
-
-    public void setIdDisponibilidade(Integer idDisponibilidade) {
-        this.idDisponibilidade = idDisponibilidade;
-    }
 
     public String getDiaSemana() {
         return diaSemana;
@@ -67,12 +58,12 @@ public class Disponibilidade {
         this.diaMes = diaMes;
     }
 
-    public Usuario getFuncionario() {
-        return funcionario;
+    public Integer getIdFuncionario() {
+        return idFuncionario;
     }
 
-    public void setFuncionario(Usuario funcionario) {
-        this.funcionario = funcionario;
+    public void setIdFuncionario(Integer idFuncionario) {
+        this.idFuncionario = idFuncionario;
     }
 
     public Boolean getDisponibilidadeExcecao() {

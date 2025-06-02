@@ -38,7 +38,7 @@ public class CargoService {
                 .map(CargoMapper::toDto)
                 .collect(Collectors.toList());
     }
-
+   /**/
     public CargoListagemDto buscarCargoPorId(Integer id){
         Cargo cargo = cargoRepository.findById(id)
                 .orElseThrow(() -> new EntidadeNaoEncontradaException("Cargo não Encontrado"));
@@ -61,4 +61,6 @@ public class CargoService {
         }
         cargoRepository.deleteById(id);
     }
+
+
 }

@@ -15,6 +15,9 @@ public class AgendamentoListagemDto {
     private Double valorPago;
     private String status;
 
+    public AgendamentoListagemDto() {
+    }
+
     public AgendamentoListagemDto(Integer idAgendamento, String nomeCliente, String nomeFuncionario, String nomeServico, LocalDateTime dtHora, Double valorPago, String status) {
         this.idAgendamento = idAgendamento;
         this.nomeCliente = nomeCliente;

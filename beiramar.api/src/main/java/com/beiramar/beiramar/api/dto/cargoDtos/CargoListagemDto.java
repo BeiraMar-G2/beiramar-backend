@@ -10,6 +10,10 @@ public class CargoListagemDto {
         this.nome = nome;
     }
 
+    public CargoListagemDto() {
+
+    }
+
     public Integer getIdCargo() {
         return idCargo;
     }

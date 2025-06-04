@@ -13,12 +13,15 @@ public class FuncionarioListagemDto {
     private String email;
     @Schema(description = "Telefone do funcionário no DTO de listagem", example = "11888888888")
     private String telefone;
+    @Schema(description = "Cargo do usuário no DTO de listagem", example = "funcionario")
+    private String nomeCargo;
 
-    public FuncionarioListagemDto(Integer idFuncionario, String nome, String email, String telefone) {
+    public FuncionarioListagemDto(Integer idFuncionario, String nome, String email, String telefone, String nomeCargo) {
         this.idFuncionario = idFuncionario;
         this.nome = nome;
         this.email = email;
         this.telefone = telefone;
+        this.nomeCargo = nomeCargo;
     }
 
     public Integer getIdFuncionario() {
@@ -51,5 +54,13 @@ public class FuncionarioListagemDto {
 
     public void setTelefone(String telefone) {
         this.telefone = telefone;
+    }
+
+    public String getNomeCargo() {
+        return nomeCargo;
+    }
+
+    public void setNomeCargo(String nomeCargo) {
+        this.nomeCargo = nomeCargo;
     }
 }

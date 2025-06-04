@@ -29,7 +29,7 @@ public class CargoController {
     public ResponseEntity<CargoListagemDto> cadastro(@RequestBody @Valid CargoCadastroDto dto){
 
         CargoListagemDto cargoCadastro = cargoService.cadastrarCargo(dto);
-        return ResponseEntity.status(200).body(cargoCadastro);
+        return ResponseEntity.status(201).body(cargoCadastro);
     }
 
     @Operation(summary = "Listagem de Cargo")

@@ -50,7 +50,7 @@ public class ClienteController {
                                 @ExampleObject(
                                         name = "Exemplo de cliente válido que retorna o código 201",
                                         summary = "Exemplo de cliente válido",
-                                        value = "{ \"nome\": \"Gisele\", \"email\": \"gisele@gmail.com\", \"telefone\": \"11999999999\", \"cpf\": \"12345678911\", \"senha\": \"BeiraMar123\", \"dtNasc\": \"2000-01-01\" }"
+                                        value = "{ \"nome\": \"Gisele\", \"email\": \"gisele@gmail.com\", \"telefone\": \"11999999999\", \"senha\": \"BeiraMar123\", \"dtNasc\": \"2000-01-01\" , \"fkCargo\": \"1\"}"
                                 ),
                                 @ExampleObject(
                                         name = "Exemplo de cliente inválido que retorna o código 400",
@@ -60,7 +60,7 @@ public class ClienteController {
                                 @ExampleObject(
                                         name = "Exemplo de recuperação de senha",
                                         summary = "Exemplo de recuperação de senha",
-                                        value = "{\"nome\": \"Vitor\", \"email\": \"vitorhideo.mf@gmail.com\", \"telefone\": \"11888888888\", \"cpf\": \"12345678900\", \"senha\": \"BeiraMar2025\", \"dtNasc\": \"2000-01-01\"}"
+                                        value = "{\"nome\": \"Vitor\", \"email\": \"vitorhideo.mf@gmail.com\", \"telefone\": \"11888888888\", \"senha\": \"BeiraMar2025\", \"dtNasc\": \"2000-01-01\", \"fkCargo\": \"1\",}"
                                 )
     })) @RequestBody @Valid ClienteCadastroDto dto) {
         ClienteListagemDto clienteCadastrado = clienteService.cadastrarCliente(dto);

@@ -24,7 +24,8 @@ public class ClienteMapper {
                 usuario.getIdUsuario(),
                 usuario.getNome(),
                 usuario.getEmail(),
-                usuario.getTelefone()
+                usuario.getTelefone(),
+                usuario.getCargo().getNome()
         );
     }
 

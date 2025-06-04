@@ -38,7 +38,7 @@ public class FuncionarioController {
                                     @ExampleObject(
                                             name = "Exemplo de Funcionario válido que retorna o código 201",
                                             summary = "Exemplo de funcionario válido",
-                                            value = "{ \"nome\": \"Ana\", \"email\": \"ana@gmail.com\", \"telefone\": \"11999999991\", \"cpf\": \"12345678912\", \"senha\": \"BeiraMar321\", \"dtNasc\": \"2000-02-02\" }"
+                                            value = "{ \"nome\": \"Ana\", \"email\": \"ana@gmail.com\", \"telefone\": \"11999999991\", \"senha\": \"BeiraMar321\", \"dtNasc\": \"2000-02-02\" , \"fkCargo\": \"2\" }"
                                     ),
                                     @ExampleObject(
                                             name = "Exemplo de Funcionario inválido (email e telefone) que retorna o código 400",

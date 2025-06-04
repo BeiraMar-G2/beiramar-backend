@@ -29,6 +29,10 @@ public class FuncionarioCadastroDto {
     @NotNull
     private LocalDate dtNasc;
 
+    @Schema(description = "Cargo do Usuario", example = "Funcionario/Cliente")
+    @NotNull
+    private Integer fkCargo;
+
 
     public String getNome() {
         return nome;
@@ -68,5 +72,13 @@ public class FuncionarioCadastroDto {
 
     public void setDtNasc(LocalDate dtNasc) {
         this.dtNasc = dtNasc;
+    }
+
+    public Integer getFkCargo() {
+        return fkCargo;
+    }
+
+    public void setFkCargo(Integer fkCargo) {
+        this.fkCargo = fkCargo;
     }
 }

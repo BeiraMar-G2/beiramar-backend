@@ -24,6 +24,10 @@ public class ClienteListagemDto {
         this.nomeCargo = nomeCargo;
     }
 
+    public ClienteListagemDto() {
+
+    }
+
     public Integer getIdCliente() {
         return idCliente;
     }

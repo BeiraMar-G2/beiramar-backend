@@ -29,16 +29,18 @@ public class FuncionarioService {
     }
 
     public FuncionarioListagemDto cadastrarFuncionario(FuncionarioCadastroDto dto) {
-
         Cargo cargoFuncionario = cargoRepository.findByNomeIgnoreCase("FUNCIONARIO")
                 .orElseThrow(() -> new EntidadeNaoEncontradaException("Cargo FUNCIONARIO não encontrado"));
 
         Usuario funcionario = FuncionarioMapper.toEntity(dto, cargoFuncionario);
-        funcionario.setSenha(passwordEncoder.encode(funcionario.getSenha()));
-        Usuario salvo = usuarioRepository.save(funcionario);
 
+        String senhaCriptografada = passwordEncoder.encode(dto.getSenha() != null ? dto.getSenha() : "senhaPadrão");
+        funcionario.setSenha(senhaCriptografada);
+
+        Usuario salvo = usuarioRepository.save(funcionario);
         return FuncionarioMapper.toDto(salvo);
     }
+
 
     public List<FuncionarioListagemDto> listarTodosFuncionarios() {
         Cargo cargoFuncionario = cargoRepository.findByNomeIgnoreCase("FUNCIONARIO")

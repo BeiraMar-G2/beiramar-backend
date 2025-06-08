@@ -16,13 +16,14 @@ public class ServicoMapper {
         return servico;
     }
 
-    public static ServicoListagemDto toDto(Servico entity) {
-        ServicoListagemDto dto = new ServicoListagemDto();
-        dto.setIdServico(entity.getIdServico());
-        dto.setNome(entity.getNome());
-        dto.setPreco(entity.getPreco());
-        dto.setDescricao(entity.getDescricao());
-        dto.setDuracao(entity.getDuracao());
+    public static ServicoListagemDto toDto(Servico servico) {
+        ServicoListagemDto dto = new ServicoListagemDto(
+                servico.getIdServico(),
+                servico.getNome(),
+                servico.getPreco(),
+                servico.getDescricao(),
+                servico.getDuracao()
+        );
         return dto;
     }
 }

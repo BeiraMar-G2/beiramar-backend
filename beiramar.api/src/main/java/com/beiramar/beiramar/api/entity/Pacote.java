@@ -27,6 +27,15 @@ public class Pacote {
     @OneToMany(mappedBy = "pacote")
     private List<ValorPacote> valoresPacote;
 
+
+    public Pacote(Integer id, String nome, Double preco, Integer qtdSessoes, Integer diasLimite){
+
+    }
+
+    public Pacote() {
+
+    }
+
     public Integer getIdPacote() {
         return idPacote;
     }

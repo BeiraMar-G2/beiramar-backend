@@ -5,6 +5,9 @@ public class UsuarioLoginDto {
     private String email;
     private String senha;
 
+    public UsuarioLoginDto(String mail, String senha123) {
+    }
+
     public String getEmail() {
         return email;
     }

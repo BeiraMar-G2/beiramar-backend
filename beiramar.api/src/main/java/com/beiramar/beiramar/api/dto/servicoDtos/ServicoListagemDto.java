@@ -15,6 +15,14 @@ public class ServicoListagemDto {
     @Schema(description = "Duração em minutos do serviço no DTO de listagem", example = "30")
     private Integer duracao;
 
+    public ServicoListagemDto(Integer idServico, String nome, Double preco, String descricao, Integer duracao) {
+        this.idServico = idServico;
+        this.nome = nome;
+        this.preco = preco;
+        this.descricao = descricao;
+        this.duracao = duracao;
+    }
+
     public Integer getIdServico() {
         return idServico;
     }

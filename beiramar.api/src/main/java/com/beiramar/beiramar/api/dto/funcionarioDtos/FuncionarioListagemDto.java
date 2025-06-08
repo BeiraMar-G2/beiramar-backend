@@ -24,6 +24,10 @@ public class FuncionarioListagemDto {
         this.nomeCargo = nomeCargo;
     }
 
+    public FuncionarioListagemDto() {
+
+    }
+
     public Integer getIdFuncionario() {
         return idFuncionario;
     }

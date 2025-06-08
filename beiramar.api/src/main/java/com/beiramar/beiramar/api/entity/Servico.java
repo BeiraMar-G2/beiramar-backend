@@ -26,6 +26,13 @@ public class Servico {
     @OneToMany(mappedBy = "servico")
     private List<SessoesPacote> sessoes;
 
+    public Servico(Integer id, String nome, Integer duracao, Double preco, String descricao){
+    }
+
+    public Servico() {
+
+    }
+
 
     public Integer getIdServico() {
         return idServico;

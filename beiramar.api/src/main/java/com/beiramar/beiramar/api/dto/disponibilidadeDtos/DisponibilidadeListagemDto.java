@@ -24,6 +24,10 @@ public class DisponibilidadeListagemDto {
         this.fkFuncionarioExcecaoNome = fkFuncionarioExcecaoNome;
     }
 
+    public DisponibilidadeListagemDto() {
+
+    }
+
     public Integer getIdDisponibilidade() {
         return idDisponibilidade;
     }

@@ -43,7 +43,7 @@ class RecuperacaoSenhaServiceTest {
 
     @Test
     @DisplayName("Deve enviar código de recuperação com sucesso")
-    void enviarCodigo_ComSucesso() {
+    void enviarCodigoComSucesso() {
         String email = "teste@example.com";
         Usuario usuario = new Usuario();
         usuario.setEmail(email);
@@ -58,7 +58,7 @@ class RecuperacaoSenhaServiceTest {
 
     @Test
     @DisplayName("Não deve enviar código se usuário não existir")
-    void enviarCodigo_UsuarioNaoEncontrado() {
+    void enviarCodigoUsuarioNaoEncontrado() {
         String email = "teste@example.com";
 
         when(usuarioRepository.findByEmail(email)).thenReturn(Optional.empty());
@@ -71,7 +71,7 @@ class RecuperacaoSenhaServiceTest {
 
     @Test
     @DisplayName("Deve validar código com sucesso")
-    void validarCodigo_ComSucesso() {
+    void validarCodigoComSucesso() {
         String email = "teste@example.com";
         String codigo = "123456";
         LogSenha logSenha = new LogSenha();
@@ -93,7 +93,7 @@ class RecuperacaoSenhaServiceTest {
 
     @Test
     @DisplayName("Não deve validar código inexistente")
-    void validarCodigo_CodigoInexistente() {
+    void validarCodigoCodigoInexistente() {
         String email = "teste@example.com";
         String codigo = "654321";
 
@@ -109,7 +109,7 @@ class RecuperacaoSenhaServiceTest {
 
     @Test
     @DisplayName("Não deve validar código expirado")
-    void validarCodigo_CodigoExpirado() {
+    void validarCodigoCodigoExpirado() {
         String email = "teste@example.com";
         String codigo = "123456";
         LogSenha logSenha = new LogSenha();

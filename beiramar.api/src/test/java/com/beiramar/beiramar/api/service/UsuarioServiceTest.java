@@ -46,7 +46,7 @@ class UsuarioServiceTest {
 
     @Test
     @DisplayName("Deve autenticar usuário com sucesso")
-    void autenticar_ComSucesso() {
+    void autenticarComSucesso() {
         UsuarioLoginDto loginDto = new UsuarioLoginDto("teste@example.com", "senha123");
         Usuario usuario = new Usuario();
         usuario.setNome("Teste");
@@ -68,7 +68,7 @@ class UsuarioServiceTest {
 
     @Test
     @DisplayName("Deve lançar exceção ao autenticar usuário inexistente")
-    void autenticar_UsuarioNaoEncontrado() {
+    void autenticarUsuarioNaoEncontrado() {
         UsuarioLoginDto loginDto = new UsuarioLoginDto("inexistente@example.com", "senha123");
 
         when(usuarioRepository.findByEmail(loginDto.getEmail())).thenReturn(Optional.empty());

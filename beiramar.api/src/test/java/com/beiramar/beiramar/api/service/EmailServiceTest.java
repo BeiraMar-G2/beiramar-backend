@@ -38,7 +38,7 @@ class EmailServiceTest {
 
     @Test
     @DisplayName("Deve enviar código de recuperação com sucesso")
-    void enviarCodigo_ComSucesso() throws IOException {
+    void enviarCodigoComSucesso() throws IOException {
         String email = "teste@example.com";
         String codigo = "123456";
         LogSenha log = new LogSenha();
@@ -55,7 +55,7 @@ class EmailServiceTest {
 
     @Test
     @DisplayName("Deve lançar exceção ao enviar código quando API falha")
-    void enviarCodigo_ComErroAoEnviarEmail() throws IOException {
+    void enviarCodigoComErroAoEnviarEmail() throws IOException {
         String email = "teste@example.com";
         String codigo = "123456";
         LogSenha log = new LogSenha();
@@ -71,7 +71,7 @@ class EmailServiceTest {
 
     @Test
     @DisplayName("Deve enviar e-mail de autenticação com sucesso")
-    void enviarAutenticacao_ComSucesso() throws IOException {
+    void enviarAutenticacaoComSucesso() throws IOException {
         String email = "teste@example.com";
 
         Request requestMock = mock(Request.class);
@@ -84,7 +84,7 @@ class EmailServiceTest {
 
     @Test
     @DisplayName("Deve lançar exceção ao enviar e-mail de autenticação quando API falha")
-    void enviarAutenticacao_ComErroAoEnviarEmail() throws IOException {
+    void enviarAutenticacaoComErroAoEnviarEmail() throws IOException {
         String email = "teste@example.com";
 
         when(sendGrid.api(any(Request.class))).thenThrow(new IOException("Falha no envio"));

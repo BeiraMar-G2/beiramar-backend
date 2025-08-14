@@ -1,10 +1,10 @@
-drop database BeiraMar;
+drop database if exists BeiraMar ;
 create database BeiraMar;
 
 use BeiraMar;
 
 create table cargo (
-idCargo int primary key auto_increment,
+id_cargo int primary key auto_increment,
 nome varchar(255)
 );
 
@@ -17,17 +17,17 @@ INSERT INTO cargo (nome) VALUES
 ('Cliente');
 
 create table usuario (
-idPessoa int primary key auto_increment,
+id_pessoa int primary key auto_increment,
 nome varchar(100),
 email varchar(80),
 telefone varchar(45),
-senha char(10),
-dtNasc date,
-fkCargo int,
-constraint fkUsuarioCargo foreign key (fkCargo) references cargo (idCargo)
+senha varchar(300),
+dt_nasc date,
+fk_cargo int,
+constraint fkUsuarioCargo foreign key (fk_cargo) references cargo (id_cargo)
 );
 
-INSERT INTO usuario (nome, email, telefone, senha, dtNasc, fkCargo) VALUES
+INSERT INTO usuario (nome, email, telefone, senha, dt_nasc, fk_cargo) VALUES
 ('Ana Silva', 'ana.silva@beiramar.com', '11987654321', 'senha12345', '1985-03-15', 1), -- Administrador
 ('Bruno Costa', 'bruno.costa@beiramar.com', '11991234567', 'senha67890', '1990-07-22', 2), -- Recepcionista
 ('Carla Dias', 'carla.dias@beiramar.com', '11977889900', 'carla12345', '1988-11-01', 3), -- Massagista
@@ -39,16 +39,16 @@ INSERT INTO usuario (nome, email, telefone, senha, dtNasc, fkCargo) VALUES
 ('Igor Almeida', 'igor.a@example.com', '11911009988', 'igor789012', '1998-02-28', 6); -- Cliente
 
 create table logSenha (
-idLogSenha int auto_increment,
-fkPessoa int,
+id_logSenha int auto_increment,
+fk_pessoa int,
 token char(6),
 dataLog datetime,
 status varchar(45),
-primary key (idLogSenha, fkPessoa),
-constraint fkPessoaLog foreign key (fkPessoa) references usuario (idPessoa)
+primary key (id_logSenha, fk_pessoa),
+constraint fkPessoaLog foreign key (fk_pessoa) references usuario (id_pessoa)
 );
 
-INSERT INTO logSenha (fkPessoa, token, dataLog, status) VALUES
+INSERT INTO logSenha (fk_pessoa, token, dataLog, status) VALUES
 (1, 'A1B2C3', '2024-05-01 10:30:00', 'Sucesso'),
 (2, 'D4E5F6', '2024-05-02 11:00:00', 'Falha'),
 (3, 'G7H8I9', '2024-05-03 09:15:00', 'Sucesso'),
@@ -56,18 +56,18 @@ INSERT INTO logSenha (fkPessoa, token, dataLog, status) VALUES
 (5, 'M3N4O5', '2024-05-05 16:45:00', 'Falha');
 
 create table disponibilidade (
-idDisponibilidade int auto_increment,
-fkFuncionario int,
+id_disponibilidade int auto_increment,
+fk_funcionario int,
 diaSemana varchar (45),
 horaInicio time,
 horaFim time,
 diaMes varchar(45),
-fkDisponibilidadeExcecao int,
-primary key(idDisponibilidade, fkFuncionario),
-constraint fkDispDisp foreign key (fkDisponibilidadeExcecao) references disponibilidade (idDisponibilidade)
+fk_disponibilidadeExcecao int,
+primary key(id_disponibilidade, fk_funcionario),
+constraint fkDispDisp foreign key (fk_disponibilidadeExcecao) references disponibilidade (id_disponibilidade)
 );
 
-INSERT INTO disponibilidade (fkFuncionario, diaSemana, horaInicio, horaFim, diaMes, fkDisponibilidadeExcecao) VALUES
+INSERT INTO disponibilidade (fk_funcionario, diaSemana, horaInicio, horaFim, diaMes, fk_disponibilidadeExcecao) VALUES
 (3, 'Segunda-feira', '09:00:00', '18:00:00', NULL, NULL), -- Carla (Massagista) - Segunda normal
 (3, 'Terça-feira', '09:00:00', '18:00:00', NULL, NULL), -- Carla (Massagista) - Terça normal
 (4, 'Quarta-feira', '10:00:00', '19:00:00', NULL, NULL), -- Daniel (Fisioterapeuta) - Quarta normal
@@ -78,7 +78,7 @@ INSERT INTO disponibilidade (fkFuncionario, diaSemana, horaInicio, horaFim, diaM
 (4, 'Sexta-feira', '14:00:00', '18:00:00', '2025-06-06', NULL); -- Exceção para Daniel em 06/06/2025 (tarde)
 
 create table pacote (
-idPacote int primary key auto_increment,
+id_pacote int primary key auto_increment,
 nome varchar(100),
 precoTotalSemDesconto decimal(10,2),
 qtdSessoesTotal int,
@@ -92,22 +92,22 @@ INSERT INTO pacote (nome, precoTotalSemDesconto, qtdSessoesTotal, tempoLimiteDia
 ('Pacote Fitness Fisioterapia', 600.00, 6, 75);
 
 create table valorPacoteComDesconto (
-fkUsuario int,
-fkPacote int,
+fk_usuario int,
+fk_pacote int,
 valorTotal decimal(10,2),
-primary key (fkUsuario, fkPacote),
-constraint fkValorUsuario foreign key (fkUsuario) references usuario (idPessoa),
-constraint fkValorPacote foreign key (fkPacote) references pacote (idPacote)
+primary key (fk_usuario, fk_pacote),
+constraint fkValorUsuario foreign key (fk_usuario) references usuario (id_pessoa),
+constraint fkValorPacote foreign key (fk_pacote) references pacote (id_pacote)
 );
 
-INSERT INTO valorPacoteComDesconto (fkUsuario, fkPacote, valorTotal) VALUES
+INSERT INTO valorPacoteComDesconto (fk_usuario, fk_pacote, valorTotal) VALUES
 (6, 1, 450.00), -- Fernando com desconto no Pacote Relax Total
 (7, 2, 300.00), -- Giovana com desconto no Pacote Bem Estar
 (8, 3, 630.00), -- Heloisa com desconto no Pacote Estética Premium
 (9, 1, 475.00); -- Igor com outro desconto no Pacote Relax Total
 
 create table servico (
-idServico int primary key auto_increment,
+id_servico int primary key auto_increment,
 nome varchar(100),
 duracao int,
 descricao varchar(255),
@@ -123,15 +123,15 @@ INSERT INTO servico (nome, duracao, descricao, preco) VALUES
 ('Sessão de Acupuntura', 60, 'Técnica milenar para equilíbrio energético.', 110.00);
 
 create table sessoesPacote (
-fkPacote int,
-fkServico int,
+fk_pacote int,
+fk_servico int,
 qtsSessoes int,
-primary key (fkPacote, fkServico),
-constraint fkSessoesPacote foreign key (fkPacote) references pacote (idPacote),
-constraint fkSessoesServico foreign key (fkServico) references servico (idservico)
+primary key (fk_pacote, fk_servico),
+constraint fkSessoesPacote foreign key (fk_pacote) references pacote (id_pacote),
+constraint fkSessoesServico foreign key (fk_servico) references servico (id_servico)
 );
 
-INSERT INTO sessoesPacote (fkPacote, fkServico, qtsSessoes) VALUES
+INSERT INTO sessoesPacote (fk_pacote, fk_servico, qtsSessoes) VALUES
 (1, 1, 3), -- Pacote Relax Total inclui 3 Massagens Relaxantes
 (1, 4, 2), -- Pacote Relax Total inclui 2 Drenagens Linfáticas
 (2, 1, 1), -- Pacote Bem Estar inclui 1 Massagem Relaxante
@@ -142,23 +142,23 @@ INSERT INTO sessoesPacote (fkPacote, fkServico, qtsSessoes) VALUES
 (4, 3, 6); -- Pacote Fitness Fisioterapia inclui 6 Sessões de Fisioterapia
 
 create table agendamento (
-idAgendamento int auto_increment,
-fkServico int,
-fkCliente int,
-fkFuncionario int,
+id_agendamento int auto_increment,
+fk_servico int,
+fk_cliente int,
+fk_funcionario int,
 dtHora datetime,
 valorPago decimal(10,2),
 status enum('Agendado', 'Concluido', 'Cancelado'),
 dtValidade date,
-fkPacote int,
-primary key(idAgendamento, fkServico, fkCliente, fkFuncionario),
-constraint fkAgendamentoServico foreign key (fkServico) references servico (idServico),
-constraint fkAgendamentoCliente foreign key (fkCliente) references usuario (idPessoa),
-constraint fkAgendamentoFuncionario foreign key (fkFuncionario) references usuario (idPessoa),
-constraint fkAgendamentoPacote foreign key (fkPacote) references pacote (idPacote)
+fk_pacote int,
+primary key(id_agendamento, fk_servico, fk_cliente, fk_funcionario),
+constraint fkAgendamentoServico foreign key (fk_servico) references servico (id_servico),
+constraint fkAgendamentoCliente foreign key (fk_cliente) references usuario (id_pessoa),
+constraint fkAgendamentoFuncionario foreign key (fk_funcionario) references usuario (id_pessoa),
+constraint fkAgendamentoPacote foreign key (fk_pacote) references pacote (id_pacote)
 );
 
-INSERT INTO agendamento (fkServico, fkCliente, fkFuncionario, dtHora, valorPago, status, dtValidade, fkPacote) VALUES
+INSERT INTO agendamento (fk_servico, fk_cliente, fk_funcionario, dtHora, valorPago, status, dtValidade, fk_pacote) VALUES
 (1, 6, 3, '2025-06-10 10:00:00', 120.00, 'Agendado', NULL, NULL), -- Massagem Relaxante para Fernando com Carla
 (2, 7, 5, '2025-06-11 14:30:00', 150.00, 'Agendado', NULL, NULL), -- Limpeza de Pele para Giovana com Eduarda
 (3, 8, 4, '2025-06-12 11:00:00', 100.00, 'Concluido', NULL, NULL), -- Fisioterapia para Heloisa com Daniel (já concluído)
@@ -168,13 +168,13 @@ INSERT INTO agendamento (fkServico, fkCliente, fkFuncionario, dtHora, valorPago,
 (3, 8, 4, '2025-06-17 14:00:00', 0.00, 'Agendado', '2025-09-17', 4); -- Fisioterapia do Pacote Fitness para Heloisa com Daniel
 
 create table logStatus (
-fkAgendamento int primary key,
+fk_agendamento int primary key,
 status enum('Agendado', 'Concluido', 'Cancelado'),
 dtAlteracao datetime,
-constraint fkLogAgendamento foreign key (fkAgendamento) references agendamento (idAgendamento)
+constraint fkLogAgendamento foreign key (fk_agendamento) references agendamento (id_agendamento)
 );
 
-INSERT INTO logStatus (fkAgendamento, status, dtAlteracao) VALUES
+INSERT INTO logStatus (fk_agendamento, status, dtAlteracao) VALUES
 (1, 'Agendado', '2025-06-01 10:00:00'),
 (2, 'Agendado', '2025-06-01 10:15:00'),
 (3, 'Concluido', '2025-06-12 12:00:00'),

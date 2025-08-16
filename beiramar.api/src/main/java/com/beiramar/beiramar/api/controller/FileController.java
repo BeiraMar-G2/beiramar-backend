@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -39,10 +40,8 @@ public class FileController {
         this.environment = environment;
     }
 
-    @PostMapping
-    public ResponseEntity<FilesEntity> uploadFile(
-            @RequestParam MultipartFile file
-    ) {
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<FilesEntity> uploadFile(@RequestParam MultipartFile file) {
         FilesEntity save = fileService.save(file);
 
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest()

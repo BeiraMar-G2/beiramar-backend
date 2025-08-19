@@ -15,6 +15,8 @@ import com.beiramar.beiramar.api.repository.ServicoRepository;
 import com.beiramar.beiramar.api.repository.UsuarioRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.YearMonth;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -78,5 +80,15 @@ public class AgendamentoService {
             throw new EntidadeNaoEncontradaException("Agendamento não encontrado");
         }
         agendamentoRepository.deleteById(id);
+    }
+
+    public List<AgendamentoListagemDto> listarPorMes(int ano, int mes) {
+        YearMonth yearMonth = YearMonth.of(ano, mes);
+        LocalDateTime start = yearMonth.atDay(1).atStartOfDay();
+        LocalDateTime end = yearMonth.atEndOfMonth().atTime(23, 59, 59);
+
+        return agendamentoRepository.findByMes(start, end).stream()
+                .map(AgendamentoMapper::toDto)
+                .collect(Collectors.toList());
     }
 }

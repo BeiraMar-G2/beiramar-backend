@@ -3,6 +3,7 @@ package com.beiramar.beiramar.api.service;
 import com.beiramar.beiramar.api.dto.servicoDtos.ServicoCadastroDto;
 import com.beiramar.beiramar.api.dto.servicoDtos.ServicoListagemDto;
 import com.beiramar.beiramar.api.dto.mapper.ServicoMapper;
+import com.beiramar.beiramar.api.dto.servicoDtos.ServicoListagemIdNomeDto;
 import com.beiramar.beiramar.api.entity.Servico;
 import com.beiramar.beiramar.api.exception.EntidadeNaoEncontradaException;
 import com.beiramar.beiramar.api.repository.ServicoRepository;
@@ -60,6 +61,18 @@ public class ServicoService {
             throw new EntidadeNaoEncontradaException("Serviço não encontrado");
         }
         servicoRepository.deleteById(id);
+    }
+
+    public List<ServicoListagemIdNomeDto> listarNomesServicos() {
+        List<Servico> servicos = servicoRepository.findAll();
+
+        if (servicos.isEmpty()) {
+            throw new EntidadeNaoEncontradaException("Nenhum serviço encontrado");
+        }
+
+        return servicos.stream()
+                .map(s -> new ServicoListagemIdNomeDto(s.getIdServico(), s.getNome()))
+                .collect(Collectors.toList());
     }
 
 }

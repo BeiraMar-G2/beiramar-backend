@@ -74,4 +74,17 @@ public class AgendamentoController {
         }
     }
 
+    @GetMapping("/mes")
+    @Operation(summary = "Listar agendamentos por mês")
+    public ResponseEntity<List<AgendamentoListagemDto>> listarPorMes(
+            @RequestParam int ano,
+            @RequestParam int mes) {
+        List<AgendamentoListagemDto> agendamentos = agendamentoService.listarPorMes(ano, mes);
+
+        if (agendamentos.isEmpty()) {
+            return ResponseEntity.status(204).build();
+        }
+        return ResponseEntity.status(200).body(agendamentos);
+    }
+
 }

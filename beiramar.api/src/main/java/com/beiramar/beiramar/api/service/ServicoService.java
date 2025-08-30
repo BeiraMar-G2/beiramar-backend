@@ -5,7 +5,7 @@ import com.beiramar.beiramar.api.dto.servicoDtos.ServicoListagemDto;
 import com.beiramar.beiramar.api.dto.mapper.ServicoMapper;
 import com.beiramar.beiramar.api.dto.servicoDtos.ServicoListagemIdNomeDto;
 import com.beiramar.beiramar.api.entity.Servico;
-import com.beiramar.beiramar.api.exception.EntidadeNaoEncontradaException;
+import com.beiramar.beiramar.api.core.application.exception.EntidadeNaoEncontradaException;
 import com.beiramar.beiramar.api.repository.ServicoRepository;
 import org.springframework.stereotype.Service;
 

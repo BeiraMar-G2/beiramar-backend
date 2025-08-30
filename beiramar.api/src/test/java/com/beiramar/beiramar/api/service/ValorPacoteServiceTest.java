@@ -5,11 +5,11 @@ import com.beiramar.beiramar.api.dto.valorPacoteDtos.ValorPacoteAtualizacaoDto;
 import com.beiramar.beiramar.api.dto.valorPacoteDtos.ValorPacoteCadastroDto;
 import com.beiramar.beiramar.api.dto.valorPacoteDtos.ValorPacoteListagemDto;
 import com.beiramar.beiramar.api.entity.Pacote;
-import com.beiramar.beiramar.api.entity.Usuario;
-import com.beiramar.beiramar.api.entity.ValorPacote;
-import com.beiramar.beiramar.api.exception.EntidadeNaoEncontradaException;
+import com.beiramar.beiramar.api.infrastructure.persistence.usuariopersistence.UsuarioEntity;
+import com.beiramar.beiramar.api.entity.ValorPacoteEntity;
+import com.beiramar.beiramar.api.core.application.exception.EntidadeNaoEncontradaException;
 import com.beiramar.beiramar.api.repository.PacoteRepository;
-import com.beiramar.beiramar.api.repository.UsuarioRepository;
+import com.beiramar.beiramar.api.infrastructure.persistence.usuariopersistence.UsuarioJpaRepository;
 import com.beiramar.beiramar.api.repository.ValorPacoteRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -33,7 +33,7 @@ public class ValorPacoteServiceTest {
     private ValorPacoteRepository valorPacoteRepository;
 
     @Mock
-    private UsuarioRepository usuarioRepository;
+    private UsuarioJpaRepository usuarioRepository;
 
     @Mock
     private PacoteRepository pacoteRepository;
@@ -45,13 +45,13 @@ public class ValorPacoteServiceTest {
         dto.setFkPacote(2);
         dto.setValorTotal(250.0);
 
-        Usuario usuario = new Usuario();
+        UsuarioEntity usuario = new UsuarioEntity();
         usuario.setIdUsuario(1);
         usuario.setNome("Cliente");
 
         Pacote pacote = new Pacote(2, "Pacote Dia das Mães", 300.0, 5, 30);
 
-        ValorPacote entity = new ValorPacote();
+        ValorPacoteEntity entity = new ValorPacoteEntity();
         entity.setIdValorPacote(10);
         entity.setUsuario(usuario);
         entity.setPacote(pacote);
@@ -61,7 +61,7 @@ public class ValorPacoteServiceTest {
 
         when(usuarioRepository.findById(1)).thenReturn(Optional.of(usuario));
         when(pacoteRepository.findById(2)).thenReturn(Optional.of(pacote));
-        when(valorPacoteRepository.save(any(ValorPacote.class))).thenReturn(entity);
+        when(valorPacoteRepository.save(any(ValorPacoteEntity.class))).thenReturn(entity);
 
         try (MockedStatic<ValorPacoteMapper> mocked = mockStatic(ValorPacoteMapper.class)) {
             mocked.when(() -> ValorPacoteMapper.toEntity(dto, usuario, pacote)).thenReturn(entity);
@@ -99,11 +99,11 @@ public class ValorPacoteServiceTest {
 
     @Test
     void deveListarTodosComSucesso() {
-        ValorPacote v1 = new ValorPacote();
+        ValorPacoteEntity v1 = new ValorPacoteEntity();
         v1.setIdValorPacote(1);
         v1.setValorTotal(200.0);
 
-        ValorPacote v2 = new ValorPacote();
+        ValorPacoteEntity v2 = new ValorPacoteEntity();
         v2.setIdValorPacote(2);
         v2.setValorTotal(300.0);
 
@@ -125,7 +125,7 @@ public class ValorPacoteServiceTest {
 
     @Test
     void deveBuscarPorIdComSucesso() {
-        ValorPacote valor = new ValorPacote();
+        ValorPacoteEntity valor = new ValorPacoteEntity();
         valor.setIdValorPacote(1);
         valor.setValorTotal(150.0);
 
@@ -161,11 +161,11 @@ public class ValorPacoteServiceTest {
         ValorPacoteAtualizacaoDto dto = new ValorPacoteAtualizacaoDto();
         dto.setValorTotal(350.0);
 
-        ValorPacote valor = new ValorPacote();
+        ValorPacoteEntity valor = new ValorPacoteEntity();
         valor.setIdValorPacote(1);
         valor.setValorTotal(300.0);
 
-        ValorPacote atualizado = new ValorPacote();
+        ValorPacoteEntity atualizado = new ValorPacoteEntity();
         atualizado.setIdValorPacote(1);
         atualizado.setValorTotal(350.0);
 

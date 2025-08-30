@@ -6,7 +6,7 @@ import com.beiramar.beiramar.api.dto.pacoteDtos.PacoteAtualizacaoDto;
 import com.beiramar.beiramar.api.dto.pacoteDtos.PacoteCadastroDto;
 import com.beiramar.beiramar.api.dto.pacoteDtos.PacoteListagemDto;
 import com.beiramar.beiramar.api.entity.Pacote;
-import com.beiramar.beiramar.api.exception.EntidadeNaoEncontradaException;
+import com.beiramar.beiramar.api.core.application.exception.EntidadeNaoEncontradaException;
 import com.beiramar.beiramar.api.repository.PacoteRepository;
 import org.springframework.stereotype.Service;
 

@@ -1,7 +1,7 @@
 package com.beiramar.beiramar.api.repository;
 
-import com.beiramar.beiramar.api.entity.Disponibilidade;
+import com.beiramar.beiramar.api.entity.DisponibilidadeEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface DisponibilidadeRepository extends JpaRepository<Disponibilidade, Integer> {
+public interface DisponibilidadeRepository extends JpaRepository<DisponibilidadeEntity, Integer> {
 }

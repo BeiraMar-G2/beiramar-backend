@@ -1,15 +1,16 @@
 package com.beiramar.beiramar.api.entity;
 
+import com.beiramar.beiramar.api.infrastructure.persistence.usuariopersistence.UsuarioEntity;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
-import jdk.dynalink.linker.LinkerServices;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
+@Table(name = "Agendamento")
 @Schema(description = "Agendamento da consulta")
-public class Agendamento {
+public class AgendamentoEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,11 +25,11 @@ public class Agendamento {
 
     @ManyToOne
     @JoinColumn(name = "fkCliente")
-    private Usuario cliente;
+    private UsuarioEntity cliente;
 
     @ManyToOne
     @JoinColumn(name = "fkFuncionario")
-    private Usuario funcionario;
+    private UsuarioEntity funcionario;
 
     @ManyToOne
     @JoinColumn(name = "fkServico")
@@ -81,19 +82,19 @@ public class Agendamento {
         this.statusAgendamento = statusAgendamento;
     }
 
-    public Usuario getCliente() {
+    public UsuarioEntity getCliente() {
         return cliente;
     }
 
-    public void setCliente(Usuario cliente) {
+    public void setCliente(UsuarioEntity cliente) {
         this.cliente = cliente;
     }
 
-    public Usuario getFuncionario() {
+    public UsuarioEntity getFuncionario() {
         return funcionario;
     }
 
-    public void setFuncionario(Usuario funcionario) {
+    public void setFuncionario(UsuarioEntity funcionario) {
         this.funcionario = funcionario;
     }
 

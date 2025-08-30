@@ -3,7 +3,7 @@ package com.beiramar.beiramar.api.controller;
 import com.beiramar.beiramar.api.dto.agendamentosDtos.AgendamentoAtualizacaoDto;
 import com.beiramar.beiramar.api.dto.agendamentosDtos.AgendamentoCadastroDto;
 import com.beiramar.beiramar.api.dto.agendamentosDtos.AgendamentoListagemDto;
-import com.beiramar.beiramar.api.exception.EntidadeNaoEncontradaException;
+import com.beiramar.beiramar.api.core.application.exception.EntidadeNaoEncontradaException;
 import com.beiramar.beiramar.api.service.AgendamentoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -74,6 +74,7 @@ public class AgendamentoController {
         }
     }
 
+    /*
     @GetMapping("/mes")
     @Operation(summary = "Listar agendamentos por mês")
     public ResponseEntity<List<AgendamentoListagemDto>> listarPorMes(
@@ -86,5 +87,7 @@ public class AgendamentoController {
         }
         return ResponseEntity.status(200).body(agendamentos);
     }
+
+     */
 
 }

@@ -1,5 +1,10 @@
-package com.beiramar.beiramar.api.entity;
+package com.beiramar.beiramar.api.infrastructure.persistence.usuariopersistence;
 
+import com.beiramar.beiramar.api.entity.AgendamentoEntity;
+import com.beiramar.beiramar.api.entity.DisponibilidadeEntity;
+import com.beiramar.beiramar.api.entity.LogSenhaEntity;
+import com.beiramar.beiramar.api.entity.ValorPacoteEntity;
+import com.beiramar.beiramar.api.infrastructure.persistence.cargopersistence.CargoEntity;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 
@@ -7,8 +12,9 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Entity
+@Table(name = "Usuario")
 @Schema(description = "Usuário do sistema", example = "Funcionário/Cliente")
-public class Usuario {
+public class UsuarioEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,25 +27,26 @@ public class Usuario {
     private LocalDate dtNasc;
 
 
-    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
-    private List<LogSenha>logsSenha;
-
-
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "fkCargo")
-    private Cargo cargo;
+    private CargoEntity cargo;
+
+    // Relacionamentos
+
+    @OneToMany(mappedBy = "funcionario")
+    private List<DisponibilidadeEntity> disponibilidades;
 
     @OneToMany(mappedBy = "cliente")
-    private List<Agendamento> agendamentosComoCliente;
+    private List<AgendamentoEntity> agendamentosComoCliente;
 
     @OneToMany(mappedBy = "funcionario")
-    private List<Agendamento> agendamentosComoFuncionario;
-
-    @OneToMany(mappedBy = "funcionario")
-    private List<Disponibilidade> disponibilidades;
+    private List<AgendamentoEntity> agendamentosComoFuncionario;
 
     @OneToMany(mappedBy = "usuario")
-    private List<ValorPacote> pacotes;
+    private List<LogSenhaEntity> logsSenha;
+
+    @OneToMany(mappedBy = "usuario")
+    private List<ValorPacoteEntity> pacotes;
 
 
     public Integer getIdUsuario() {
@@ -90,51 +97,51 @@ public class Usuario {
         this.dtNasc = dtNasc;
     }
 
-    public Cargo getCargo() {
+    public CargoEntity getCargo() {
         return cargo;
     }
 
-    public void setCargo(Cargo cargo) {
+    public void setCargo(CargoEntity cargo) {
         this.cargo = cargo;
     }
 
-    public List<Agendamento> getAgendamentosComoCliente() {
+    public List<AgendamentoEntity> getAgendamentosComoCliente() {
         return agendamentosComoCliente;
     }
 
-    public void setAgendamentosComoCliente(List<Agendamento> agendamentosComoCliente) {
+    public void setAgendamentosComoCliente(List<AgendamentoEntity> agendamentosComoCliente) {
         this.agendamentosComoCliente = agendamentosComoCliente;
     }
 
-    public List<Agendamento> getAgendamentosComoFuncionario() {
+    public List<AgendamentoEntity> getAgendamentosComoFuncionario() {
         return agendamentosComoFuncionario;
     }
 
-    public void setAgendamentosComoFuncionario(List<Agendamento> agendamentosComoFuncionario) {
+    public void setAgendamentosComoFuncionario(List<AgendamentoEntity> agendamentosComoFuncionario) {
         this.agendamentosComoFuncionario = agendamentosComoFuncionario;
     }
 
-    public List<Disponibilidade> getDisponibilidades() {
+    public List<DisponibilidadeEntity> getDisponibilidades() {
         return disponibilidades;
     }
 
-    public void setDisponibilidades(List<Disponibilidade> disponibilidades) {
+    public void setDisponibilidades(List<DisponibilidadeEntity> disponibilidades) {
         this.disponibilidades = disponibilidades;
     }
 
-    public List<ValorPacote> getPacotes() {
+    public List<ValorPacoteEntity> getPacotes() {
         return pacotes;
     }
 
-    public void setPacotes(List<ValorPacote> pacotes) {
+    public void setPacotes(List<ValorPacoteEntity> pacotes) {
         this.pacotes = pacotes;
     }
 
-    public List<LogSenha> getLogsSenha() {
+    public List<LogSenhaEntity> getLogsSenha() {
         return logsSenha;
     }
 
-    public void setLogsSenha(List<LogSenha> logsSenha) {
+    public void setLogsSenha(List<LogSenhaEntity> logsSenha) {
         this.logsSenha = logsSenha;
     }
 }

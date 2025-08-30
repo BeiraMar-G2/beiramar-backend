@@ -1,14 +1,14 @@
 package com.beiramar.beiramar.api.entity;
 
+import com.beiramar.beiramar.api.infrastructure.persistence.usuariopersistence.UsuarioEntity;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 
-import java.time.LocalDate;
 import java.time.LocalTime;
 
 @Entity
 @Schema(description = "Disponibilidade do Funcionário/Cliente")
-public class Disponibilidade {
+public class DisponibilidadeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,7 +21,7 @@ public class Disponibilidade {
 
     @ManyToOne
     @JoinColumn(name = "fkFuncionario")
-    private Usuario funcionario;
+    private UsuarioEntity funcionario;
 
     private Boolean disponibilidadeExcecao;
     private String fkFuncionarioExcecaoNome;
@@ -67,11 +67,11 @@ public class Disponibilidade {
         this.diaMes = diaMes;
     }
 
-    public Usuario getFuncionario() {
+    public UsuarioEntity getFuncionario() {
         return funcionario;
     }
 
-    public void setFuncionario(Usuario funcionario) {
+    public void setFuncionario(UsuarioEntity funcionario) {
         this.funcionario = funcionario;
     }
 

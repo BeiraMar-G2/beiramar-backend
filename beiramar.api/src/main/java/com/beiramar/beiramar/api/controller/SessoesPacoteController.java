@@ -1,13 +1,9 @@
 package com.beiramar.beiramar.api.controller;
 
-import com.beiramar.beiramar.api.dto.agendamentosDtos.AgendamentoAtualizacaoDto;
-import com.beiramar.beiramar.api.dto.agendamentosDtos.AgendamentoCadastroDto;
-import com.beiramar.beiramar.api.dto.agendamentosDtos.AgendamentoListagemDto;
 import com.beiramar.beiramar.api.dto.sessaoPacoteDtos.SessoesPacoteAtualizacaoDto;
 import com.beiramar.beiramar.api.dto.sessaoPacoteDtos.SessoesPacoteCadastroDto;
 import com.beiramar.beiramar.api.dto.sessaoPacoteDtos.SessoesPacoteListagemDto;
-import com.beiramar.beiramar.api.exception.EntidadeNaoEncontradaException;
-import com.beiramar.beiramar.api.repository.SessoesPacoteRepository;
+import com.beiramar.beiramar.api.core.application.exception.EntidadeNaoEncontradaException;
 import com.beiramar.beiramar.api.service.SessoesPacoteService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

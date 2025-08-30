@@ -1,5 +1,6 @@
 package com.beiramar.beiramar.api.entity;
 
+import com.beiramar.beiramar.api.infrastructure.persistence.usuariopersistence.UsuarioEntity;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 
@@ -7,7 +8,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Schema(description = "Log de recuperação de senha")
-public class LogSenha {
+public class LogSenhaEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idLogSenha;
@@ -18,7 +19,7 @@ public class LogSenha {
 
     @ManyToOne
     @JoinColumn(name = "fkUsuario")
-    private Usuario usuario;
+    private UsuarioEntity usuario;
 
     public Integer getIdLogSenha() {
         return idLogSenha;
@@ -52,11 +53,11 @@ public class LogSenha {
         this.status = status;
     }
 
-    public Usuario getUsuario() {
+    public UsuarioEntity getUsuario() {
         return usuario;
     }
 
-    public void setUsuario(Usuario usuario) {
+    public void setUsuario(UsuarioEntity usuario) {
         this.usuario = usuario;
     }
 }

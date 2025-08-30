@@ -3,11 +3,11 @@ package com.beiramar.beiramar.api.service;
 import com.beiramar.beiramar.api.dto.disponibilidadeDtos.DisponibilidadeAtualizacaoDto;
 import com.beiramar.beiramar.api.dto.disponibilidadeDtos.DisponibilidadeCadastroDto;
 import com.beiramar.beiramar.api.dto.disponibilidadeDtos.DisponibilidadeListagemDto;
-import com.beiramar.beiramar.api.entity.Disponibilidade;
-import com.beiramar.beiramar.api.entity.Usuario;
-import com.beiramar.beiramar.api.exception.EntidadeNaoEncontradaException;
+import com.beiramar.beiramar.api.entity.DisponibilidadeEntity;
+import com.beiramar.beiramar.api.infrastructure.persistence.usuariopersistence.UsuarioEntity;
+import com.beiramar.beiramar.api.core.application.exception.EntidadeNaoEncontradaException;
 import com.beiramar.beiramar.api.repository.DisponibilidadeRepository;
-import com.beiramar.beiramar.api.repository.UsuarioRepository;
+import com.beiramar.beiramar.api.infrastructure.persistence.usuariopersistence.UsuarioJpaRepository;
 import com.beiramar.beiramar.api.dto.mapper.DisponibilidadeMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -34,19 +34,19 @@ class DisponibilidadeServiceTest {
     private DisponibilidadeRepository disponibilidadeRepository;
 
     @Mock
-    private UsuarioRepository usuarioRepository;
+    private UsuarioJpaRepository usuarioRepository;
 
     @Test
     @DisplayName("Deve cadastrar disponibilidade com sucesso")
     void deveCadastrarDisponibilidadeComSucesso() {
         DisponibilidadeCadastroDto dto = new DisponibilidadeCadastroDto();
         dto.setIdFuncionario(1);
-        Usuario usuario = new Usuario();
-        Disponibilidade disponibilidadeEntity = new Disponibilidade();
+        UsuarioEntity usuario = new UsuarioEntity();
+        DisponibilidadeEntity disponibilidadeEntity = new DisponibilidadeEntity();
         DisponibilidadeListagemDto disponibilidadeDto = new DisponibilidadeListagemDto();
 
         when(usuarioRepository.findById(1)).thenReturn(Optional.of(usuario));
-        when(disponibilidadeRepository.save(any(Disponibilidade.class))).thenReturn(disponibilidadeEntity);
+        when(disponibilidadeRepository.save(any(DisponibilidadeEntity.class))).thenReturn(disponibilidadeEntity);
 
         try (MockedStatic<DisponibilidadeMapper> mocked = mockStatic(DisponibilidadeMapper.class)) {
             mocked.when(() -> DisponibilidadeMapper.toEntity(dto, usuario)).thenReturn(disponibilidadeEntity);
@@ -73,7 +73,7 @@ class DisponibilidadeServiceTest {
     @Test
     @DisplayName("Deve listar todas as disponibilidades com sucesso")
     void deveListarTodasDisponibilidadesComSucesso() {
-        Disponibilidade disponibilidade = new Disponibilidade();
+        DisponibilidadeEntity disponibilidade = new DisponibilidadeEntity();
         DisponibilidadeListagemDto dto = new DisponibilidadeListagemDto();
 
         when(disponibilidadeRepository.findAll()).thenReturn(List.of(disponibilidade));
@@ -91,7 +91,7 @@ class DisponibilidadeServiceTest {
     @Test
     @DisplayName("Deve buscar disponibilidade por ID com sucesso")
     void deveBuscarDisponibilidadePorIdComSucesso() {
-        Disponibilidade disponibilidade = new Disponibilidade();
+        DisponibilidadeEntity disponibilidade = new DisponibilidadeEntity();
         DisponibilidadeListagemDto dto = new DisponibilidadeListagemDto();
 
         when(disponibilidadeRepository.findById(1)).thenReturn(Optional.of(disponibilidade));
@@ -117,7 +117,7 @@ class DisponibilidadeServiceTest {
     @Test
     @DisplayName("Deve atualizar disponibilidade com sucesso")
     void deveAtualizarDisponibilidadeComSucesso() {
-        Disponibilidade disponibilidade = new Disponibilidade();
+        DisponibilidadeEntity disponibilidade = new DisponibilidadeEntity();
         DisponibilidadeAtualizacaoDto dto = new DisponibilidadeAtualizacaoDto();
         DisponibilidadeListagemDto dtoAtualizado = new DisponibilidadeListagemDto();
 

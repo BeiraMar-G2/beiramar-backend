@@ -7,7 +7,7 @@ import com.beiramar.beiramar.api.dto.sessaoPacoteDtos.SessoesPacoteListagemDto;
 import com.beiramar.beiramar.api.entity.Pacote;
 import com.beiramar.beiramar.api.entity.Servico;
 import com.beiramar.beiramar.api.entity.SessoesPacote;
-import com.beiramar.beiramar.api.exception.EntidadeNaoEncontradaException;
+import com.beiramar.beiramar.api.core.application.exception.EntidadeNaoEncontradaException;
 import com.beiramar.beiramar.api.repository.PacoteRepository;
 import com.beiramar.beiramar.api.repository.ServicoRepository;
 import com.beiramar.beiramar.api.repository.SessoesPacoteRepository;

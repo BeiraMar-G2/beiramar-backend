@@ -21,7 +21,7 @@ public class Servico {
 
 
     @OneToMany(mappedBy = "servico")
-    private List<Agendamento> agendamentos;
+    private List<AgendamentoEntity> agendamentos;
 
     @OneToMany(mappedBy = "servico")
     private List<SessoesPacote> sessoes;
@@ -74,11 +74,11 @@ public class Servico {
         this.duracao = duracao;
     }
 
-    public List<Agendamento> getAgendamentos() {
+    public List<AgendamentoEntity> getAgendamentos() {
         return agendamentos;
     }
 
-    public void setAgendamentos(List<Agendamento> agendamentos) {
+    public void setAgendamentos(List<AgendamentoEntity> agendamentos) {
         this.agendamentos = agendamentos;
     }
 

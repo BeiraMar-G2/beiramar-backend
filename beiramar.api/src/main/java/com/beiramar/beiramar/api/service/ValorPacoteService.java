@@ -5,11 +5,11 @@ import com.beiramar.beiramar.api.dto.valorPacoteDtos.ValorPacoteAtualizacaoDto;
 import com.beiramar.beiramar.api.dto.valorPacoteDtos.ValorPacoteCadastroDto;
 import com.beiramar.beiramar.api.dto.valorPacoteDtos.ValorPacoteListagemDto;
 import com.beiramar.beiramar.api.entity.Pacote;
-import com.beiramar.beiramar.api.entity.Usuario;
-import com.beiramar.beiramar.api.entity.ValorPacote;
-import com.beiramar.beiramar.api.exception.EntidadeNaoEncontradaException;
+import com.beiramar.beiramar.api.infrastructure.persistence.usuariopersistence.UsuarioEntity;
+import com.beiramar.beiramar.api.entity.ValorPacoteEntity;
+import com.beiramar.beiramar.api.core.application.exception.EntidadeNaoEncontradaException;
 import com.beiramar.beiramar.api.repository.PacoteRepository;
-import com.beiramar.beiramar.api.repository.UsuarioRepository;
+import com.beiramar.beiramar.api.infrastructure.persistence.usuariopersistence.UsuarioJpaRepository;
 import com.beiramar.beiramar.api.repository.ValorPacoteRepository;
 import org.springframework.stereotype.Service;
 
@@ -20,10 +20,10 @@ import java.util.stream.Collectors;
 public class ValorPacoteService {
 
     private final ValorPacoteRepository valorPacoteRepository;
-    private final UsuarioRepository usuarioRepository;
+    private final UsuarioJpaRepository usuarioRepository;
     private final PacoteRepository pacoteRepository;
 
-    public ValorPacoteService(ValorPacoteRepository valorPacoteRepository, UsuarioRepository usuarioRepository, PacoteRepository pacoteRepository) {
+    public ValorPacoteService(ValorPacoteRepository valorPacoteRepository, UsuarioJpaRepository usuarioRepository, PacoteRepository pacoteRepository) {
         this.valorPacoteRepository = valorPacoteRepository;
         this.usuarioRepository = usuarioRepository;
         this.pacoteRepository = pacoteRepository;
@@ -34,10 +34,10 @@ public class ValorPacoteService {
         Pacote pacote = pacoteRepository.findById(dto.getFkPacote())
                 .orElseThrow(() -> new EntidadeNaoEncontradaException("Pacote não encontrado"));
 
-        Usuario usuario = usuarioRepository.findById(dto.getFkUsuario())
+        UsuarioEntity usuario = usuarioRepository.findById(dto.getFkUsuario())
                 .orElseThrow(() -> new EntidadeNaoEncontradaException("Cliente não encontrado"));
 
-        ValorPacote valorPacote = ValorPacoteMapper.toEntity(dto, usuario, pacote);
+        ValorPacoteEntity valorPacote = ValorPacoteMapper.toEntity(dto, usuario, pacote);
         return ValorPacoteMapper.toDto(valorPacoteRepository.save(valorPacote));
     }
 
@@ -54,7 +54,7 @@ public class ValorPacoteService {
     }
 
     public ValorPacoteListagemDto atualizar(Integer id, ValorPacoteAtualizacaoDto dto) {
-        ValorPacote valorPacote = valorPacoteRepository.findById(id)
+        ValorPacoteEntity valorPacote = valorPacoteRepository.findById(id)
                 .orElseThrow(() -> new EntidadeNaoEncontradaException("Valor Pacote não encontrado"));
         ValorPacoteMapper.AtualizarEntity(valorPacote, dto);
         return ValorPacoteMapper.toDto(valorPacoteRepository.save(valorPacote));

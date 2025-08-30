@@ -3,15 +3,15 @@ package com.beiramar.beiramar.api.dto.mapper;
 import com.beiramar.beiramar.api.dto.agendamentosDtos.AgendamentoAtualizacaoDto;
 import com.beiramar.beiramar.api.dto.agendamentosDtos.AgendamentoCadastroDto;
 import com.beiramar.beiramar.api.dto.agendamentosDtos.AgendamentoListagemDto;
-import com.beiramar.beiramar.api.entity.Agendamento;
+import com.beiramar.beiramar.api.entity.AgendamentoEntity;
 import com.beiramar.beiramar.api.entity.Pacote;
 import com.beiramar.beiramar.api.entity.Servico;
-import com.beiramar.beiramar.api.entity.Usuario;
+import com.beiramar.beiramar.api.infrastructure.persistence.usuariopersistence.UsuarioEntity;
 
 public class AgendamentoMapper {
 
-    public static Agendamento toEntity(AgendamentoCadastroDto dto, Usuario cliente, Usuario funcionario, Servico servico, Pacote pacote) {
-        Agendamento agendamento = new Agendamento();
+    public static AgendamentoEntity toEntity(AgendamentoCadastroDto dto, UsuarioEntity cliente, UsuarioEntity funcionario, Servico servico, Pacote pacote) {
+        AgendamentoEntity agendamento = new AgendamentoEntity();
         agendamento.setCliente(cliente);
         agendamento.setFuncionario(funcionario);
         agendamento.setServico(servico);
@@ -22,7 +22,7 @@ public class AgendamentoMapper {
         return agendamento;
     }
 
-    public static AgendamentoListagemDto toDto(Agendamento agendamento) {
+    public static AgendamentoListagemDto toDto(AgendamentoEntity agendamento) {
         return new AgendamentoListagemDto(
                 agendamento.getIdAgendamento(),
                 agendamento.getCliente().getNome(),
@@ -34,7 +34,7 @@ public class AgendamentoMapper {
         );
     }
 
-    public static void AtualizarEntity(Agendamento agendamento, AgendamentoAtualizacaoDto dto) {
+    public static void AtualizarEntity(AgendamentoEntity agendamento, AgendamentoAtualizacaoDto dto) {
         agendamento.setDtHora(dto.getDtHora());
         agendamento.setValorPago(dto.getValorPago());
         agendamento.setStatus(dto.getStatus());

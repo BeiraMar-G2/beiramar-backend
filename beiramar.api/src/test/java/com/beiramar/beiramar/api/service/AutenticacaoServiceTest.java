@@ -4,8 +4,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 import com.beiramar.beiramar.api.dto.autenticacaoDtos.UsuarioDetalhesDto;
-import com.beiramar.beiramar.api.entity.Usuario;
-import com.beiramar.beiramar.api.repository.UsuarioRepository;
+import com.beiramar.beiramar.api.infrastructure.persistence.usuariopersistence.UsuarioEntity;
+import com.beiramar.beiramar.api.infrastructure.persistence.usuariopersistence.UsuarioJpaRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -20,7 +20,7 @@ import java.util.Optional;
 class AutenticacaoServiceTest {
 
     @Mock
-    private UsuarioRepository usuarioRepository;
+    private UsuarioJpaRepository usuarioRepository;
 
     @InjectMocks
     private AutenticacaoService autenticacaoService;
@@ -30,7 +30,7 @@ class AutenticacaoServiceTest {
         // Arrange
         String email = "usuario@teste.com";
 
-        Usuario usuario = new Usuario();
+        UsuarioEntity usuario = new UsuarioEntity();
         usuario.setIdUsuario(1);
         usuario.setEmail(email);
         usuario.setNome("João Silva");

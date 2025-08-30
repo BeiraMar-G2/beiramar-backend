@@ -2,10 +2,9 @@ package com.beiramar.beiramar.api.service;
 
 import com.beiramar.beiramar.api.config.GerenciadorTokenJwt;
 import com.beiramar.beiramar.api.dto.autenticacaoDtos.UsuarioLoginDto;
-import com.beiramar.beiramar.api.dto.autenticacaoDtos.UsuarioTokenDto;
-import com.beiramar.beiramar.api.entity.Cargo;
-import com.beiramar.beiramar.api.entity.Usuario;
-import com.beiramar.beiramar.api.repository.UsuarioRepository;
+import com.beiramar.beiramar.api.infrastructure.persistence.cargopersistence.CargoEntity;
+import com.beiramar.beiramar.api.infrastructure.persistence.usuariopersistence.UsuarioEntity;
+import com.beiramar.beiramar.api.infrastructure.persistence.usuariopersistence.UsuarioJpaRepository;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -28,7 +27,7 @@ class UsuarioServiceTest {
     private UsuarioService usuarioService;
 
     @Mock
-    private UsuarioRepository usuarioRepository;
+    private UsuarioJpaRepository usuarioRepository;
 
     @Mock
     private AuthenticationManager authenticationManager;
@@ -48,10 +47,10 @@ class UsuarioServiceTest {
     @DisplayName("Deve autenticar usuário com sucesso")
     void autenticarComSucesso() {
         UsuarioLoginDto loginDto = new UsuarioLoginDto("teste@example.com", "senha123");
-        Usuario usuario = new Usuario();
+        UsuarioEntity usuario = new UsuarioEntity();
         usuario.setNome("Teste");
         usuario.setEmail("teste@example.com");
-        usuario.setCargo(new Cargo());
+        usuario.setCargo(new CargoEntity());
         usuario.getCargo().setNome("ADMIN");
 
         when(usuarioRepository.findByEmail(loginDto.getEmail())).thenReturn(Optional.of(usuario));
@@ -79,6 +78,6 @@ class UsuarioServiceTest {
                 new UsernamePasswordAuthenticationToken(loginDto.getEmail(), loginDto.getSenha())
         );
         verify(usuarioRepository).findByEmail(loginDto.getEmail());
-        verify(gerenciadorTokenJwt, never()).gerarToken(any(Usuario.class));
+        verify(gerenciadorTokenJwt, never()).gerarToken(any(UsuarioEntity.class));
     }
 }

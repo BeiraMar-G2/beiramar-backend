@@ -7,9 +7,9 @@ import com.beiramar.beiramar.api.dto.cargoDtos.CargoAtualizacaoDto;
 import com.beiramar.beiramar.api.dto.cargoDtos.CargoCadastroDto;
 import com.beiramar.beiramar.api.dto.cargoDtos.CargoListagemDto;
 import com.beiramar.beiramar.api.dto.mapper.CargoMapper;
-import com.beiramar.beiramar.api.entity.Cargo;
-import com.beiramar.beiramar.api.exception.EntidadeNaoEncontradaException;
-import com.beiramar.beiramar.api.repository.CargoRepository;
+import com.beiramar.beiramar.api.infrastructure.persistence.cargopersistence.CargoEntity;
+import com.beiramar.beiramar.api.core.application.exception.EntidadeNaoEncontradaException;
+import com.beiramar.beiramar.api.infrastructure.persistence.cargopersistence.CargoJpaRepository;
 import org.mockito.MockedStatic;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -24,7 +24,7 @@ import java.util.List;
 class CargoServiceTest {
 
     @Mock
-    private CargoRepository cargoRepository;
+    private CargoJpaRepository cargoRepository;
 
     @InjectMocks
     private CargoService cargoService;
@@ -35,10 +35,10 @@ class CargoServiceTest {
         CargoCadastroDto cargoCadastroDto = new CargoCadastroDto();
         cargoCadastroDto.setNome("Esteticista");
 
-        Cargo cargoParaSalvar = new Cargo();
+        CargoEntity cargoParaSalvar = new CargoEntity();
         cargoParaSalvar.setNome("Esteticista");
 
-        Cargo cargoSalvo = new Cargo();
+        CargoEntity cargoSalvo = new CargoEntity();
         cargoSalvo.setIdCargo(1);
         cargoSalvo.setNome("Esteticista");
 
@@ -47,7 +47,7 @@ class CargoServiceTest {
         cargoListagemDto.setNome("Esteticista");
 
         // Mocks do repositório
-        when(cargoRepository.save(any(Cargo.class))).thenReturn(cargoSalvo);
+        when(cargoRepository.save(any(CargoEntity.class))).thenReturn(cargoSalvo);
 
         // Mock do mapper
         try (MockedStatic<CargoMapper> mapperMock = mockStatic(CargoMapper.class)) {
@@ -63,7 +63,7 @@ class CargoServiceTest {
             assertEquals("Esteticista", resultado.getNome());
 
             // Verify
-            verify(cargoRepository).save(any(Cargo.class));
+            verify(cargoRepository).save(any(CargoEntity.class));
             mapperMock.verify(() -> CargoMapper.toEntity(cargoCadastroDto));
             mapperMock.verify(() -> CargoMapper.toDto(cargoSalvo));
         }
@@ -75,10 +75,10 @@ class CargoServiceTest {
         CargoCadastroDto cargoCadastroDto = new CargoCadastroDto();
         cargoCadastroDto.setNome("Recepcionista");
 
-        Cargo cargoParaSalvar = new Cargo();
+        CargoEntity cargoParaSalvar = new CargoEntity();
         cargoParaSalvar.setNome("Recepcionista");
 
-        Cargo cargoSalvo = new Cargo();
+        CargoEntity cargoSalvo = new CargoEntity();
         cargoSalvo.setIdCargo(2);
         cargoSalvo.setNome("Recepcionista");
 
@@ -87,7 +87,7 @@ class CargoServiceTest {
         cargoListagemDto.setNome("Recepcionista");
 
         // Mocks
-        when(cargoRepository.save(any(Cargo.class))).thenReturn(cargoSalvo);
+        when(cargoRepository.save(any(CargoEntity.class))).thenReturn(cargoSalvo);
 
         try (MockedStatic<CargoMapper> mapperMock = mockStatic(CargoMapper.class)) {
             mapperMock.when(() -> CargoMapper.toEntity(cargoCadastroDto)).thenReturn(cargoParaSalvar);
@@ -102,7 +102,7 @@ class CargoServiceTest {
             assertEquals("Recepcionista", resultado.getNome());
 
             // Verify
-            verify(cargoRepository).save(any(Cargo.class));
+            verify(cargoRepository).save(any(CargoEntity.class));
             mapperMock.verify(() -> CargoMapper.toEntity(cargoCadastroDto));
             mapperMock.verify(() -> CargoMapper.toDto(cargoSalvo));
         }
@@ -111,19 +111,19 @@ class CargoServiceTest {
     @Test
     void deveListarTodosCargosComSucesso() {
         // Arrange
-        Cargo cargo1 = new Cargo();
+        CargoEntity cargo1 = new CargoEntity();
         cargo1.setIdCargo(1);
         cargo1.setNome("Esteticista");
 
-        Cargo cargo2 = new Cargo();
+        CargoEntity cargo2 = new CargoEntity();
         cargo2.setIdCargo(2);
         cargo2.setNome("Massoterapeuta");
 
-        Cargo cargo3 = new Cargo();
+        CargoEntity cargo3 = new CargoEntity();
         cargo3.setIdCargo(3);
         cargo3.setNome("Recepcionista");
 
-        List<Cargo> cargos = Arrays.asList(cargo1, cargo2, cargo3);
+        List<CargoEntity> cargos = Arrays.asList(cargo1, cargo2, cargo3);
 
         CargoListagemDto dto1 = new CargoListagemDto();
         dto1.setIdCargo(1);
@@ -175,11 +175,11 @@ class CargoServiceTest {
     @Test
     void deveListarUmCargoComSucesso() {
         // Arrange - teste com apenas um cargo
-        Cargo cargo = new Cargo();
+        CargoEntity cargo = new CargoEntity();
         cargo.setIdCargo(1);
         cargo.setNome("Gerente");
 
-        List<Cargo> cargos = Arrays.asList(cargo);
+        List<CargoEntity> cargos = Arrays.asList(cargo);
 
         CargoListagemDto cargoDto = new CargoListagemDto();
         cargoDto.setIdCargo(1);
@@ -210,7 +210,7 @@ class CargoServiceTest {
     @Test
     void deveLancarExcecaoQuandoNaoHouverCargos() {
         // Arrange
-        List<Cargo> cargosVazio = Collections.emptyList();
+        List<CargoEntity> cargosVazio = Collections.emptyList();
         when(cargoRepository.findAll()).thenReturn(cargosVazio);
 
         // Act & Assert
@@ -248,11 +248,11 @@ class CargoServiceTest {
     @Test
     void deveProcessarCargosComDescricaoNula() {
         // Arrange - teste com cargo sem descrição
-        Cargo cargo = new Cargo();
+        CargoEntity cargo = new CargoEntity();
         cargo.setIdCargo(1);
         cargo.setNome("Auxiliar");
 
-        List<Cargo> cargos = Arrays.asList(cargo);
+        List<CargoEntity> cargos = Arrays.asList(cargo);
 
         CargoListagemDto cargoDto = new CargoListagemDto();
         cargoDto.setIdCargo(1);
@@ -283,7 +283,7 @@ class CargoServiceTest {
     void deveBuscarCargoPorIdComSucesso() {
         // Arrange
         Integer id = 1;
-        Cargo cargo = new Cargo();
+        CargoEntity cargo = new CargoEntity();
         cargo.setIdCargo(id);
         cargo.setNome("Esteticista");
 
@@ -333,11 +333,11 @@ class CargoServiceTest {
         CargoAtualizacaoDto cargoAtualizacaoDto = new CargoAtualizacaoDto();
         cargoAtualizacaoDto.setNome("Manicure");
 
-        Cargo cargoExistente = new Cargo();
+        CargoEntity cargoExistente = new CargoEntity();
         cargoExistente.setIdCargo(id);
         cargoExistente.setNome("Esteticista");
 
-        Cargo cargoAtualizado = new Cargo();
+        CargoEntity cargoAtualizado = new CargoEntity();
         cargoAtualizado.setIdCargo(id);
         cargoAtualizado.setNome("Manicure");
 
@@ -346,7 +346,7 @@ class CargoServiceTest {
         cargoListagemDto.setNome("Manicure");
 
         when(cargoRepository.findById(id)).thenReturn(java.util.Optional.of(cargoExistente));
-        when(cargoRepository.save(any(Cargo.class))).thenReturn(cargoAtualizado);
+        when(cargoRepository.save(any(CargoEntity.class))).thenReturn(cargoAtualizado);
 
         try (MockedStatic<CargoMapper> mapperMock = mockStatic(CargoMapper.class)) {
             mapperMock.when(() -> CargoMapper.toDto(cargoAtualizado)).thenReturn(cargoListagemDto);
@@ -384,7 +384,7 @@ class CargoServiceTest {
 
         assertEquals("Cargo não encontrado", exception.getMessage());
         verify(cargoRepository).findById(id);
-        verify(cargoRepository, never()).save(any(Cargo.class));
+        verify(cargoRepository, never()).save(any(CargoEntity.class));
     }
 
     @Test

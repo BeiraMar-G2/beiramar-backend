@@ -1,6 +1,6 @@
 package com.beiramar.beiramar.api.service;
 
-import com.beiramar.beiramar.api.entity.LogSenha;
+import com.beiramar.beiramar.api.entity.LogSenhaEntity;
 import com.beiramar.beiramar.api.entity.StatusLogSenha;
 import com.beiramar.beiramar.api.repository.LogSenhaRepository;
 import com.sendgrid.Request;
@@ -41,7 +41,7 @@ class EmailServiceTest {
     void enviarCodigoComSucesso() throws IOException {
         String email = "teste@example.com";
         String codigo = "123456";
-        LogSenha log = new LogSenha();
+        LogSenhaEntity log = new LogSenhaEntity();
 
         Request requestMock = mock(Request.class);
         when(sendGrid.api(any(Request.class))).thenReturn(null); // Simula envio sem erro
@@ -58,7 +58,7 @@ class EmailServiceTest {
     void enviarCodigoComErroAoEnviarEmail() throws IOException {
         String email = "teste@example.com";
         String codigo = "123456";
-        LogSenha log = new LogSenha();
+        LogSenhaEntity log = new LogSenhaEntity();
 
         when(sendGrid.api(any(Request.class))).thenThrow(new IOException("Falha no envio"));
 

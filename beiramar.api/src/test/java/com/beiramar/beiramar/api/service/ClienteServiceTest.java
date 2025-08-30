@@ -4,11 +4,11 @@ import com.beiramar.beiramar.api.dto.clienteDtos.ClienteAtualizacaoDto;
 import com.beiramar.beiramar.api.dto.clienteDtos.ClienteCadastroDto;
 import com.beiramar.beiramar.api.dto.clienteDtos.ClienteListagemDto;
 import com.beiramar.beiramar.api.dto.mapper.ClienteMapper;
-import com.beiramar.beiramar.api.entity.Cargo;
-import com.beiramar.beiramar.api.entity.Usuario;
-import com.beiramar.beiramar.api.exception.EntidadeNaoEncontradaException;
-import com.beiramar.beiramar.api.repository.CargoRepository;
-import com.beiramar.beiramar.api.repository.UsuarioRepository;
+import com.beiramar.beiramar.api.infrastructure.persistence.cargopersistence.CargoEntity;
+import com.beiramar.beiramar.api.infrastructure.persistence.usuariopersistence.UsuarioEntity;
+import com.beiramar.beiramar.api.core.application.exception.EntidadeNaoEncontradaException;
+import com.beiramar.beiramar.api.infrastructure.persistence.cargopersistence.CargoJpaRepository;
+import com.beiramar.beiramar.api.infrastructure.persistence.usuariopersistence.UsuarioJpaRepository;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -31,10 +31,10 @@ class ClienteServiceTest {
     private ClienteService clienteService;
 
     @Mock
-    private UsuarioRepository usuarioRepository;
+    private UsuarioJpaRepository usuarioRepository;
 
     @Mock
-    private CargoRepository cargoRepository;
+    private CargoJpaRepository cargoRepository;
 
     @Mock
     private PasswordEncoder passwordEncoder;
@@ -45,14 +45,14 @@ class ClienteServiceTest {
         ClienteCadastroDto dto = new ClienteCadastroDto();
         dto.setSenha("senha123");
 
-        Cargo cargoCliente = new Cargo();
-        Usuario clienteEntity = new Usuario();
-        Usuario usuarioSalvo = new Usuario();
+        CargoEntity cargoCliente = new CargoEntity();
+        UsuarioEntity clienteEntity = new UsuarioEntity();
+        UsuarioEntity usuarioSalvo = new UsuarioEntity();
         ClienteListagemDto clienteDto = new ClienteListagemDto();
 
         when(cargoRepository.findByNomeIgnoreCase("CLIENTE")).thenReturn(Optional.of(cargoCliente));
         when(passwordEncoder.encode(dto.getSenha())).thenReturn("senhaCriptografada");
-        when(usuarioRepository.save(any(Usuario.class))).thenReturn(usuarioSalvo);
+        when(usuarioRepository.save(any(UsuarioEntity.class))).thenReturn(usuarioSalvo);
 
         try (MockedStatic<ClienteMapper> mocked = mockStatic(ClienteMapper.class)) {
             mocked.when(() -> ClienteMapper.toEntity(dto, cargoCliente)).thenReturn(clienteEntity);
@@ -79,9 +79,9 @@ class ClienteServiceTest {
     @Test
     @DisplayName("Deve listar todos os clientes com sucesso")
     void deveListarTodosClientesComSucesso() {
-        Cargo cargoCliente = new Cargo();
-        Usuario usuario1 = new Usuario();
-        Usuario usuario2 = new Usuario();
+        CargoEntity cargoCliente = new CargoEntity();
+        UsuarioEntity usuario1 = new UsuarioEntity();
+        UsuarioEntity usuario2 = new UsuarioEntity();
         ClienteListagemDto dto1 = new ClienteListagemDto();
         ClienteListagemDto dto2 = new ClienteListagemDto();
 
@@ -110,7 +110,7 @@ class ClienteServiceTest {
     @Test
     @DisplayName("Deve buscar cliente por ID com sucesso")
     void deveBuscarClientePorIdComSucesso() {
-        Usuario usuario = new Usuario();
+        UsuarioEntity usuario = new UsuarioEntity();
         ClienteListagemDto clienteDto = new ClienteListagemDto();
 
         when(usuarioRepository.findById(1)).thenReturn(Optional.of(usuario));
@@ -136,7 +136,7 @@ class ClienteServiceTest {
     @Test
     @DisplayName("Deve atualizar cliente com sucesso")
     void deveAtualizarClienteComSucesso() {
-        Usuario usuario = new Usuario();
+        UsuarioEntity usuario = new UsuarioEntity();
         ClienteAtualizacaoDto dto = new ClienteAtualizacaoDto();
         ClienteListagemDto dtoAtualizado = new ClienteListagemDto();
 
@@ -172,7 +172,7 @@ class ClienteServiceTest {
     @Test
     @DisplayName("Deve deletar cliente com sucesso")
     void deveDeletarClienteComSucesso() {
-        Usuario usuario = new Usuario();
+        UsuarioEntity usuario = new UsuarioEntity();
 
         when(usuarioRepository.findById(1)).thenReturn(Optional.of(usuario));
 

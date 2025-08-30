@@ -3,13 +3,13 @@ package com.beiramar.beiramar.api.dto.mapper;
 import com.beiramar.beiramar.api.dto.funcionarioDtos.FuncionarioAtualizacaoDto;
 import com.beiramar.beiramar.api.dto.funcionarioDtos.FuncionarioCadastroDto;
 import com.beiramar.beiramar.api.dto.funcionarioDtos.FuncionarioListagemDto;
-import com.beiramar.beiramar.api.entity.Cargo;
-import com.beiramar.beiramar.api.entity.Usuario;
+import com.beiramar.beiramar.api.infrastructure.persistence.cargopersistence.CargoEntity;
+import com.beiramar.beiramar.api.infrastructure.persistence.usuariopersistence.UsuarioEntity;
 
 public class FuncionarioMapper {
 
-    public static Usuario toEntity(FuncionarioCadastroDto dto, Cargo cargo) {
-        Usuario usuario = new Usuario();
+    public static UsuarioEntity toEntity(FuncionarioCadastroDto dto, CargoEntity cargo) {
+        UsuarioEntity usuario = new UsuarioEntity();
         usuario.setNome(dto.getNome());
         usuario.setEmail(dto.getEmail());
         usuario.setTelefone(dto.getTelefone());
@@ -19,7 +19,7 @@ public class FuncionarioMapper {
         return usuario;
     }
 
-    public static FuncionarioListagemDto toDto(Usuario usuario) {
+    public static FuncionarioListagemDto toDto(UsuarioEntity usuario) {
         return new FuncionarioListagemDto(
                 usuario.getIdUsuario(),
                 usuario.getNome(),
@@ -29,7 +29,7 @@ public class FuncionarioMapper {
         );
     }
 
-    public static void atualizarEntity(Usuario usuario, FuncionarioAtualizacaoDto dto) {
+    public static void atualizarEntity(UsuarioEntity usuario, FuncionarioAtualizacaoDto dto) {
         usuario.setNome(dto.getNome());
         usuario.setEmail(dto.getEmail());
         usuario.setTelefone(dto.getTelefone());

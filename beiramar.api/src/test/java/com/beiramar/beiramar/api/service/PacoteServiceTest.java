@@ -5,7 +5,7 @@ import com.beiramar.beiramar.api.dto.pacoteDtos.PacoteAtualizacaoDto;
 import com.beiramar.beiramar.api.dto.pacoteDtos.PacoteCadastroDto;
 import com.beiramar.beiramar.api.dto.pacoteDtos.PacoteListagemDto;
 import com.beiramar.beiramar.api.entity.Pacote;
-import com.beiramar.beiramar.api.exception.EntidadeNaoEncontradaException;
+import com.beiramar.beiramar.api.core.application.exception.EntidadeNaoEncontradaException;
 import com.beiramar.beiramar.api.repository.PacoteRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -15,7 +15,6 @@ import org.mockito.MockedStatic;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 

@@ -16,7 +16,7 @@ public class LogStatus {
 
     @ManyToOne
     @JoinColumn(name = "fkAgendamento")
-    private Agendamento agendamento;
+    private AgendamentoEntity agendamento;
 
     public Integer getIdLogStatus() {
         return idLogStatus;
@@ -42,11 +42,11 @@ public class LogStatus {
         this.dataAlteracao = dataAlteracao;
     }
 
-    public Agendamento getAgendamento() {
+    public AgendamentoEntity getAgendamento() {
         return agendamento;
     }
 
-    public void setAgendamento(Agendamento agendamento) {
+    public void setAgendamento(AgendamentoEntity agendamento) {
         this.agendamento = agendamento;
     }
 }

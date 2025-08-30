@@ -1,6 +1,6 @@
 package com.beiramar.beiramar.api.dto.autenticacaoDtos;
 
-import com.beiramar.beiramar.api.entity.Usuario;
+import com.beiramar.beiramar.api.infrastructure.persistence.usuariopersistence.UsuarioEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -9,9 +9,9 @@ import java.util.Collections;
 
 public class UsuarioDetalhesDto implements UserDetails {
 
-    private final Usuario usuario;
+    private final UsuarioEntity usuario;
 
-    public UsuarioDetalhesDto(Usuario usuario) {
+    public UsuarioDetalhesDto(UsuarioEntity usuario) {
         this.usuario = usuario;
     }
 
@@ -50,7 +50,7 @@ public class UsuarioDetalhesDto implements UserDetails {
         return true;
     }
 
-    public Usuario getUsuario() {
+    public UsuarioEntity getUsuario() {
         return usuario;
     }
 }

@@ -1,11 +1,13 @@
-package com.beiramar.beiramar.api.entity;
+package com.beiramar.beiramar.api.infrastructure.persistence.cargopersistence;
 
+import com.beiramar.beiramar.api.infrastructure.persistence.usuariopersistence.UsuarioEntity;
 import jakarta.persistence.*;
 
 import java.util.List;
 
 @Entity
-public class Cargo {
+@Table(name = "Cargo")
+public class CargoEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -14,7 +16,7 @@ public class Cargo {
     private String nome;
 
     @OneToMany(mappedBy = "cargo")
-    private List<Usuario> usuarios;
+    private List<UsuarioEntity> usuarios;
 
     public Integer getIdCargo() {
         return idCargo;
@@ -32,11 +34,11 @@ public class Cargo {
         this.nome = nome;
     }
 
-    public List<Usuario> getUsuarios() {
+    public List<UsuarioEntity> getUsuarios() {
         return usuarios;
     }
 
-    public void setUsuarios(List<Usuario> usuarios) {
+    public void setUsuarios(List<UsuarioEntity> usuarios) {
         this.usuarios = usuarios;
     }
 }

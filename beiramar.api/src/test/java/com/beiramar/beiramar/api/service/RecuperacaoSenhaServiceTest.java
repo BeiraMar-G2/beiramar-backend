@@ -1,10 +1,10 @@
 package com.beiramar.beiramar.api.service;
 
-import com.beiramar.beiramar.api.entity.LogSenha;
+import com.beiramar.beiramar.api.entity.LogSenhaEntity;
 import com.beiramar.beiramar.api.entity.StatusLogSenha;
-import com.beiramar.beiramar.api.entity.Usuario;
+import com.beiramar.beiramar.api.infrastructure.persistence.usuariopersistence.UsuarioEntity;
 import com.beiramar.beiramar.api.repository.LogSenhaRepository;
-import com.beiramar.beiramar.api.repository.UsuarioRepository;
+import com.beiramar.beiramar.api.infrastructure.persistence.usuariopersistence.UsuarioJpaRepository;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -25,7 +25,7 @@ class RecuperacaoSenhaServiceTest {
     private RecuperacaoSenhaService recuperacaoSenhaService;
 
     @Mock
-    private UsuarioRepository usuarioRepository;
+    private UsuarioJpaRepository usuarioRepository;
 
     @Mock
     private LogSenhaRepository logSenhaRepository;
@@ -45,15 +45,15 @@ class RecuperacaoSenhaServiceTest {
     @DisplayName("Deve enviar código de recuperação com sucesso")
     void enviarCodigoComSucesso() {
         String email = "teste@example.com";
-        Usuario usuario = new Usuario();
+        UsuarioEntity usuario = new UsuarioEntity();
         usuario.setEmail(email);
 
         when(usuarioRepository.findByEmail(email)).thenReturn(Optional.of(usuario));
 
         recuperacaoSenhaService.enviarCodigo(email);
 
-        verify(logSenhaRepository).save(any(LogSenha.class));
-        verify(emailService).enviarCodigo(eq(email), anyString(), any(LogSenha.class));
+        verify(logSenhaRepository).save(any(LogSenhaEntity.class));
+        verify(emailService).enviarCodigo(eq(email), anyString(), any(LogSenhaEntity.class));
     }
 
     @Test
@@ -65,8 +65,8 @@ class RecuperacaoSenhaServiceTest {
 
         recuperacaoSenhaService.enviarCodigo(email);
 
-        verify(logSenhaRepository, never()).save(any(LogSenha.class));
-        verify(emailService, never()).enviarCodigo(anyString(), anyString(), any(LogSenha.class));
+        verify(logSenhaRepository, never()).save(any(LogSenhaEntity.class));
+        verify(emailService, never()).enviarCodigo(anyString(), anyString(), any(LogSenhaEntity.class));
     }
 
     @Test
@@ -74,9 +74,9 @@ class RecuperacaoSenhaServiceTest {
     void validarCodigoComSucesso() {
         String email = "teste@example.com";
         String codigo = "123456";
-        LogSenha logSenha = new LogSenha();
+        LogSenhaEntity logSenha = new LogSenhaEntity();
         logSenha.setToken(codigo);
-        logSenha.setUsuario(new Usuario());
+        logSenha.setUsuario(new UsuarioEntity());
         logSenha.setDataHoraLogSenha(LocalDateTime.now().minusMinutes(5)); // Dentro do tempo válido
         logSenha.setStatus(StatusLogSenha.COD_CRIADO);
 
@@ -103,7 +103,7 @@ class RecuperacaoSenhaServiceTest {
         boolean resultado = recuperacaoSenhaService.validarCodigo(email, codigo);
 
         assertFalse(resultado);
-        verify(logSenhaRepository, never()).save(any(LogSenha.class));
+        verify(logSenhaRepository, never()).save(any(LogSenhaEntity.class));
         verify(emailService, never()).enviarAutenticacao(anyString());
     }
 
@@ -112,9 +112,9 @@ class RecuperacaoSenhaServiceTest {
     void validarCodigoCodigoExpirado() {
         String email = "teste@example.com";
         String codigo = "123456";
-        LogSenha logSenha = new LogSenha();
+        LogSenhaEntity logSenha = new LogSenhaEntity();
         logSenha.setToken(codigo);
-        logSenha.setUsuario(new Usuario());
+        logSenha.setUsuario(new UsuarioEntity());
         logSenha.setDataHoraLogSenha(LocalDateTime.now().minusMinutes(15)); // Código expirado
         logSenha.setStatus(StatusLogSenha.COD_CRIADO);
 
@@ -124,7 +124,7 @@ class RecuperacaoSenhaServiceTest {
         boolean resultado = recuperacaoSenhaService.validarCodigo(email, codigo);
 
         assertFalse(resultado);
-        verify(logSenhaRepository, never()).save(any(LogSenha.class));
+        verify(logSenhaRepository, never()).save(any(LogSenhaEntity.class));
         verify(emailService, never()).enviarAutenticacao(anyString());
     }
 }

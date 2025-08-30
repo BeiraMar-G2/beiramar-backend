@@ -6,11 +6,13 @@ import com.beiramar.beiramar.api.dto.agendamentosDtos.AgendamentoCadastroDto;
 import com.beiramar.beiramar.api.dto.agendamentosDtos.AgendamentoListagemDto;
 import com.beiramar.beiramar.api.dto.mapper.AgendamentoMapper;
 import com.beiramar.beiramar.api.entity.*;
-import com.beiramar.beiramar.api.exception.EntidadeNaoEncontradaException;
+import com.beiramar.beiramar.api.core.application.exception.EntidadeNaoEncontradaException;
+import com.beiramar.beiramar.api.infrastructure.persistence.cargopersistence.CargoEntity;
+import com.beiramar.beiramar.api.infrastructure.persistence.usuariopersistence.UsuarioEntity;
 import com.beiramar.beiramar.api.repository.AgendamentoRepository;
 import com.beiramar.beiramar.api.repository.PacoteRepository;
 import com.beiramar.beiramar.api.repository.ServicoRepository;
-import com.beiramar.beiramar.api.repository.UsuarioRepository;
+import com.beiramar.beiramar.api.infrastructure.persistence.usuariopersistence.UsuarioJpaRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InOrder;
@@ -19,7 +21,6 @@ import org.mockito.Mock;
 import org.mockito.MockedStatic;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Collections;
@@ -36,7 +37,7 @@ public class AgendamentoServiceTest {
 
 
     @Mock
-    private UsuarioRepository usuarioRepository;
+    private UsuarioJpaRepository usuarioRepository;
 
     @Mock
     private ServicoRepository servicoRepository;
@@ -56,17 +57,17 @@ public class AgendamentoServiceTest {
         dto.setFkServico(3);
         dto.setFkPacote(4);
 
-        Cargo cargo = new Cargo();
+        CargoEntity cargo = new CargoEntity();
         cargo.setIdCargo(1);
         cargo.setNome("Esteticista");
 
-        Usuario funcionario = new Usuario();
+        UsuarioEntity funcionario = new UsuarioEntity();
         funcionario.setIdUsuario(2);
         funcionario.setNome("Funcionário Teste");
         funcionario.setEmail("funcionario@teste.com");
         funcionario.setCargo(cargo);
 
-        Usuario cliente = new Usuario();
+        UsuarioEntity cliente = new UsuarioEntity();
         cliente.setIdUsuario(1);
         cliente.setNome("Cliente Teste");
         cliente.setEmail("cliente@teste.com");
@@ -80,7 +81,7 @@ public class AgendamentoServiceTest {
         pacote.setIdPacote(4);
         pacote.setNome("Pacote Relaxante");
 
-        Agendamento agendamento = new Agendamento();
+        AgendamentoEntity agendamento = new AgendamentoEntity();
         agendamento.setIdAgendamento(99);
         agendamento.setCliente(cliente);
         agendamento.setFuncionario(funcionario);
@@ -96,7 +97,7 @@ public class AgendamentoServiceTest {
         when(usuarioRepository.findById(2)).thenReturn(Optional.of(funcionario));
         when(servicoRepository.findById(3)).thenReturn(Optional.of(servico));
         when(pacoteRepository.findById(4)).thenReturn(Optional.of(pacote));
-        when(agendamentoRepository.save(any(Agendamento.class))).thenReturn(agendamento);
+        when(agendamentoRepository.save(any(AgendamentoEntity.class))).thenReturn(agendamento);
 
         // Mock do mapper - assumindo que seja estático
         try (MockedStatic<AgendamentoMapper> mapperMock = mockStatic(AgendamentoMapper.class)) {
@@ -117,7 +118,7 @@ public class AgendamentoServiceTest {
             verify(usuarioRepository).findById(2);
             verify(servicoRepository).findById(3);
             verify(pacoteRepository).findById(4);
-            verify(agendamentoRepository).save(any(Agendamento.class));
+            verify(agendamentoRepository).save(any(AgendamentoEntity.class));
 
             // Verificações do mapper
             mapperMock.verify(() -> AgendamentoMapper.toEntity(eq(dto), eq(cliente), eq(funcionario), eq(servico), eq(pacote)));
@@ -134,18 +135,18 @@ public class AgendamentoServiceTest {
         dto.setFkServico(3);
         dto.setFkPacote(null); // Sem pacote
 
-        Usuario cliente = new Usuario();
+        UsuarioEntity cliente = new UsuarioEntity();
         cliente.setIdUsuario(1);
         cliente.setNome("Cliente Teste");
 
-        Usuario funcionario = new Usuario();
+        UsuarioEntity funcionario = new UsuarioEntity();
         funcionario.setIdUsuario(2);
         funcionario.setNome("Funcionário Teste");
 
         Servico servico = new Servico();
         servico.setIdServico(3);
 
-        Agendamento agendamento = new Agendamento();
+        AgendamentoEntity agendamento = new AgendamentoEntity();
         agendamento.setIdAgendamento(100);
 
         AgendamentoListagemDto agendamentoListagemDto = new AgendamentoListagemDto();
@@ -155,7 +156,7 @@ public class AgendamentoServiceTest {
         when(usuarioRepository.findById(1)).thenReturn(Optional.of(cliente));
         when(usuarioRepository.findById(2)).thenReturn(Optional.of(funcionario));
         when(servicoRepository.findById(3)).thenReturn(Optional.of(servico));
-        when(agendamentoRepository.save(any(Agendamento.class))).thenReturn(agendamento);
+        when(agendamentoRepository.save(any(AgendamentoEntity.class))).thenReturn(agendamento);
 
         try (MockedStatic<AgendamentoMapper> mapperMock = mockStatic(AgendamentoMapper.class)) {
             mapperMock.when(() -> AgendamentoMapper.toEntity(eq(dto), eq(cliente), eq(funcionario), eq(servico), isNull()))
@@ -174,7 +175,7 @@ public class AgendamentoServiceTest {
             verify(usuarioRepository).findById(2);
             verify(servicoRepository).findById(3);
             verify(pacoteRepository, never()).findById(any());
-            verify(agendamentoRepository).save(any(Agendamento.class));
+            verify(agendamentoRepository).save(any(AgendamentoEntity.class));
         }
     }
 
@@ -203,7 +204,7 @@ public class AgendamentoServiceTest {
         dto.setFkCliente(1);
         dto.setFkFuncionario(999); // ID inexistente
 
-        Usuario cliente = new Usuario();
+        UsuarioEntity cliente = new UsuarioEntity();
         cliente.setIdUsuario(1);
 
         when(usuarioRepository.findById(1)).thenReturn(Optional.of(cliente));
@@ -228,10 +229,10 @@ public class AgendamentoServiceTest {
         dto.setFkFuncionario(2);
         dto.setFkServico(999); // ID inexistente
 
-        Usuario cliente = new Usuario();
+        UsuarioEntity cliente = new UsuarioEntity();
         cliente.setIdUsuario(1);
 
-        Usuario funcionario = new Usuario();
+        UsuarioEntity funcionario = new UsuarioEntity();
         funcionario.setIdUsuario(2);
 
         when(usuarioRepository.findById(1)).thenReturn(Optional.of(cliente));
@@ -253,15 +254,15 @@ public class AgendamentoServiceTest {
     @Test
     void deveListarTodosAgendamentosComSucesso() {
         // Arrange
-        Usuario cliente1 = new Usuario();
+        UsuarioEntity cliente1 = new UsuarioEntity();
         cliente1.setIdUsuario(1);
         cliente1.setNome("Cliente 1");
 
-        Usuario cliente2 = new Usuario();
+        UsuarioEntity cliente2 = new UsuarioEntity();
         cliente2.setIdUsuario(2);
         cliente2.setNome("Cliente 2");
 
-        Usuario funcionario = new Usuario();
+        UsuarioEntity funcionario = new UsuarioEntity();
         funcionario.setIdUsuario(3);
         funcionario.setNome("Funcionário Teste");
 
@@ -273,19 +274,19 @@ public class AgendamentoServiceTest {
         servico2.setIdServico(2);
         servico2.setNome("Massagem");
 
-        Agendamento agendamento1 = new Agendamento();
+        AgendamentoEntity agendamento1 = new AgendamentoEntity();
         agendamento1.setIdAgendamento(1);
         agendamento1.setCliente(cliente1);
         agendamento1.setFuncionario(funcionario);
         agendamento1.setServico(servico1);
 
-        Agendamento agendamento2 = new Agendamento();
+        AgendamentoEntity agendamento2 = new AgendamentoEntity();
         agendamento2.setIdAgendamento(2);
         agendamento2.setCliente(cliente2);
         agendamento2.setFuncionario(funcionario);
         agendamento2.setServico(servico2);
 
-        List<Agendamento> agendamentos = Arrays.asList(agendamento1, agendamento2);
+        List<AgendamentoEntity> agendamentos = Arrays.asList(agendamento1, agendamento2);
 
         AgendamentoListagemDto dto1 = new AgendamentoListagemDto(
                 1, "Cliente 1", "Funcionário Teste", "Limpeza de Pele",
@@ -326,7 +327,7 @@ public class AgendamentoServiceTest {
     @Test
     void deveRetornarListaVaziaQuandoNaoHouverAgendamentos() {
         // Arrange
-        List<Agendamento> agendamentosVazio = Collections.emptyList();
+        List<AgendamentoEntity> agendamentosVazio = Collections.emptyList();
         when(agendamentoRepository.findAll()).thenReturn(agendamentosVazio);
 
         // Act
@@ -346,11 +347,11 @@ public class AgendamentoServiceTest {
         // Arrange
         Integer idBuscado = 1;
 
-        Usuario cliente = new Usuario();
+        UsuarioEntity cliente = new UsuarioEntity();
         cliente.setIdUsuario(1);
         cliente.setNome("Cliente Teste");
 
-        Usuario funcionario = new Usuario();
+        UsuarioEntity funcionario = new UsuarioEntity();
         funcionario.setIdUsuario(2);
         funcionario.setNome("Funcionário Teste");
 
@@ -358,7 +359,7 @@ public class AgendamentoServiceTest {
         servico.setIdServico(1);
         servico.setNome("Limpeza de Pele");
 
-        Agendamento agendamento = new Agendamento();
+        AgendamentoEntity agendamento = new AgendamentoEntity();
         agendamento.setIdAgendamento(idBuscado);
         agendamento.setCliente(cliente);
         agendamento.setFuncionario(funcionario);
@@ -421,11 +422,11 @@ public class AgendamentoServiceTest {
         // Arrange - teste com pacote incluído
         Integer idBuscado = 1;
 
-        Usuario cliente = new Usuario();
+        UsuarioEntity cliente = new UsuarioEntity();
         cliente.setIdUsuario(1);
         cliente.setNome("Cliente VIP");
 
-        Usuario funcionario = new Usuario();
+        UsuarioEntity funcionario = new UsuarioEntity();
         funcionario.setIdUsuario(2);
         funcionario.setNome("Funcionário Especialista");
 
@@ -437,7 +438,7 @@ public class AgendamentoServiceTest {
         pacote.setIdPacote(1);
         pacote.setNome("Pacote Premium");
 
-        Agendamento agendamento = new Agendamento();
+        AgendamentoEntity agendamento = new AgendamentoEntity();
         agendamento.setIdAgendamento(idBuscado);
         agendamento.setCliente(cliente);
         agendamento.setFuncionario(funcionario);
@@ -487,11 +488,11 @@ public class AgendamentoServiceTest {
         atualizacaoDto.setStatus("CONFIRMADO");
         atualizacaoDto.setValorPago(200.00);
 
-        Usuario cliente = new Usuario();
+        UsuarioEntity cliente = new UsuarioEntity();
         cliente.setIdUsuario(1);
         cliente.setNome("Cliente Teste");
 
-        Usuario funcionario = new Usuario();
+        UsuarioEntity funcionario = new UsuarioEntity();
         funcionario.setIdUsuario(2);
         funcionario.setNome("Funcionário Teste");
 
@@ -500,7 +501,7 @@ public class AgendamentoServiceTest {
         servico.setNome("Limpeza de Pele");
 
         // Agendamento antes da atualização
-        Agendamento agendamentoOriginal = new Agendamento();
+        AgendamentoEntity agendamentoOriginal = new AgendamentoEntity();
         agendamentoOriginal.setIdAgendamento(idAgendamento);
         agendamentoOriginal.setCliente(cliente);
         agendamentoOriginal.setFuncionario(funcionario);
@@ -510,7 +511,7 @@ public class AgendamentoServiceTest {
         agendamentoOriginal.setValorPago(150.00);
 
         // Agendamento após a atualização (simulado)
-        Agendamento agendamentoAtualizado = new Agendamento();
+        AgendamentoEntity agendamentoAtualizado = new AgendamentoEntity();
         agendamentoAtualizado.setIdAgendamento(idAgendamento);
         agendamentoAtualizado.setCliente(cliente);
         agendamentoAtualizado.setFuncionario(funcionario);
@@ -572,7 +573,7 @@ public class AgendamentoServiceTest {
 
         // Verify
         verify(agendamentoRepository).findById(idInexistente);
-        verify(agendamentoRepository, never()).save(any(Agendamento.class));
+        verify(agendamentoRepository, never()).save(any(AgendamentoEntity.class));
     }
 
     @Test
@@ -584,16 +585,16 @@ public class AgendamentoServiceTest {
         atualizacaoDto.setDtHora(LocalDateTime.of(2024, 12, 25, 10, 0));
         // Outros campos ficam null/vazios
 
-        Usuario cliente = new Usuario();
+        UsuarioEntity cliente = new UsuarioEntity();
         cliente.setIdUsuario(1);
         cliente.setNome("Cliente Premium");
 
-        Agendamento agendamentoOriginal = new Agendamento();
+        AgendamentoEntity agendamentoOriginal = new AgendamentoEntity();
         agendamentoOriginal.setIdAgendamento(idAgendamento);
         agendamentoOriginal.setCliente(cliente);
         agendamentoOriginal.setStatus("AGENDADO");
 
-        Agendamento agendamentoAtualizado = new Agendamento();
+        AgendamentoEntity agendamentoAtualizado = new AgendamentoEntity();
         agendamentoAtualizado.setIdAgendamento(idAgendamento);
         agendamentoAtualizado.setCliente(cliente);
         agendamentoAtualizado.setDtHora(LocalDateTime.of(2024, 12, 25, 10, 0));

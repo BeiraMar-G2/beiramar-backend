@@ -3,7 +3,7 @@ package com.beiramar.beiramar.api.controller;
 import com.beiramar.beiramar.api.dto.servicoDtos.ServicoCadastroDto;
 import com.beiramar.beiramar.api.dto.servicoDtos.ServicoListagemDto;
 import com.beiramar.beiramar.api.dto.servicoDtos.ServicoListagemIdNomeDto;
-import com.beiramar.beiramar.api.exception.EntidadeNaoEncontradaException;
+import com.beiramar.beiramar.api.core.application.exception.EntidadeNaoEncontradaException;
 import com.beiramar.beiramar.api.service.ServicoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

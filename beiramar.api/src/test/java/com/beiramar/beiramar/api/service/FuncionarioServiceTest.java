@@ -4,11 +4,11 @@ import com.beiramar.beiramar.api.dto.funcionarioDtos.FuncionarioAtualizacaoDto;
 import com.beiramar.beiramar.api.dto.funcionarioDtos.FuncionarioCadastroDto;
 import com.beiramar.beiramar.api.dto.funcionarioDtos.FuncionarioListagemDto;
 import com.beiramar.beiramar.api.dto.mapper.FuncionarioMapper;
-import com.beiramar.beiramar.api.entity.Cargo;
-import com.beiramar.beiramar.api.entity.Usuario;
-import com.beiramar.beiramar.api.exception.EntidadeNaoEncontradaException;
-import com.beiramar.beiramar.api.repository.CargoRepository;
-import com.beiramar.beiramar.api.repository.UsuarioRepository;
+import com.beiramar.beiramar.api.infrastructure.persistence.cargopersistence.CargoEntity;
+import com.beiramar.beiramar.api.infrastructure.persistence.usuariopersistence.UsuarioEntity;
+import com.beiramar.beiramar.api.core.application.exception.EntidadeNaoEncontradaException;
+import com.beiramar.beiramar.api.infrastructure.persistence.cargopersistence.CargoJpaRepository;
+import com.beiramar.beiramar.api.infrastructure.persistence.usuariopersistence.UsuarioJpaRepository;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -31,10 +31,10 @@ class FuncionarioServiceTest {
     private FuncionarioService funcionarioService;
 
     @Mock
-    private UsuarioRepository usuarioRepository;
+    private UsuarioJpaRepository usuarioRepository;
 
     @Mock
-    private CargoRepository cargoRepository;
+    private CargoJpaRepository cargoRepository;
 
     @Mock
     private PasswordEncoder passwordEncoder;
@@ -45,16 +45,16 @@ class FuncionarioServiceTest {
         FuncionarioCadastroDto dto = new FuncionarioCadastroDto();
         dto.setSenha("senha123");
 
-        Cargo cargoFuncionario = new Cargo();
-        Usuario funcionarioEntity = new Usuario();
-        Usuario usuarioSalvo = new Usuario();
+        CargoEntity cargoFuncionario = new CargoEntity();
+        UsuarioEntity funcionarioEntity = new UsuarioEntity();
+        UsuarioEntity usuarioSalvo = new UsuarioEntity();
         FuncionarioListagemDto funcionarioDto = new FuncionarioListagemDto();
 
         when(cargoRepository.findByNomeIgnoreCase("FUNCIONARIO")).thenReturn(Optional.of(cargoFuncionario));
 
 
         when(passwordEncoder.encode(anyString())).thenReturn("senhaCriptografada");
-        when(usuarioRepository.save(any(Usuario.class))).thenReturn(usuarioSalvo);
+        when(usuarioRepository.save(any(UsuarioEntity.class))).thenReturn(usuarioSalvo);
 
         try (MockedStatic<FuncionarioMapper> mocked = mockStatic(FuncionarioMapper.class)) {
             mocked.when(() -> FuncionarioMapper.toEntity(dto, cargoFuncionario)).thenReturn(funcionarioEntity);
@@ -84,9 +84,9 @@ class FuncionarioServiceTest {
     @Test
     @DisplayName("Deve listar todos os funcionários com sucesso")
     void deveListarTodosFuncionariosComSucesso() {
-        Cargo cargoFuncionario = new Cargo();
-        Usuario usuario1 = new Usuario();
-        Usuario usuario2 = new Usuario();
+        CargoEntity cargoFuncionario = new CargoEntity();
+        UsuarioEntity usuario1 = new UsuarioEntity();
+        UsuarioEntity usuario2 = new UsuarioEntity();
         FuncionarioListagemDto dto1 = new FuncionarioListagemDto();
         FuncionarioListagemDto dto2 = new FuncionarioListagemDto();
 
@@ -115,7 +115,7 @@ class FuncionarioServiceTest {
     @Test
     @DisplayName("Deve buscar funcionário por ID com sucesso")
     void deveBuscarFuncionarioPorIdComSucesso() {
-        Usuario usuario = new Usuario();
+        UsuarioEntity usuario = new UsuarioEntity();
         FuncionarioListagemDto funcionarioDto = new FuncionarioListagemDto();
 
         when(usuarioRepository.findById(1)).thenReturn(Optional.of(usuario));
@@ -141,7 +141,7 @@ class FuncionarioServiceTest {
     @Test
     @DisplayName("Deve atualizar funcionário com sucesso")
     void deveAtualizarFuncionarioComSucesso() {
-        Usuario usuario = new Usuario();
+        UsuarioEntity usuario = new UsuarioEntity();
         FuncionarioAtualizacaoDto dto = new FuncionarioAtualizacaoDto();
         FuncionarioListagemDto dtoAtualizado = new FuncionarioListagemDto();
 
@@ -177,7 +177,7 @@ class FuncionarioServiceTest {
     @Test
     @DisplayName("Deve deletar funcionário com sucesso")
     void deveDeletarFuncionarioComSucesso() {
-        Usuario usuario = new Usuario();
+        UsuarioEntity usuario = new UsuarioEntity();
 
         when(usuarioRepository.findById(1)).thenReturn(Optional.of(usuario));
 

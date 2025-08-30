@@ -4,21 +4,21 @@ import com.beiramar.beiramar.api.dto.valorPacoteDtos.ValorPacoteAtualizacaoDto;
 import com.beiramar.beiramar.api.dto.valorPacoteDtos.ValorPacoteCadastroDto;
 import com.beiramar.beiramar.api.dto.valorPacoteDtos.ValorPacoteListagemDto;
 import com.beiramar.beiramar.api.entity.Pacote;
-import com.beiramar.beiramar.api.entity.Usuario;
-import com.beiramar.beiramar.api.entity.ValorPacote;
+import com.beiramar.beiramar.api.infrastructure.persistence.usuariopersistence.UsuarioEntity;
+import com.beiramar.beiramar.api.entity.ValorPacoteEntity;
 
 public class ValorPacoteMapper {
 
-    public static ValorPacote toEntity(ValorPacoteCadastroDto dto, Usuario usuario, Pacote pacote){
+    public static ValorPacoteEntity toEntity(ValorPacoteCadastroDto dto, UsuarioEntity usuario, Pacote pacote){
 
-        ValorPacote valorPacote = new ValorPacote();
+        ValorPacoteEntity valorPacote = new ValorPacoteEntity();
         valorPacote.setUsuario(usuario);
         valorPacote.setPacote(pacote);
         valorPacote.setValorTotal(dto.getValorTotal());
         return valorPacote;
     }
 
-    public static ValorPacoteListagemDto toDto(ValorPacote valorPacote){
+    public static ValorPacoteListagemDto toDto(ValorPacoteEntity valorPacote){
         return new ValorPacoteListagemDto(
                 valorPacote.getIdValorPacote(),
                 valorPacote.getValorTotal(),
@@ -27,7 +27,7 @@ public class ValorPacoteMapper {
         );
     }
 
-    public static void AtualizarEntity(ValorPacote valorPacote, ValorPacoteAtualizacaoDto dto){
+    public static void AtualizarEntity(ValorPacoteEntity valorPacote, ValorPacoteAtualizacaoDto dto){
         valorPacote.setValorTotal(dto.getValorTotal());
     }
 }

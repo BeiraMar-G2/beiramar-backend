@@ -3,14 +3,14 @@ package com.beiramar.beiramar.api.dto.mapper;
 import com.beiramar.beiramar.api.dto.disponibilidadeDtos.DisponibilidadeAtualizacaoDto;
 import com.beiramar.beiramar.api.dto.disponibilidadeDtos.DisponibilidadeCadastroDto;
 import com.beiramar.beiramar.api.dto.disponibilidadeDtos.DisponibilidadeListagemDto;
-import com.beiramar.beiramar.api.entity.Disponibilidade;
-import com.beiramar.beiramar.api.entity.Usuario;
+import com.beiramar.beiramar.api.entity.DisponibilidadeEntity;
+import com.beiramar.beiramar.api.infrastructure.persistence.usuariopersistence.UsuarioEntity;
 
 public class DisponibilidadeMapper {
 
-    public static Disponibilidade toEntity(DisponibilidadeCadastroDto dto, Usuario funcionario){
+    public static DisponibilidadeEntity toEntity(DisponibilidadeCadastroDto dto, UsuarioEntity funcionario){
 
-        Disponibilidade disponibilidade = new Disponibilidade();
+        DisponibilidadeEntity disponibilidade = new DisponibilidadeEntity();
         disponibilidade.setFuncionario(funcionario);
         disponibilidade.setDiaSemana(dto.getDiaSemana());
         disponibilidade.setHoraInicio(dto.getHoraInicio());
@@ -21,7 +21,7 @@ public class DisponibilidadeMapper {
         return disponibilidade;
     }
 
-    public static DisponibilidadeListagemDto toDto(Disponibilidade disponibilidade){
+    public static DisponibilidadeListagemDto toDto(DisponibilidadeEntity disponibilidade){
         return new DisponibilidadeListagemDto(
                 disponibilidade.getIdDisponibilidade(),
                 disponibilidade.getDiaSemana(),
@@ -34,7 +34,7 @@ public class DisponibilidadeMapper {
         );
     }
 
-    public static void AtualizarEntity(Disponibilidade disponibilidade, DisponibilidadeAtualizacaoDto dto){
+    public static void AtualizarEntity(DisponibilidadeEntity disponibilidade, DisponibilidadeAtualizacaoDto dto){
         disponibilidade.setDiaSemana(dto.getDiaSemana());
         disponibilidade.setHoraInicio(dto.getHoraInicio());
         disponibilidade.setHoraFim(dto.getHoraFim());

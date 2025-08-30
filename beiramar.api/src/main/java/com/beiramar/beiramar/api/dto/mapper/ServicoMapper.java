@@ -3,7 +3,6 @@ package com.beiramar.beiramar.api.dto.mapper;
 
 import com.beiramar.beiramar.api.dto.servicoDtos.ServicoCadastroDto;
 import com.beiramar.beiramar.api.dto.servicoDtos.ServicoListagemDto;
-import com.beiramar.beiramar.api.dto.servicoDtos.ServicoListagemIdNomeDto;
 import com.beiramar.beiramar.api.entity.Servico;
 
 public class ServicoMapper {

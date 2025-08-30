@@ -1,6 +1,6 @@
 package com.beiramar.beiramar.api.config;
 
-import com.beiramar.beiramar.api.entity.Usuario;
+import com.beiramar.beiramar.api.infrastructure.persistence.usuariopersistence.UsuarioEntity;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -19,7 +19,7 @@ public class GerenciadorTokenJwt {
     @Value("${jwt.validity}")
     private long validade;
 
-    public String gerarToken(Usuario usuario) {
+    public String gerarToken(UsuarioEntity usuario) {
         return Jwts.builder()
                 .setSubject(usuario.getEmail())
                 .setIssuedAt(new Date())

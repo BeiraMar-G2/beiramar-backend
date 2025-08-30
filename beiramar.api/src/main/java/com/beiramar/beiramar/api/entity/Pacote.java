@@ -22,10 +22,10 @@ public class Pacote {
     private List<SessoesPacote> sessoes;
 
     @OneToMany(mappedBy = "pacote")
-    private List<Agendamento> agendamentos;
+    private List<AgendamentoEntity> agendamentos;
 
     @OneToMany(mappedBy = "pacote")
-    private List<ValorPacote> valoresPacote;
+    private List<ValorPacoteEntity> valoresPacote;
 
 
     public Pacote(Integer id, String nome, Double preco, Integer qtdSessoes, Integer diasLimite){
@@ -84,19 +84,19 @@ public class Pacote {
         this.sessoes = sessoes;
     }
 
-    public List<Agendamento> getAgendamentos() {
+    public List<AgendamentoEntity> getAgendamentos() {
         return agendamentos;
     }
 
-    public void setAgendamentos(List<Agendamento> agendamentos) {
+    public void setAgendamentos(List<AgendamentoEntity> agendamentos) {
         this.agendamentos = agendamentos;
     }
 
-    public List<ValorPacote> getValoresPacote() {
+    public List<ValorPacoteEntity> getValoresPacote() {
         return valoresPacote;
     }
 
-    public void setValoresPacote(List<ValorPacote> valoresPacote) {
+    public void setValoresPacote(List<ValorPacoteEntity> valoresPacote) {
         this.valoresPacote = valoresPacote;
     }
 }

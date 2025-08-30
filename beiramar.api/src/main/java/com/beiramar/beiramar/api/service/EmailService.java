@@ -1,6 +1,6 @@
 package com.beiramar.beiramar.api.service;
 
-import com.beiramar.beiramar.api.entity.LogSenha;
+import com.beiramar.beiramar.api.entity.LogSenhaEntity;
 import com.beiramar.beiramar.api.entity.StatusLogSenha;
 import com.beiramar.beiramar.api.repository.LogSenhaRepository;
 import com.sendgrid.Method;
@@ -23,7 +23,7 @@ public class EmailService {
     @Autowired
     private LogSenhaRepository logSenhaRepository;
 
-    public void enviarCodigo(String email, String codigo, LogSenha log){
+    public void enviarCodigo(String email, String codigo, LogSenhaEntity log){
         Email from = new Email("beiramar.estetica@gmail.com");
         String subject = "Código de recuperação se senha";
         Email to = new Email(email);

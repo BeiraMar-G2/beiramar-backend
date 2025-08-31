@@ -3,13 +3,13 @@ package com.beiramar.beiramar.api.dto.mapper;
 import com.beiramar.beiramar.api.dto.valorPacoteDtos.ValorPacoteAtualizacaoDto;
 import com.beiramar.beiramar.api.dto.valorPacoteDtos.ValorPacoteCadastroDto;
 import com.beiramar.beiramar.api.dto.valorPacoteDtos.ValorPacoteListagemDto;
-import com.beiramar.beiramar.api.entity.Pacote;
+import com.beiramar.beiramar.api.infrastructure.persistence.pacotepersistence.PacoteEntity;
 import com.beiramar.beiramar.api.infrastructure.persistence.usuariopersistence.UsuarioEntity;
 import com.beiramar.beiramar.api.entity.ValorPacoteEntity;
 
 public class ValorPacoteMapper {
 
-    public static ValorPacoteEntity toEntity(ValorPacoteCadastroDto dto, UsuarioEntity usuario, Pacote pacote){
+    public static ValorPacoteEntity toEntity(ValorPacoteCadastroDto dto, UsuarioEntity usuario, PacoteEntity pacote){
 
         ValorPacoteEntity valorPacote = new ValorPacoteEntity();
         valorPacote.setUsuario(usuario);

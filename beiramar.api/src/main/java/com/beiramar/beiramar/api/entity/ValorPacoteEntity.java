@@ -1,5 +1,6 @@
 package com.beiramar.beiramar.api.entity;
 
+import com.beiramar.beiramar.api.infrastructure.persistence.pacotepersistence.PacoteEntity;
 import com.beiramar.beiramar.api.infrastructure.persistence.usuariopersistence.UsuarioEntity;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
@@ -20,7 +21,7 @@ public class ValorPacoteEntity {
 
     @ManyToOne
     @JoinColumn(name = "fkPacote")
-    private Pacote pacote;
+    private PacoteEntity pacote;
 
 
     public Integer getIdValorPacote() {
@@ -47,11 +48,11 @@ public class ValorPacoteEntity {
         this.usuario = usuario;
     }
 
-    public Pacote getPacote() {
+    public PacoteEntity getPacote() {
         return pacote;
     }
 
-    public void setPacote(Pacote pacote) {
+    public void setPacote(PacoteEntity pacote) {
         this.pacote = pacote;
     }
 }

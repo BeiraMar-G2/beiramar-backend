@@ -1,13 +1,17 @@
-package com.beiramar.beiramar.api.entity;
+package com.beiramar.beiramar.api.infrastructure.persistence.pacotepersistence;
 
+import com.beiramar.beiramar.api.entity.AgendamentoEntity;
+import com.beiramar.beiramar.api.entity.SessoesPacote;
+import com.beiramar.beiramar.api.entity.ValorPacoteEntity;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 
 import java.util.List;
 
 @Entity
+@Table(name = "Pacote")
 @Schema(description = "Pacote de serviços")
-public class Pacote {
+public class PacoteEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,11 +32,11 @@ public class Pacote {
     private List<ValorPacoteEntity> valoresPacote;
 
 
-    public Pacote(Integer id, String nome, Double preco, Integer qtdSessoes, Integer diasLimite){
+    public PacoteEntity(Integer id, String nome, Double preco, Integer qtdSessoes, Integer diasLimite){
 
     }
 
-    public Pacote() {
+    public PacoteEntity() {
 
     }
 

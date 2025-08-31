@@ -1,13 +1,16 @@
-package com.beiramar.beiramar.api.entity;
+package com.beiramar.beiramar.api.infrastructure.persistence.servicopersistence;
 
+import com.beiramar.beiramar.api.entity.AgendamentoEntity;
+import com.beiramar.beiramar.api.entity.SessoesPacote;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 
 import java.util.List;
 
 @Entity
+@Table(name = "Servico")
 @Schema(description = "Serviços cadastrados no sistema")
-public class Servico {
+public class ServicoEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,10 +29,10 @@ public class Servico {
     @OneToMany(mappedBy = "servico")
     private List<SessoesPacote> sessoes;
 
-    public Servico(Integer id, String nome, Integer duracao, Double preco, String descricao){
+    public ServicoEntity(Integer id, String nome, Integer duracao, Double preco, String descricao){
     }
 
-    public Servico() {
+    public ServicoEntity() {
 
     }
 

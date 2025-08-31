@@ -4,12 +4,12 @@ import com.beiramar.beiramar.api.dto.mapper.SessoesPacoteMapper;
 import com.beiramar.beiramar.api.dto.sessaoPacoteDtos.SessoesPacoteAtualizacaoDto;
 import com.beiramar.beiramar.api.dto.sessaoPacoteDtos.SessoesPacoteCadastroDto;
 import com.beiramar.beiramar.api.dto.sessaoPacoteDtos.SessoesPacoteListagemDto;
-import com.beiramar.beiramar.api.entity.Pacote;
-import com.beiramar.beiramar.api.entity.Servico;
+import com.beiramar.beiramar.api.infrastructure.persistence.pacotepersistence.PacoteEntity;
+import com.beiramar.beiramar.api.infrastructure.persistence.servicopersistence.ServicoEntity;
 import com.beiramar.beiramar.api.entity.SessoesPacote;
 import com.beiramar.beiramar.api.core.application.exception.EntidadeNaoEncontradaException;
-import com.beiramar.beiramar.api.repository.PacoteRepository;
-import com.beiramar.beiramar.api.repository.ServicoRepository;
+import com.beiramar.beiramar.api.infrastructure.persistence.pacotepersistence.PacoteJpaRepository;
+import com.beiramar.beiramar.api.infrastructure.persistence.servicopersistence.ServicoJpaRepository;
 import com.beiramar.beiramar.api.repository.SessoesPacoteRepository;
 import org.springframework.stereotype.Service;
 
@@ -20,10 +20,10 @@ import java.util.stream.Collectors;
 public class SessoesPacoteService {
 
     private final SessoesPacoteRepository sessoesPacoteRepository;
-    private final PacoteRepository pacoteRepository;
-    private final ServicoRepository servicoRepository;
+    private final PacoteJpaRepository pacoteRepository;
+    private final ServicoJpaRepository servicoRepository;
 
-    public SessoesPacoteService(SessoesPacoteRepository sessoesPacoteRepository, PacoteRepository pacoteRepository, ServicoRepository servicoRepository) {
+    public SessoesPacoteService(SessoesPacoteRepository sessoesPacoteRepository, PacoteJpaRepository pacoteRepository, ServicoJpaRepository servicoRepository) {
         this.sessoesPacoteRepository = sessoesPacoteRepository;
         this.pacoteRepository = pacoteRepository;
         this.servicoRepository = servicoRepository;
@@ -31,10 +31,10 @@ public class SessoesPacoteService {
 
     public SessoesPacoteListagemDto cadastrar(SessoesPacoteCadastroDto dto){
 
-        Servico servico = servicoRepository.findById(dto.getFkServico())
+        ServicoEntity servico = servicoRepository.findById(dto.getFkServico())
                 .orElseThrow(() -> new EntidadeNaoEncontradaException("Serviço não encontrado"));
 
-        Pacote pacote = pacoteRepository.findById(dto.getFkPacote())
+        PacoteEntity pacote = pacoteRepository.findById(dto.getFkPacote())
                 .orElseThrow(() -> new EntidadeNaoEncontradaException("Pacote não encontrado"));
 
         SessoesPacote sessoesPacote = SessoesPacoteMapper.toEntity(dto, pacote, servico);

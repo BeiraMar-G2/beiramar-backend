@@ -8,10 +8,12 @@ import com.beiramar.beiramar.api.dto.mapper.AgendamentoMapper;
 import com.beiramar.beiramar.api.entity.*;
 import com.beiramar.beiramar.api.core.application.exception.EntidadeNaoEncontradaException;
 import com.beiramar.beiramar.api.infrastructure.persistence.cargopersistence.CargoEntity;
+import com.beiramar.beiramar.api.infrastructure.persistence.pacotepersistence.PacoteEntity;
+import com.beiramar.beiramar.api.infrastructure.persistence.servicopersistence.ServicoEntity;
 import com.beiramar.beiramar.api.infrastructure.persistence.usuariopersistence.UsuarioEntity;
 import com.beiramar.beiramar.api.repository.AgendamentoRepository;
-import com.beiramar.beiramar.api.repository.PacoteRepository;
-import com.beiramar.beiramar.api.repository.ServicoRepository;
+import com.beiramar.beiramar.api.infrastructure.persistence.pacotepersistence.PacoteJpaRepository;
+import com.beiramar.beiramar.api.infrastructure.persistence.servicopersistence.ServicoJpaRepository;
 import com.beiramar.beiramar.api.infrastructure.persistence.usuariopersistence.UsuarioJpaRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -40,10 +42,10 @@ public class AgendamentoServiceTest {
     private UsuarioJpaRepository usuarioRepository;
 
     @Mock
-    private ServicoRepository servicoRepository;
+    private ServicoJpaRepository servicoRepository;
 
     @Mock
-    private PacoteRepository pacoteRepository;
+    private PacoteJpaRepository pacoteRepository;
 
     @Mock
     private AgendamentoRepository agendamentoRepository;
@@ -72,12 +74,12 @@ public class AgendamentoServiceTest {
         cliente.setNome("Cliente Teste");
         cliente.setEmail("cliente@teste.com");
 
-        Servico servico = new Servico();
+        ServicoEntity servico = new ServicoEntity();
         servico.setIdServico(3);
         servico.setNome("Limpeza de Pele");
         servico.setPreco(150.00);
 
-        Pacote pacote = new Pacote();
+        PacoteEntity pacote = new PacoteEntity();
         pacote.setIdPacote(4);
         pacote.setNome("Pacote Relaxante");
 
@@ -143,7 +145,7 @@ public class AgendamentoServiceTest {
         funcionario.setIdUsuario(2);
         funcionario.setNome("Funcionário Teste");
 
-        Servico servico = new Servico();
+        ServicoEntity servico = new ServicoEntity();
         servico.setIdServico(3);
 
         AgendamentoEntity agendamento = new AgendamentoEntity();
@@ -266,11 +268,11 @@ public class AgendamentoServiceTest {
         funcionario.setIdUsuario(3);
         funcionario.setNome("Funcionário Teste");
 
-        Servico servico1 = new Servico();
+        ServicoEntity servico1 = new ServicoEntity();
         servico1.setIdServico(1);
         servico1.setNome("Limpeza de Pele");
 
-        Servico servico2 = new Servico();
+        ServicoEntity servico2 = new ServicoEntity();
         servico2.setIdServico(2);
         servico2.setNome("Massagem");
 
@@ -355,7 +357,7 @@ public class AgendamentoServiceTest {
         funcionario.setIdUsuario(2);
         funcionario.setNome("Funcionário Teste");
 
-        Servico servico = new Servico();
+        ServicoEntity servico = new ServicoEntity();
         servico.setIdServico(1);
         servico.setNome("Limpeza de Pele");
 
@@ -430,11 +432,11 @@ public class AgendamentoServiceTest {
         funcionario.setIdUsuario(2);
         funcionario.setNome("Funcionário Especialista");
 
-        Servico servico = new Servico();
+        ServicoEntity servico = new ServicoEntity();
         servico.setIdServico(1);
         servico.setNome("Tratamento Completo");
 
-        Pacote pacote = new Pacote();
+        PacoteEntity pacote = new PacoteEntity();
         pacote.setIdPacote(1);
         pacote.setNome("Pacote Premium");
 
@@ -496,7 +498,7 @@ public class AgendamentoServiceTest {
         funcionario.setIdUsuario(2);
         funcionario.setNome("Funcionário Teste");
 
-        Servico servico = new Servico();
+        ServicoEntity servico = new ServicoEntity();
         servico.setIdServico(1);
         servico.setNome("Limpeza de Pele");
 

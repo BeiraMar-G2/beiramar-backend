@@ -3,12 +3,12 @@ package com.beiramar.beiramar.api.dto.mapper;
 import com.beiramar.beiramar.api.dto.pacoteDtos.PacoteAtualizacaoDto;
 import com.beiramar.beiramar.api.dto.pacoteDtos.PacoteCadastroDto;
 import com.beiramar.beiramar.api.dto.pacoteDtos.PacoteListagemDto;
-import com.beiramar.beiramar.api.entity.Pacote;
+import com.beiramar.beiramar.api.infrastructure.persistence.pacotepersistence.PacoteEntity;
 
 public class PacoteMapper {
 
-    public static Pacote toEntity(PacoteCadastroDto dto) {
-        Pacote pacote = new Pacote();
+    public static PacoteEntity toEntity(PacoteCadastroDto dto) {
+        PacoteEntity pacote = new PacoteEntity();
         pacote.setNome(dto.getNome());
         pacote.setPrecoTotalSemDesconto(dto.getPrecoTotalSemDesconto());
         pacote.setQtdSessoesTotal(dto.getQtdSessoesTotal());
@@ -16,7 +16,7 @@ public class PacoteMapper {
         return pacote;
     }
 
-    public static PacoteListagemDto toDto(Pacote pacote) {
+    public static PacoteListagemDto toDto(PacoteEntity pacote) {
         return new PacoteListagemDto(
                 pacote.getIdPacote(),
                 pacote.getNome(),
@@ -26,7 +26,7 @@ public class PacoteMapper {
         );
     }
 
-    public static void AtualizarEntity(Pacote pacote, PacoteAtualizacaoDto dto) {
+    public static void AtualizarEntity(PacoteEntity pacote, PacoteAtualizacaoDto dto) {
         pacote.setNome(dto.getNome());
         pacote.setPrecoTotalSemDesconto(dto.getPrecoTotalSemDesconto());
         pacote.setQtdSessoesTotal(dto.getQtdSessoesTotal());

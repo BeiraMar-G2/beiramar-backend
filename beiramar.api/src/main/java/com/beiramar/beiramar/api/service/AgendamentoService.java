@@ -5,13 +5,13 @@ import com.beiramar.beiramar.api.dto.agendamentosDtos.AgendamentoCadastroDto;
 import com.beiramar.beiramar.api.dto.agendamentosDtos.AgendamentoListagemDto;
 import com.beiramar.beiramar.api.dto.mapper.AgendamentoMapper;
 import com.beiramar.beiramar.api.entity.AgendamentoEntity;
-import com.beiramar.beiramar.api.entity.Pacote;
-import com.beiramar.beiramar.api.entity.Servico;
+import com.beiramar.beiramar.api.infrastructure.persistence.pacotepersistence.PacoteEntity;
+import com.beiramar.beiramar.api.infrastructure.persistence.servicopersistence.ServicoEntity;
 import com.beiramar.beiramar.api.infrastructure.persistence.usuariopersistence.UsuarioEntity;
 import com.beiramar.beiramar.api.core.application.exception.EntidadeNaoEncontradaException;
 import com.beiramar.beiramar.api.repository.AgendamentoRepository;
-import com.beiramar.beiramar.api.repository.PacoteRepository;
-import com.beiramar.beiramar.api.repository.ServicoRepository;
+import com.beiramar.beiramar.api.infrastructure.persistence.pacotepersistence.PacoteJpaRepository;
+import com.beiramar.beiramar.api.infrastructure.persistence.servicopersistence.ServicoJpaRepository;
 import com.beiramar.beiramar.api.infrastructure.persistence.usuariopersistence.UsuarioJpaRepository;
 import org.springframework.stereotype.Service;
 
@@ -24,10 +24,10 @@ public class AgendamentoService {
 
     private final AgendamentoRepository agendamentoRepository;
     private final UsuarioJpaRepository usuarioRepository;
-    private final ServicoRepository servicoRepository;
-    private final PacoteRepository pacoteRepository;
+    private final ServicoJpaRepository servicoRepository;
+    private final PacoteJpaRepository pacoteRepository;
 
-    public AgendamentoService(AgendamentoRepository agendamentoRepository, UsuarioJpaRepository usuarioRepository, ServicoRepository servicoRepository, PacoteRepository pacoteRepository) {
+    public AgendamentoService(AgendamentoRepository agendamentoRepository, UsuarioJpaRepository usuarioRepository, ServicoJpaRepository servicoRepository, PacoteJpaRepository pacoteRepository) {
         this.agendamentoRepository = agendamentoRepository;
         this.usuarioRepository = usuarioRepository;
         this.servicoRepository = servicoRepository;
@@ -39,12 +39,12 @@ public class AgendamentoService {
                 .orElseThrow(() -> new EntidadeNaoEncontradaException("Cliente não encontrado"));
         UsuarioEntity funcionario = usuarioRepository.findById(dto.getFkFuncionario())
                 .orElseThrow(() -> new EntidadeNaoEncontradaException("Funcionário não encontrado"));
-        Servico servico = servicoRepository.findById(dto.getFkServico())
+        ServicoEntity servico = servicoRepository.findById(dto.getFkServico())
                 .orElseThrow(() -> new EntidadeNaoEncontradaException("Serviço não encontrado"));
 
-        Pacote pacote = null;
+        PacoteEntity pacote = null;
         if (dto.getFkPacote() != null) {
-            Optional<Pacote> pacoteOptional = pacoteRepository.findById(dto.getFkPacote());
+            Optional<PacoteEntity> pacoteOptional = pacoteRepository.findById(dto.getFkPacote());
             if (pacoteOptional.isPresent()) {
                 pacote = pacoteOptional.get();
             }

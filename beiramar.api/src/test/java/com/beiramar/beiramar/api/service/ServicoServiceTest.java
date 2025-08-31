@@ -3,9 +3,9 @@ package com.beiramar.beiramar.api.service;
 import com.beiramar.beiramar.api.dto.servicoDtos.ServicoCadastroDto;
 import com.beiramar.beiramar.api.dto.servicoDtos.ServicoListagemDto;
 import com.beiramar.beiramar.api.dto.mapper.ServicoMapper;
-import com.beiramar.beiramar.api.entity.Servico;
+import com.beiramar.beiramar.api.infrastructure.persistence.servicopersistence.ServicoEntity;
 import com.beiramar.beiramar.api.core.application.exception.EntidadeNaoEncontradaException;
-import com.beiramar.beiramar.api.repository.ServicoRepository;
+import com.beiramar.beiramar.api.infrastructure.persistence.servicopersistence.ServicoJpaRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -28,7 +28,7 @@ public class ServicoServiceTest {
     private ServicoService servicoService;
 
     @Mock
-    private ServicoRepository servicoRepository;
+    private ServicoJpaRepository servicoRepository;
 
     @Test
     void deveCadastrarServicoComSucesso() {
@@ -38,7 +38,7 @@ public class ServicoServiceTest {
         dto.setDescricao("Descrição...");
         dto.setDuracao(60);
 
-        Servico servicoEntity = new Servico();
+        ServicoEntity servicoEntity = new ServicoEntity();
         servicoEntity.setIdServico(1);
         servicoEntity.setNome(dto.getNome());
         servicoEntity.setPreco(dto.getPreco());
@@ -49,7 +49,7 @@ public class ServicoServiceTest {
                 1, "Limpeza de Pele", 100.0, "Descrição...", 60
         );
 
-        when(servicoRepository.save(any(Servico.class))).thenReturn(servicoEntity);
+        when(servicoRepository.save(any(ServicoEntity.class))).thenReturn(servicoEntity);
 
         try (MockedStatic<ServicoMapper> mocked = mockStatic(ServicoMapper.class)) {
             mocked.when(() -> ServicoMapper.toEntity(dto)).thenReturn(servicoEntity);
@@ -71,8 +71,8 @@ public class ServicoServiceTest {
 
     @Test
     void deveListarTodosServicosComSucesso() {
-        Servico s1 = new Servico(1, "Massagem", 45, 80.0, "Relaxante");
-        Servico s2 = new Servico(2, "Limpeza", 60, 100.0, "Facial");
+        ServicoEntity s1 = new ServicoEntity(1, "Massagem", 45, 80.0, "Relaxante");
+        ServicoEntity s2 = new ServicoEntity(2, "Limpeza", 60, 100.0, "Facial");
 
         when(servicoRepository.findAll()).thenReturn(Arrays.asList(s1, s2));
 
@@ -108,7 +108,7 @@ public class ServicoServiceTest {
 
     @Test
     void deveBuscarServicoPorIdComSucesso() {
-        Servico servico = new Servico(1, "Drenagem", 50, 90.0, "Descrição");
+        ServicoEntity servico = new ServicoEntity(1, "Drenagem", 50, 90.0, "Descrição");
         ServicoListagemDto dto = new ServicoListagemDto(1, "Drenagem", 90.0, "Descrição", 50);
 
         when(servicoRepository.findById(1)).thenReturn(Optional.of(servico));
@@ -144,8 +144,8 @@ public class ServicoServiceTest {
         dto.setDescricao("Nova descrição");
         dto.setDuracao(70);
 
-        Servico existente = new Servico(1, "Antigo", 60, 100.0, "Antiga desc");
-        Servico atualizado = new Servico(1, "Novo Nome", 70, 120.0, "Nova descrição");
+        ServicoEntity existente = new ServicoEntity(1, "Antigo", 60, 100.0, "Antiga desc");
+        ServicoEntity atualizado = new ServicoEntity(1, "Novo Nome", 70, 120.0, "Nova descrição");
         ServicoListagemDto dtoAtualizado = new ServicoListagemDto(1, "Novo Nome", 120.0, "Nova descrição", 70);
 
         when(servicoRepository.findById(1)).thenReturn(Optional.of(existente));

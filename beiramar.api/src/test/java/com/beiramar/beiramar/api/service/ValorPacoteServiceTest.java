@@ -4,11 +4,11 @@ import com.beiramar.beiramar.api.dto.mapper.ValorPacoteMapper;
 import com.beiramar.beiramar.api.dto.valorPacoteDtos.ValorPacoteAtualizacaoDto;
 import com.beiramar.beiramar.api.dto.valorPacoteDtos.ValorPacoteCadastroDto;
 import com.beiramar.beiramar.api.dto.valorPacoteDtos.ValorPacoteListagemDto;
-import com.beiramar.beiramar.api.entity.Pacote;
+import com.beiramar.beiramar.api.infrastructure.persistence.pacotepersistence.PacoteEntity;
 import com.beiramar.beiramar.api.infrastructure.persistence.usuariopersistence.UsuarioEntity;
 import com.beiramar.beiramar.api.entity.ValorPacoteEntity;
 import com.beiramar.beiramar.api.core.application.exception.EntidadeNaoEncontradaException;
-import com.beiramar.beiramar.api.repository.PacoteRepository;
+import com.beiramar.beiramar.api.infrastructure.persistence.pacotepersistence.PacoteJpaRepository;
 import com.beiramar.beiramar.api.infrastructure.persistence.usuariopersistence.UsuarioJpaRepository;
 import com.beiramar.beiramar.api.repository.ValorPacoteRepository;
 import org.junit.jupiter.api.Test;
@@ -36,7 +36,7 @@ public class ValorPacoteServiceTest {
     private UsuarioJpaRepository usuarioRepository;
 
     @Mock
-    private PacoteRepository pacoteRepository;
+    private PacoteJpaRepository pacoteRepository;
 
     @Test
     void deveCadastrarValorPacoteComSucesso() {
@@ -49,7 +49,7 @@ public class ValorPacoteServiceTest {
         usuario.setIdUsuario(1);
         usuario.setNome("Cliente");
 
-        Pacote pacote = new Pacote(2, "Pacote Dia das Mães", 300.0, 5, 30);
+        PacoteEntity pacote = new PacoteEntity(2, "Pacote Dia das Mães", 300.0, 5, 30);
 
         ValorPacoteEntity entity = new ValorPacoteEntity();
         entity.setIdValorPacote(10);

@@ -4,12 +4,12 @@ import com.beiramar.beiramar.api.dto.mapper.SessoesPacoteMapper;
 import com.beiramar.beiramar.api.dto.sessaoPacoteDtos.SessoesPacoteAtualizacaoDto;
 import com.beiramar.beiramar.api.dto.sessaoPacoteDtos.SessoesPacoteCadastroDto;
 import com.beiramar.beiramar.api.dto.sessaoPacoteDtos.SessoesPacoteListagemDto;
-import com.beiramar.beiramar.api.entity.Pacote;
-import com.beiramar.beiramar.api.entity.Servico;
+import com.beiramar.beiramar.api.infrastructure.persistence.pacotepersistence.PacoteEntity;
+import com.beiramar.beiramar.api.infrastructure.persistence.servicopersistence.ServicoEntity;
 import com.beiramar.beiramar.api.entity.SessoesPacote;
 import com.beiramar.beiramar.api.core.application.exception.EntidadeNaoEncontradaException;
-import com.beiramar.beiramar.api.repository.PacoteRepository;
-import com.beiramar.beiramar.api.repository.ServicoRepository;
+import com.beiramar.beiramar.api.infrastructure.persistence.pacotepersistence.PacoteJpaRepository;
+import com.beiramar.beiramar.api.infrastructure.persistence.servicopersistence.ServicoJpaRepository;
 import com.beiramar.beiramar.api.repository.SessoesPacoteRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -34,10 +34,10 @@ public class SessoesPacoteServiceTest {
     private SessoesPacoteRepository sessoesPacoteRepository;
 
     @Mock
-    private PacoteRepository pacoteRepository;
+    private PacoteJpaRepository pacoteRepository;
 
     @Mock
-    private ServicoRepository servicoRepository;
+    private ServicoJpaRepository servicoRepository;
 
     @Test
     void deveCadastrarComSucesso() {
@@ -46,11 +46,11 @@ public class SessoesPacoteServiceTest {
         dto.setFkServico(2);
         dto.setQtdSessoes(5);
 
-        Pacote pacote = new Pacote();
+        PacoteEntity pacote = new PacoteEntity();
         pacote.setIdPacote(1);
         pacote.setNome("Pacote Top");
 
-        Servico servico = new Servico(2, "Massagem", 45, 80.0, "Relaxante");
+        ServicoEntity servico = new ServicoEntity(2, "Massagem", 45, 80.0, "Relaxante");
 
         SessoesPacote sessoesPacote = new SessoesPacote();
         sessoesPacote.setIdSessoesPacote(10);
@@ -103,7 +103,7 @@ public class SessoesPacoteServiceTest {
         dto.setFkServico(1);
         dto.setFkPacote(999);
 
-        Servico servico = new Servico(1, "Limpeza", 60, 100.0, "Facial");
+        ServicoEntity servico = new ServicoEntity(1, "Limpeza", 60, 100.0, "Facial");
         when(servicoRepository.findById(1)).thenReturn(Optional.of(servico));
         when(pacoteRepository.findById(999)).thenReturn(Optional.empty());
 
@@ -119,10 +119,10 @@ public class SessoesPacoteServiceTest {
 
     @Test
     void deveListarTodosComSucesso() {
-        Pacote pacote = new Pacote();
+        PacoteEntity pacote = new PacoteEntity();
         pacote.setNome("Pacote A");
 
-        Servico servico = new Servico(1, "Massagem", 30, 50.0, "Relaxante");
+        ServicoEntity servico = new ServicoEntity(1, "Massagem", 30, 50.0, "Relaxante");
 
         SessoesPacote sessao = new SessoesPacote();
         sessao.setIdSessoesPacote(1);

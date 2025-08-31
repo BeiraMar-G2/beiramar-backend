@@ -1,6 +1,7 @@
 package com.beiramar.beiramar.api.entity;
 
-import io.swagger.v3.oas.annotations.media.Schema;
+import com.beiramar.beiramar.api.infrastructure.persistence.pacotepersistence.PacoteEntity;
+import com.beiramar.beiramar.api.infrastructure.persistence.servicopersistence.ServicoEntity;
 import jakarta.persistence.*;
 
 @Entity
@@ -14,11 +15,11 @@ public class SessoesPacote {
 
     @ManyToOne
     @JoinColumn(name = "fkPacote")
-    private Pacote pacote;
+    private PacoteEntity pacote;
 
     @ManyToOne
     @JoinColumn(name = "fkServico")
-    private Servico servico;
+    private ServicoEntity servico;
 
     public Integer getIdSessoesPacote() {
         return idSessoesPacote;
@@ -36,19 +37,19 @@ public class SessoesPacote {
         this.qtdSessoes = qtdSessoes;
     }
 
-    public Pacote getPacote() {
+    public PacoteEntity getPacote() {
         return pacote;
     }
 
-    public void setPacote(Pacote pacote) {
+    public void setPacote(PacoteEntity pacote) {
         this.pacote = pacote;
     }
 
-    public Servico getServico() {
+    public ServicoEntity getServico() {
         return servico;
     }
 
-    public void setServico(Servico servico) {
+    public void setServico(ServicoEntity servico) {
         this.servico = servico;
     }
 }

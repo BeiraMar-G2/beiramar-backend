@@ -1,5 +1,7 @@
 package com.beiramar.beiramar.api.entity;
 
+import com.beiramar.beiramar.api.infrastructure.persistence.pacotepersistence.PacoteEntity;
+import com.beiramar.beiramar.api.infrastructure.persistence.servicopersistence.ServicoEntity;
 import com.beiramar.beiramar.api.infrastructure.persistence.usuariopersistence.UsuarioEntity;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
@@ -33,11 +35,11 @@ public class AgendamentoEntity {
 
     @ManyToOne
     @JoinColumn(name = "fkServico")
-    private Servico servico;
+    private ServicoEntity servico;
 
     @ManyToOne
     @JoinColumn(name = "fkPacote")
-    private Pacote pacote;
+    private PacoteEntity pacote;
 
     @OneToMany(mappedBy = "agendamento", cascade = CascadeType.ALL)
     private List<LogStatus> logsStatus;
@@ -98,19 +100,19 @@ public class AgendamentoEntity {
         this.funcionario = funcionario;
     }
 
-    public Servico getServico() {
+    public ServicoEntity getServico() {
         return servico;
     }
 
-    public void setServico(Servico servico) {
+    public void setServico(ServicoEntity servico) {
         this.servico = servico;
     }
 
-    public Pacote getPacote() {
+    public PacoteEntity getPacote() {
         return pacote;
     }
 
-    public void setPacote(Pacote pacote) {
+    public void setPacote(PacoteEntity pacote) {
         this.pacote = pacote;
     }
 

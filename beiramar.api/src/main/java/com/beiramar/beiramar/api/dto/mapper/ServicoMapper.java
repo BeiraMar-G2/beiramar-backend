@@ -3,12 +3,12 @@ package com.beiramar.beiramar.api.dto.mapper;
 
 import com.beiramar.beiramar.api.dto.servicoDtos.ServicoCadastroDto;
 import com.beiramar.beiramar.api.dto.servicoDtos.ServicoListagemDto;
-import com.beiramar.beiramar.api.entity.Servico;
+import com.beiramar.beiramar.api.infrastructure.persistence.servicopersistence.ServicoEntity;
 
 public class ServicoMapper {
 
-    public static Servico toEntity(ServicoCadastroDto dto) {
-        Servico servico = new Servico();
+    public static ServicoEntity toEntity(ServicoCadastroDto dto) {
+        ServicoEntity servico = new ServicoEntity();
         servico.setNome(dto.getNome());
         servico.setPreco(dto.getPreco());
         servico.setDescricao(dto.getDescricao());
@@ -16,7 +16,7 @@ public class ServicoMapper {
         return servico;
     }
 
-    public static ServicoListagemDto toDto(Servico servico) {
+    public static ServicoListagemDto toDto(ServicoEntity servico) {
         ServicoListagemDto dto = new ServicoListagemDto(
                 servico.getIdServico(),
                 servico.getNome(),

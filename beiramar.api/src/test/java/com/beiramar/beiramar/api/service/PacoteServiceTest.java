@@ -4,9 +4,9 @@ import com.beiramar.beiramar.api.dto.mapper.PacoteMapper;
 import com.beiramar.beiramar.api.dto.pacoteDtos.PacoteAtualizacaoDto;
 import com.beiramar.beiramar.api.dto.pacoteDtos.PacoteCadastroDto;
 import com.beiramar.beiramar.api.dto.pacoteDtos.PacoteListagemDto;
-import com.beiramar.beiramar.api.entity.Pacote;
+import com.beiramar.beiramar.api.infrastructure.persistence.pacotepersistence.PacoteEntity;
 import com.beiramar.beiramar.api.core.application.exception.EntidadeNaoEncontradaException;
-import com.beiramar.beiramar.api.repository.PacoteRepository;
+import com.beiramar.beiramar.api.infrastructure.persistence.pacotepersistence.PacoteJpaRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -28,7 +28,7 @@ public class PacoteServiceTest {
     private PacoteService pacoteService;
 
     @Mock
-    private PacoteRepository pacoteRepository;
+    private PacoteJpaRepository pacoteRepository;
 
     @Test
     void deveCadastrarPacoteComSucesso() {
@@ -38,10 +38,10 @@ public class PacoteServiceTest {
         dto.setQtdSessoesTotal(5);
         dto.setTempoLimiteDias(30);
 
-        Pacote pacoteEntity = new Pacote(1, "Pacote Relax", 300.0, 5, 30);
+        PacoteEntity pacoteEntity = new PacoteEntity(1, "Pacote Relax", 300.0, 5, 30);
         PacoteListagemDto pacoteDto = new PacoteListagemDto(1, "Pacote Relax", 300.0, 5, 30);
 
-        when(pacoteRepository.save(any(Pacote.class))).thenReturn(pacoteEntity);
+        when(pacoteRepository.save(any(PacoteEntity.class))).thenReturn(pacoteEntity);
 
         try (MockedStatic<PacoteMapper> mocked = mockStatic(PacoteMapper.class)) {
             mocked.when(() -> PacoteMapper.toEntity(dto)).thenReturn(pacoteEntity);
@@ -59,8 +59,8 @@ public class PacoteServiceTest {
 
     @Test
     void deveListarTodosPacotesComSucesso() {
-        Pacote pacote1 = new Pacote(1, "Pacote Bronze", 100.0, 3, 15);
-        Pacote pacote2 = new Pacote(2, "Pacote Ouro", 500.0, 10, 60);
+        PacoteEntity pacote1 = new PacoteEntity(1, "Pacote Bronze", 100.0, 3, 15);
+        PacoteEntity pacote2 = new PacoteEntity(2, "Pacote Ouro", 500.0, 10, 60);
 
         when(pacoteRepository.findAll()).thenReturn(Arrays.asList(pacote1, pacote2));
 
@@ -80,7 +80,7 @@ public class PacoteServiceTest {
 
     @Test
     void deveBuscarPacotePorIdComSucesso() {
-        Pacote pacote = new Pacote(1, "Pacote Básico", 150.0, 4, 20);
+        PacoteEntity pacote = new PacoteEntity(1, "Pacote Básico", 150.0, 4, 20);
         PacoteListagemDto dto = new PacoteListagemDto(1, "Pacote Básico", 150.0, 4, 20);
 
         when(pacoteRepository.findById(1)).thenReturn(Optional.of(pacote));
@@ -116,8 +116,8 @@ public class PacoteServiceTest {
         dto.setQtdSessoesTotal(6);
         dto.setTempoLimiteDias(40);
 
-        Pacote existente = new Pacote(1, "Pacote Antigo", 200.0, 5, 30);
-        Pacote atualizado = new Pacote(1, "Pacote Atualizado", 250.0, 6, 40);
+        PacoteEntity existente = new PacoteEntity(1, "Pacote Antigo", 200.0, 5, 30);
+        PacoteEntity atualizado = new PacoteEntity(1, "Pacote Atualizado", 250.0, 6, 40);
         PacoteListagemDto dtoAtualizado = new PacoteListagemDto(1, "Pacote Atualizado", 250.0, 6, 40);
 
         when(pacoteRepository.findById(1)).thenReturn(Optional.of(existente));

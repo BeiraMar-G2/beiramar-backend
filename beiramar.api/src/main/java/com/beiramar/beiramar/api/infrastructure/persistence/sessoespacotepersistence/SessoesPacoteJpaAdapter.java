@@ -123,5 +123,11 @@ public class SessoesPacoteJpaAdapter implements SessoesPacoteGateway {
                 .orElseThrow(() -> new EntidadeNaoEncontradaException("Servico não encontrado com ID: " + id));
     }
 
+    @Override
+    public List<Servico> buscarServicosPorPacote(Integer idPacote) {
+        return List.of();
+
+    }
+
 }
 

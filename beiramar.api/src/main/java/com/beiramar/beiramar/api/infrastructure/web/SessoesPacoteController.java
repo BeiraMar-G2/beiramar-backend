@@ -3,7 +3,9 @@ package com.beiramar.beiramar.api.infrastructure.web;
 import com.beiramar.beiramar.api.core.application.command.sessoespacotecommand.SessoesPacoteAtualizacaoCommand;
 import com.beiramar.beiramar.api.core.application.command.sessoespacotecommand.SessoesPacoteCadastroCommand;
 import com.beiramar.beiramar.api.core.application.usecase.sessoespacoteusecase.*;
+import com.beiramar.beiramar.api.core.domain.Servico;
 import com.beiramar.beiramar.api.core.domain.SessoesPacote;
+import com.beiramar.beiramar.api.infrastructure.persistence.servicopersistence.ServicoEntity;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,8 +23,10 @@ public class SessoesPacoteController {
     private final BuscarSessoesPacotePorIdUseCase buscarPorIdUseCase;
     private final ListarSessoesPacoteUseCase listarUseCase;
     private final DeletarSessoesPacoteUseCase deletarUseCase;
+    private final BuscarServicosSessoesPacoteUseCase buscarServicosSessoesPacoteUseCase;
 
-    public SessoesPacoteController(CadastrarSessoesPacoteUseCase cadastrarUseCase, AtualizarSessoesPacoteUseCase atualizarUseCase, BuscarSessoesPacotePorIdUseCase buscarPorIdUseCase, ListarSessoesPacoteUseCase listarUseCase, DeletarSessoesPacoteUseCase deletarUseCase) {
+    public SessoesPacoteController(BuscarServicosSessoesPacoteUseCase buscarServicosSessoesPacoteUseCase, CadastrarSessoesPacoteUseCase cadastrarUseCase, AtualizarSessoesPacoteUseCase atualizarUseCase, BuscarSessoesPacotePorIdUseCase buscarPorIdUseCase, ListarSessoesPacoteUseCase listarUseCase, DeletarSessoesPacoteUseCase deletarUseCase) {
+        this.buscarServicosSessoesPacoteUseCase = buscarServicosSessoesPacoteUseCase;
         this.cadastrarUseCase = cadastrarUseCase;
         this.atualizarUseCase = atualizarUseCase;
         this.buscarPorIdUseCase = buscarPorIdUseCase;
@@ -58,5 +62,11 @@ public class SessoesPacoteController {
     public ResponseEntity<Void> deletar(@PathVariable Integer id) {
         deletarUseCase.executar(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/{idPacote}")
+    public ResponseEntity<List<Servico>> listarServicosSessoesPacotes(@PathVariable Integer idPacote){
+        List<Servico> servicoEntityList = buscarServicosSessoesPacoteUseCase.executar(idPacote);
+        return ResponseEntity.status(200).body(servicoEntityList);
     }
 }

@@ -17,4 +17,5 @@ public interface SessoesPacoteGateway {
     boolean existePorId(Integer id);
     Pacote buscarPacotePorId(Integer id);
     Servico buscarServicoPorId(Integer id);
+    List<Servico> buscarServicosPorPacote(Integer idPacote);
 }

@@ -5,7 +5,7 @@ import com.beiramar.beiramar.api.infrastructure.persistence.servicopersistence.S
 import jakarta.persistence.*;
 
 @Entity
-public class SessoesPacote {
+public class SessoesPacoteEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

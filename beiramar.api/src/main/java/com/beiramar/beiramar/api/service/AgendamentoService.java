@@ -60,6 +60,15 @@ public class AgendamentoService {
                 .collect(Collectors.toList());
     }
 
+    public List<AgendamentoListagemDto> buscarPorCliente(Integer clienteId) {
+        UsuarioEntity cliente = usuarioRepository.findById(clienteId)
+                .orElseThrow(() -> new IllegalArgumentException("Cliente não encontrado"));
+
+        return agendamentoRepository.findByCliente(cliente).stream()
+                .map(AgendamentoMapper::toDto)
+                .collect(Collectors.toList());
+    }
+
     public AgendamentoListagemDto buscarPorId(Integer id) {
         return agendamentoRepository.findById(id)
                 .map(AgendamentoMapper::toDto)

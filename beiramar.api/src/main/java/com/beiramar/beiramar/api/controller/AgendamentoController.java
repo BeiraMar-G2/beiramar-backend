@@ -41,6 +41,17 @@ public class AgendamentoController {
         return ResponseEntity.status(200).body(agendamento);
     }
 
+    @GetMapping("/cliente/{idCliente}")
+    @Operation(summary = "Buscar agendamento por ID de Cliente")
+    public ResponseEntity<List<AgendamentoListagemDto>> listarPorCliente(@PathVariable Integer idCliente) {
+        List<AgendamentoListagemDto> agendamento = agendamentoService.buscarPorCliente(idCliente);
+
+        if (agendamento.isEmpty()){
+            return ResponseEntity.status(204).build();
+        }
+        return ResponseEntity.status(200).body(agendamento);
+    }
+
     @GetMapping("/{id}")
     @Operation(summary = "Buscar agendamento por ID")
     public ResponseEntity<AgendamentoListagemDto> buscar(@PathVariable Integer id) {

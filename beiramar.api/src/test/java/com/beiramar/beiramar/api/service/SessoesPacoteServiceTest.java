@@ -6,11 +6,11 @@ import com.beiramar.beiramar.api.dto.sessaoPacoteDtos.SessoesPacoteCadastroDto;
 import com.beiramar.beiramar.api.dto.sessaoPacoteDtos.SessoesPacoteListagemDto;
 import com.beiramar.beiramar.api.infrastructure.persistence.pacotepersistence.PacoteEntity;
 import com.beiramar.beiramar.api.infrastructure.persistence.servicopersistence.ServicoEntity;
-import com.beiramar.beiramar.api.entity.SessoesPacote;
+import com.beiramar.beiramar.api.infrastructure.persistence.sessoespacotepersistence.SessoesPacoteEntity;
 import com.beiramar.beiramar.api.core.application.exception.EntidadeNaoEncontradaException;
 import com.beiramar.beiramar.api.infrastructure.persistence.pacotepersistence.PacoteJpaRepository;
 import com.beiramar.beiramar.api.infrastructure.persistence.servicopersistence.ServicoJpaRepository;
-import com.beiramar.beiramar.api.repository.SessoesPacoteRepository;
+import com.beiramar.beiramar.api.infrastructure.persistence.sessoespacotepersistence.SessoesPacoteJpaRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -31,7 +31,7 @@ public class SessoesPacoteServiceTest {
     private SessoesPacoteService service;
 
     @Mock
-    private SessoesPacoteRepository sessoesPacoteRepository;
+    private SessoesPacoteJpaRepository sessoesPacoteRepository;
 
     @Mock
     private PacoteJpaRepository pacoteRepository;
@@ -52,7 +52,7 @@ public class SessoesPacoteServiceTest {
 
         ServicoEntity servico = new ServicoEntity(2, "Massagem", 45, 80.0, "Relaxante");
 
-        SessoesPacote sessoesPacote = new SessoesPacote();
+        SessoesPacoteEntity sessoesPacote = new SessoesPacoteEntity();
         sessoesPacote.setIdSessoesPacote(10);
         sessoesPacote.setPacote(pacote);
         sessoesPacote.setServico(servico);
@@ -62,7 +62,7 @@ public class SessoesPacoteServiceTest {
 
         when(pacoteRepository.findById(1)).thenReturn(Optional.of(pacote));
         when(servicoRepository.findById(2)).thenReturn(Optional.of(servico));
-        when(sessoesPacoteRepository.save(any(SessoesPacote.class))).thenReturn(sessoesPacote);
+        when(sessoesPacoteRepository.save(any(SessoesPacoteEntity.class))).thenReturn(sessoesPacote);
 
         try (MockedStatic<SessoesPacoteMapper> mocked = mockStatic(SessoesPacoteMapper.class)) {
             when(sessoesPacoteRepository.save(any())).thenReturn(sessoesPacote);
@@ -74,7 +74,7 @@ public class SessoesPacoteServiceTest {
 
             verify(pacoteRepository).findById(1);
             verify(servicoRepository).findById(2);
-            verify(sessoesPacoteRepository).save(any(SessoesPacote.class));
+            verify(sessoesPacoteRepository).save(any(SessoesPacoteEntity.class));
             mocked.verify(() -> SessoesPacoteMapper.toDto(sessoesPacote));
         }
     }
@@ -124,7 +124,7 @@ public class SessoesPacoteServiceTest {
 
         ServicoEntity servico = new ServicoEntity(1, "Massagem", 30, 50.0, "Relaxante");
 
-        SessoesPacote sessao = new SessoesPacote();
+        SessoesPacoteEntity sessao = new SessoesPacoteEntity();
         sessao.setIdSessoesPacote(1);
         sessao.setPacote(pacote);
         sessao.setServico(servico);
@@ -148,7 +148,7 @@ public class SessoesPacoteServiceTest {
 
     @Test
     void deveBuscarPorIdComSucesso() {
-        SessoesPacote sessao = new SessoesPacote();
+        SessoesPacoteEntity sessao = new SessoesPacoteEntity();
         sessao.setIdSessoesPacote(1);
 
         SessoesPacoteListagemDto dto = new SessoesPacoteListagemDto(1, "Pacote", "Servico", 2);
@@ -183,7 +183,7 @@ public class SessoesPacoteServiceTest {
         SessoesPacoteAtualizacaoDto dto = new SessoesPacoteAtualizacaoDto();
         dto.setQtdSessoes(7);
 
-        SessoesPacote existente = new SessoesPacote();
+        SessoesPacoteEntity existente = new SessoesPacoteEntity();
         existente.setIdSessoesPacote(1);
 
         SessoesPacoteListagemDto dtoRetorno = new SessoesPacoteListagemDto(1, "Pacote", "Servico", 7);

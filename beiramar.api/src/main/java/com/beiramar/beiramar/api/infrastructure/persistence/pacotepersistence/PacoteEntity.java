@@ -1,7 +1,7 @@
 package com.beiramar.beiramar.api.infrastructure.persistence.pacotepersistence;
 
 import com.beiramar.beiramar.api.entity.AgendamentoEntity;
-import com.beiramar.beiramar.api.entity.SessoesPacote;
+import com.beiramar.beiramar.api.infrastructure.persistence.sessoespacotepersistence.SessoesPacoteEntity;
 import com.beiramar.beiramar.api.infrastructure.persistence.valorpacotepersistence.ValorPacoteEntity;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
@@ -23,7 +23,7 @@ public class PacoteEntity {
     private Integer tempoLimiteDias;
 
     @OneToMany(mappedBy = "pacote")
-    private List<SessoesPacote> sessoes;
+    private List<SessoesPacoteEntity> sessoes;
 
     @OneToMany(mappedBy = "pacote")
     private List<AgendamentoEntity> agendamentos;
@@ -80,11 +80,11 @@ public class PacoteEntity {
         this.tempoLimiteDias = tempoLimiteDias;
     }
 
-    public List<SessoesPacote> getSessoes() {
+    public List<SessoesPacoteEntity> getSessoes() {
         return sessoes;
     }
 
-    public void setSessoes(List<SessoesPacote> sessoes) {
+    public void setSessoes(List<SessoesPacoteEntity> sessoes) {
         this.sessoes = sessoes;
     }
 

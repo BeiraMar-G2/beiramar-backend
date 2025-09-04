@@ -1,11 +1,9 @@
-package com.beiramar.beiramar.api.controller;
+package com.beiramar.beiramar.api.infrastructure.web;
 
-import com.beiramar.beiramar.api.dto.sessaoPacoteDtos.SessoesPacoteAtualizacaoDto;
-import com.beiramar.beiramar.api.dto.sessaoPacoteDtos.SessoesPacoteCadastroDto;
-import com.beiramar.beiramar.api.dto.sessaoPacoteDtos.SessoesPacoteListagemDto;
-import com.beiramar.beiramar.api.core.application.exception.EntidadeNaoEncontradaException;
-import com.beiramar.beiramar.api.service.SessoesPacoteService;
-import io.swagger.v3.oas.annotations.Operation;
+import com.beiramar.beiramar.api.core.application.command.sessoespacotecommand.SessoesPacoteAtualizacaoCommand;
+import com.beiramar.beiramar.api.core.application.command.sessoespacotecommand.SessoesPacoteCadastroCommand;
+import com.beiramar.beiramar.api.core.application.usecase.sessoespacoteusecase.*;
+import com.beiramar.beiramar.api.core.domain.SessoesPacote;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,60 +15,48 @@ import java.util.List;
 @Tag(name = "SessoesPacote", description = "Endpoints relacionados a SessoesPacote")
 public class SessoesPacoteController {
 
-    private final SessoesPacoteService sessoesPacoteService;
 
-    public SessoesPacoteController(SessoesPacoteService sessoesPacoteService) {
-        this.sessoesPacoteService = sessoesPacoteService;
+    private final CadastrarSessoesPacoteUseCase cadastrarUseCase;
+    private final AtualizarSessoesPacoteUseCase atualizarUseCase;
+    private final BuscarSessoesPacotePorIdUseCase buscarPorIdUseCase;
+    private final ListarSessoesPacoteUseCase listarUseCase;
+    private final DeletarSessoesPacoteUseCase deletarUseCase;
+
+    public SessoesPacoteController(CadastrarSessoesPacoteUseCase cadastrarUseCase, AtualizarSessoesPacoteUseCase atualizarUseCase, BuscarSessoesPacotePorIdUseCase buscarPorIdUseCase, ListarSessoesPacoteUseCase listarUseCase, DeletarSessoesPacoteUseCase deletarUseCase) {
+        this.cadastrarUseCase = cadastrarUseCase;
+        this.atualizarUseCase = atualizarUseCase;
+        this.buscarPorIdUseCase = buscarPorIdUseCase;
+        this.listarUseCase = listarUseCase;
+        this.deletarUseCase = deletarUseCase;
     }
 
     @PostMapping
-    @Operation(summary = "Cadastrar Sessoes")
-    public ResponseEntity<SessoesPacoteListagemDto> cadastrar(@RequestBody SessoesPacoteCadastroDto dto) {
-        return ResponseEntity.status(201).body(sessoesPacoteService.cadastrar(dto));
-    }
-
-    @GetMapping
-    @Operation(summary = "Listar Sessoes")
-    public ResponseEntity<List<SessoesPacoteListagemDto>> listarTodos() {
-        List<SessoesPacoteListagemDto> sessoes = sessoesPacoteService.listarTodos();
-
-        if (sessoes.isEmpty()){
-            return ResponseEntity.status(204).build();
-        }
-        return ResponseEntity.status(200).body(sessoes);
-    }
-
-    @GetMapping("/{id}")
-    @Operation(summary = "Buscar Sessao por ID")
-    public ResponseEntity<SessoesPacoteListagemDto> buscar(@PathVariable Integer id) {
-        try {
-            SessoesPacoteListagemDto sessoes = sessoesPacoteService.buscarPorId(id);
-            return ResponseEntity.status(200).body(sessoes);
-        } catch (EntidadeNaoEncontradaException e) {
-            return ResponseEntity.status(404).build();
-        }
+    public ResponseEntity<SessoesPacote> cadastrar(@RequestBody SessoesPacoteCadastroCommand command) {
+        SessoesPacote sessoesPacote = cadastrarUseCase.executar(command);
+        return ResponseEntity.status(201).body(sessoesPacote);
     }
 
     @PutMapping("/{id}")
-    @Operation(summary = "Atualizar Sessao")
-    public ResponseEntity<SessoesPacoteListagemDto> atualizar(@PathVariable Integer id, @RequestBody SessoesPacoteAtualizacaoDto dto) {
-        try {
-            SessoesPacoteListagemDto sessoes = sessoesPacoteService.atualizar(id, dto);
-            return ResponseEntity.status(200).body(sessoes);
-        } catch (EntidadeNaoEncontradaException e) {
-            return ResponseEntity.status(404).build();
-        }
+    public ResponseEntity<SessoesPacote> atualizar(@PathVariable Integer id,
+                                                 @RequestBody SessoesPacoteAtualizacaoCommand command) {
+        SessoesPacote atualizado = atualizarUseCase.executar(id, command);
+        return ResponseEntity.ok(atualizado);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<SessoesPacote> buscarPorId(@PathVariable Integer id) {
+        SessoesPacote sessoesPacote = buscarPorIdUseCase.executar(id);
+        return ResponseEntity.ok(sessoesPacote);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<SessoesPacote>> listar() {
+        return ResponseEntity.ok(listarUseCase.executar());
+    }
 
     @DeleteMapping("/{id}")
-    @Operation(summary = "Deletar agendamento")
     public ResponseEntity<Void> deletar(@PathVariable Integer id) {
-        try {
-            sessoesPacoteService.deletar(id);
-            return ResponseEntity.status(204).build();
-        } catch (EntidadeNaoEncontradaException e) {
-            return ResponseEntity.status(404).build();
-        }
+        deletarUseCase.executar(id);
+        return ResponseEntity.noContent().build();
     }
 }

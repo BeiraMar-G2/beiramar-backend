@@ -1,7 +1,6 @@
-package com.beiramar.beiramar.api.repository;
+package com.beiramar.beiramar.api.infrastructure.persistence.sessoespacotepersistence;
 
-import com.beiramar.beiramar.api.entity.SessoesPacoteEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface SessoesPacoteRepository extends JpaRepository<SessoesPacoteEntity, Integer> {
+public interface SessoesPacoteJpaRepository extends JpaRepository<SessoesPacoteEntity, Integer> {
 }

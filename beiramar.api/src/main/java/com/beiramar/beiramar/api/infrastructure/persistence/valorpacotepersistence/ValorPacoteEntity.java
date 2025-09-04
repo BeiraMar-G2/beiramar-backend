@@ -1,4 +1,4 @@
-package com.beiramar.beiramar.api.entity;
+package com.beiramar.beiramar.api.infrastructure.persistence.valorpacotepersistence;
 
 import com.beiramar.beiramar.api.infrastructure.persistence.pacotepersistence.PacoteEntity;
 import com.beiramar.beiramar.api.infrastructure.persistence.usuariopersistence.UsuarioEntity;
@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 
 @Entity
+@Table(name = "ValorPacote")
 @Schema(description = "Valor do pacote")
 public class ValorPacoteEntity {
 

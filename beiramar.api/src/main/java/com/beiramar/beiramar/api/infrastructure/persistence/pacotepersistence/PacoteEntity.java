@@ -2,7 +2,7 @@ package com.beiramar.beiramar.api.infrastructure.persistence.pacotepersistence;
 
 import com.beiramar.beiramar.api.entity.AgendamentoEntity;
 import com.beiramar.beiramar.api.entity.SessoesPacote;
-import com.beiramar.beiramar.api.entity.ValorPacoteEntity;
+import com.beiramar.beiramar.api.infrastructure.persistence.valorpacotepersistence.ValorPacoteEntity;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 

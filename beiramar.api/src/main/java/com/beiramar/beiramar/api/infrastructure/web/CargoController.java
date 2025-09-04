@@ -4,6 +4,7 @@ import com.beiramar.beiramar.api.core.application.command.cargocommand.CargoAtua
 import com.beiramar.beiramar.api.core.application.command.cargocommand.CargoCadastroCommand;
 import com.beiramar.beiramar.api.core.application.usecase.cargousecase.*;
 import com.beiramar.beiramar.api.core.domain.Cargo;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,6 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/cargos")
+@Tag(name = "Cargo", description = "Endpoints relacionados a cargo")
 public class CargoController {
 
 

@@ -6,11 +6,11 @@ import com.beiramar.beiramar.api.dto.valorPacoteDtos.ValorPacoteCadastroDto;
 import com.beiramar.beiramar.api.dto.valorPacoteDtos.ValorPacoteListagemDto;
 import com.beiramar.beiramar.api.infrastructure.persistence.pacotepersistence.PacoteEntity;
 import com.beiramar.beiramar.api.infrastructure.persistence.usuariopersistence.UsuarioEntity;
-import com.beiramar.beiramar.api.entity.ValorPacoteEntity;
+import com.beiramar.beiramar.api.infrastructure.persistence.valorpacotepersistence.ValorPacoteEntity;
 import com.beiramar.beiramar.api.core.application.exception.EntidadeNaoEncontradaException;
 import com.beiramar.beiramar.api.infrastructure.persistence.pacotepersistence.PacoteJpaRepository;
 import com.beiramar.beiramar.api.infrastructure.persistence.usuariopersistence.UsuarioJpaRepository;
-import com.beiramar.beiramar.api.repository.ValorPacoteRepository;
+import com.beiramar.beiramar.api.infrastructure.persistence.valorpacotepersistence.ValorPacoteJpaRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,11 +19,11 @@ import java.util.stream.Collectors;
 @Service
 public class ValorPacoteService {
 
-    private final ValorPacoteRepository valorPacoteRepository;
+    private final ValorPacoteJpaRepository valorPacoteRepository;
     private final UsuarioJpaRepository usuarioRepository;
     private final PacoteJpaRepository pacoteRepository;
 
-    public ValorPacoteService(ValorPacoteRepository valorPacoteRepository, UsuarioJpaRepository usuarioRepository, PacoteJpaRepository pacoteRepository) {
+    public ValorPacoteService(ValorPacoteJpaRepository valorPacoteRepository, UsuarioJpaRepository usuarioRepository, PacoteJpaRepository pacoteRepository) {
         this.valorPacoteRepository = valorPacoteRepository;
         this.usuarioRepository = usuarioRepository;
         this.pacoteRepository = pacoteRepository;

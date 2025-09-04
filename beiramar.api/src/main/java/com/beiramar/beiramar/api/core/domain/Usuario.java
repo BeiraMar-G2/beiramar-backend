@@ -1,5 +1,7 @@
 package com.beiramar.beiramar.api.core.domain;
 
+import com.beiramar.beiramar.api.infrastructure.persistence.cargopersistence.CargoEntity;
+
 import java.time.LocalDate;
 
 public class Usuario {

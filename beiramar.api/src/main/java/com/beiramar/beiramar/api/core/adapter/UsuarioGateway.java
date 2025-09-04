@@ -14,6 +14,7 @@ public interface UsuarioGateway {
     Optional<Usuario> buscarPorId(Integer id);
     Optional<Usuario> buscarPorEmail(String email);
     void deletar(Integer id);
+    boolean existePorId(Integer id);
     Cargo buscarCargoPorId(Integer id);
 
 }

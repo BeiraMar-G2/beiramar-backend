@@ -12,6 +12,10 @@ public class DeletarUsuarioUseCase {
     }
 
     public void executar(Integer id) {
+
+        if (!usuarioGateway.existePorId(id)) {
+            throw new EntidadeNaoEncontradaException("Usuario não encontrado");
+        }
         usuarioGateway.deletar(id);
     }
 }

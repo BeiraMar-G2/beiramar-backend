@@ -5,7 +5,7 @@ import com.beiramar.beiramar.api.dto.valorPacoteDtos.ValorPacoteCadastroDto;
 import com.beiramar.beiramar.api.dto.valorPacoteDtos.ValorPacoteListagemDto;
 import com.beiramar.beiramar.api.infrastructure.persistence.pacotepersistence.PacoteEntity;
 import com.beiramar.beiramar.api.infrastructure.persistence.usuariopersistence.UsuarioEntity;
-import com.beiramar.beiramar.api.entity.ValorPacoteEntity;
+import com.beiramar.beiramar.api.infrastructure.persistence.valorpacotepersistence.ValorPacoteEntity;
 
 public class ValorPacoteMapper {
 

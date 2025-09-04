@@ -90,6 +90,11 @@ public class UsuarioJpaAdapter implements UsuarioGateway {
     }
 
     @Override
+    public boolean existePorId(Integer id) {
+        return usuarioJpaRepository.existsById(id);
+    }
+
+    @Override
     public Cargo buscarCargoPorId(Integer id) {
         return cargoJpaRepository.findById(id)
                 .map(cargoEntity -> new Cargo(cargoEntity.getIdCargo(), cargoEntity.getNome()))

@@ -6,11 +6,11 @@ import com.beiramar.beiramar.api.dto.valorPacoteDtos.ValorPacoteCadastroDto;
 import com.beiramar.beiramar.api.dto.valorPacoteDtos.ValorPacoteListagemDto;
 import com.beiramar.beiramar.api.infrastructure.persistence.pacotepersistence.PacoteEntity;
 import com.beiramar.beiramar.api.infrastructure.persistence.usuariopersistence.UsuarioEntity;
-import com.beiramar.beiramar.api.entity.ValorPacoteEntity;
+import com.beiramar.beiramar.api.infrastructure.persistence.valorpacotepersistence.ValorPacoteEntity;
 import com.beiramar.beiramar.api.core.application.exception.EntidadeNaoEncontradaException;
 import com.beiramar.beiramar.api.infrastructure.persistence.pacotepersistence.PacoteJpaRepository;
 import com.beiramar.beiramar.api.infrastructure.persistence.usuariopersistence.UsuarioJpaRepository;
-import com.beiramar.beiramar.api.repository.ValorPacoteRepository;
+import com.beiramar.beiramar.api.infrastructure.persistence.valorpacotepersistence.ValorPacoteJpaRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -30,7 +30,7 @@ public class ValorPacoteServiceTest {
     private ValorPacoteService valorPacoteService;
 
     @Mock
-    private ValorPacoteRepository valorPacoteRepository;
+    private ValorPacoteJpaRepository valorPacoteRepository;
 
     @Mock
     private UsuarioJpaRepository usuarioRepository;

@@ -40,6 +40,7 @@ public class UsuarioService {
 
         String token = gerenciadorTokenJwt.gerarToken(usuario);
         return new UsuarioTokenDto(
+                usuario.getIdUsuario(),
                 usuario.getNome(),
                 usuario.getEmail(),
                 token,

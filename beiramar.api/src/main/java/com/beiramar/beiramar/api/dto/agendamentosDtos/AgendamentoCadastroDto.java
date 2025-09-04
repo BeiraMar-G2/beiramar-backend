@@ -18,7 +18,6 @@ public class AgendamentoCadastroDto {
     @NotNull
     private Integer fkFuncionario;
 
-    @NotNull
     private Integer fkPacote;
 
     @NotNull
@@ -29,6 +28,17 @@ public class AgendamentoCadastroDto {
 
     @NotBlank
     private String status;
+
+    @NotBlank
+    private String statusAgendamento;
+
+    public String getStatusAgendamento() {
+        return statusAgendamento;
+    }
+
+    public void setStatusAgendamento(String statusAgendamento) {
+        this.statusAgendamento = statusAgendamento;
+    }
 
     public Integer getFkServico() {
         return fkServico;

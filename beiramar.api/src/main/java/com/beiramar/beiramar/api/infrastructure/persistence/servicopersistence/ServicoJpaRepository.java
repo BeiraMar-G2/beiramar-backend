@@ -9,8 +9,4 @@ import java.util.List;
 
 @Repository
 public interface ServicoJpaRepository extends JpaRepository<ServicoEntity, Integer> {
-
-    @Query("SELECT sp.servico FROM SessoesPacote sp WHERE sp.pacote.id = :idPacote")
-    List<Servico> buscarServicosPorPacote(Integer idPacote);
-
 }

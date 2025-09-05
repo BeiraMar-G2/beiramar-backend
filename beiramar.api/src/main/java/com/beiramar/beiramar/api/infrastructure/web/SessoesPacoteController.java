@@ -7,6 +7,7 @@ import com.beiramar.beiramar.api.core.domain.Servico;
 import com.beiramar.beiramar.api.core.domain.SessoesPacote;
 import com.beiramar.beiramar.api.infrastructure.persistence.servicopersistence.ServicoEntity;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -64,7 +65,7 @@ public class SessoesPacoteController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/{idPacote}")
+    @GetMapping("/buscar/{idPacote}")
     public ResponseEntity<List<Servico>> listarServicosSessoesPacotes(@PathVariable Integer idPacote){
         List<Servico> servicoEntityList = buscarServicosSessoesPacoteUseCase.executar(idPacote);
         return ResponseEntity.status(200).body(servicoEntityList);

@@ -125,7 +125,14 @@ public class SessoesPacoteJpaAdapter implements SessoesPacoteGateway {
 
     @Override
     public List<Servico> buscarServicosPorPacote(Integer idPacote) {
-        return List.of();
+        return sessoesPacoteJpaRepository.buscarServicosPorPacote(idPacote)
+                .stream().map(servicoEntity -> new Servico(
+                        servicoEntity.getIdServico(),
+                        servicoEntity.getNome(),
+                        servicoEntity.getPreco(),
+                        servicoEntity.getDescricao(),
+                        servicoEntity.getDuracao()
+                )).toList();
 
     }
 

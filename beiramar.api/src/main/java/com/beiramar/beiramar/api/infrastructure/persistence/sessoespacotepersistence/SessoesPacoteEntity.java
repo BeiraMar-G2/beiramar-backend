@@ -6,7 +6,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "SessoesPacote")
+@Table(name = "sessoes_pacote")
 @Schema(description = "Valor do pacote")
 public class SessoesPacoteEntity {
 

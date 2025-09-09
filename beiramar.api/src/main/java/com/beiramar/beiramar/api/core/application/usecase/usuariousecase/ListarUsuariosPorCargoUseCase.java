@@ -1,6 +1,7 @@
 package com.beiramar.beiramar.api.core.application.usecase.usuariousecase;
 
 import com.beiramar.beiramar.api.core.adapter.UsuarioGateway;
+import com.beiramar.beiramar.api.core.application.exception.EntidadeNaoEncontradaException;
 import com.beiramar.beiramar.api.core.domain.Usuario;
 
 import java.util.List;
@@ -14,6 +15,12 @@ public class ListarUsuariosPorCargoUseCase {
     }
 
     public List<Usuario> executar(String nomeCargo) {
-        return usuarioGateway.listarPorCargo(nomeCargo);
+        List<Usuario> usuarios = usuarioGateway.listarPorCargo(nomeCargo);
+
+        if (usuarios.isEmpty()){
+            throw new EntidadeNaoEncontradaException("Nenhum usuario com o cargo: " + nomeCargo);
+        }
+
+        return usuarios;
     }
 }

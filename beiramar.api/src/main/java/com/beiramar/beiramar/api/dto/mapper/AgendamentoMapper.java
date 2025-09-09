@@ -3,7 +3,7 @@ package com.beiramar.beiramar.api.dto.mapper;
 import com.beiramar.beiramar.api.dto.agendamentosDtos.AgendamentoAtualizacaoDto;
 import com.beiramar.beiramar.api.dto.agendamentosDtos.AgendamentoCadastroDto;
 import com.beiramar.beiramar.api.dto.agendamentosDtos.AgendamentoListagemDto;
-import com.beiramar.beiramar.api.entity.AgendamentoEntity;
+import com.beiramar.beiramar.api.infrastructure.persistence.agendamentopersistence.AgendamentoEntity;
 import com.beiramar.beiramar.api.infrastructure.persistence.pacotepersistence.PacoteEntity;
 import com.beiramar.beiramar.api.infrastructure.persistence.servicopersistence.ServicoEntity;
 import com.beiramar.beiramar.api.infrastructure.persistence.usuariopersistence.UsuarioEntity;

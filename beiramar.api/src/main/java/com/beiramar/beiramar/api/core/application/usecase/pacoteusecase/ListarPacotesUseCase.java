@@ -1,6 +1,7 @@
 package com.beiramar.beiramar.api.core.application.usecase.pacoteusecase;
 
 import com.beiramar.beiramar.api.core.adapter.PacoteGateway;
+import com.beiramar.beiramar.api.core.application.exception.EntidadeNaoEncontradaException;
 import com.beiramar.beiramar.api.core.domain.Pacote;
 
 import java.util.List;
@@ -14,6 +15,12 @@ public class ListarPacotesUseCase {
     }
 
     public List<Pacote> executar(){
-        return pacoteGateway.listarTodos();
+
+        List<Pacote> pacotes = pacoteGateway.listarTodos();
+
+        if (pacotes.isEmpty()){
+            throw new EntidadeNaoEncontradaException("Nenhum Pacote cadastrado");
+        }
+        return pacotes;
     }
 }

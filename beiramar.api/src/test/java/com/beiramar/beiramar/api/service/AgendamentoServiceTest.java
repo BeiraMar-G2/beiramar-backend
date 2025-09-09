@@ -5,13 +5,13 @@ import com.beiramar.beiramar.api.dto.agendamentosDtos.AgendamentoAtualizacaoDto;
 import com.beiramar.beiramar.api.dto.agendamentosDtos.AgendamentoCadastroDto;
 import com.beiramar.beiramar.api.dto.agendamentosDtos.AgendamentoListagemDto;
 import com.beiramar.beiramar.api.dto.mapper.AgendamentoMapper;
-import com.beiramar.beiramar.api.entity.*;
 import com.beiramar.beiramar.api.core.application.exception.EntidadeNaoEncontradaException;
+import com.beiramar.beiramar.api.infrastructure.persistence.agendamentopersistence.AgendamentoEntity;
 import com.beiramar.beiramar.api.infrastructure.persistence.cargopersistence.CargoEntity;
 import com.beiramar.beiramar.api.infrastructure.persistence.pacotepersistence.PacoteEntity;
 import com.beiramar.beiramar.api.infrastructure.persistence.servicopersistence.ServicoEntity;
 import com.beiramar.beiramar.api.infrastructure.persistence.usuariopersistence.UsuarioEntity;
-import com.beiramar.beiramar.api.repository.AgendamentoRepository;
+import com.beiramar.beiramar.api.infrastructure.persistence.agendamentopersistence.AgendamentoJpaRepository;
 import com.beiramar.beiramar.api.infrastructure.persistence.pacotepersistence.PacoteJpaRepository;
 import com.beiramar.beiramar.api.infrastructure.persistence.servicopersistence.ServicoJpaRepository;
 import com.beiramar.beiramar.api.infrastructure.persistence.usuariopersistence.UsuarioJpaRepository;
@@ -48,7 +48,7 @@ public class AgendamentoServiceTest {
     private PacoteJpaRepository pacoteRepository;
 
     @Mock
-    private AgendamentoRepository agendamentoRepository;
+    private AgendamentoJpaRepository agendamentoRepository;
 
     @Test
     void deveCadastrarAgendamentoComSucesso() {

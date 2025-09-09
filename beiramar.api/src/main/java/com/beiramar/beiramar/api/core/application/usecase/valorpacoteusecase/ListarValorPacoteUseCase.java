@@ -1,6 +1,7 @@
 package com.beiramar.beiramar.api.core.application.usecase.valorpacoteusecase;
 
 import com.beiramar.beiramar.api.core.adapter.ValorPacoteGateway;
+import com.beiramar.beiramar.api.core.application.exception.EntidadeNaoEncontradaException;
 import com.beiramar.beiramar.api.core.domain.ValorPacote;
 
 import java.util.List;
@@ -14,6 +15,11 @@ public class ListarValorPacoteUseCase {
     }
 
     public List<ValorPacote> executar(){
-        return valorPacoteGateway.listarTodos();
+        List<ValorPacote> valorPacotes = valorPacoteGateway.listarTodos();
+
+        if (valorPacotes.isEmpty()){
+            throw new EntidadeNaoEncontradaException("Nenhum ValorPacote cadastrado");
+        }
+        return valorPacotes;
     }
 }

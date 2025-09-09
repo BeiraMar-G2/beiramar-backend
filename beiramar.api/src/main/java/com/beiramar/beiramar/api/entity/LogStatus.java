@@ -1,5 +1,6 @@
 package com.beiramar.beiramar.api.entity;
 
+import com.beiramar.beiramar.api.infrastructure.persistence.agendamentopersistence.AgendamentoEntity;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;

@@ -3,7 +3,6 @@ package com.beiramar.beiramar.api.core.application.usecase.sessoespacoteusecase;
 import com.beiramar.beiramar.api.core.adapter.SessoesPacoteGateway;
 import com.beiramar.beiramar.api.core.application.exception.EntidadeNaoEncontradaException;
 import com.beiramar.beiramar.api.core.domain.SessoesPacote;
-import com.beiramar.beiramar.api.core.domain.ValorPacote;
 
 public class BuscarSessoesPacotePorIdUseCase {
 

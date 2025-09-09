@@ -1,6 +1,6 @@
 package com.beiramar.beiramar.api.infrastructure.persistence.pacotepersistence;
 
-import com.beiramar.beiramar.api.entity.AgendamentoEntity;
+import com.beiramar.beiramar.api.infrastructure.persistence.agendamentopersistence.AgendamentoEntity;
 import com.beiramar.beiramar.api.infrastructure.persistence.sessoespacotepersistence.SessoesPacoteEntity;
 import com.beiramar.beiramar.api.infrastructure.persistence.valorpacotepersistence.ValorPacoteEntity;
 import io.swagger.v3.oas.annotations.media.Schema;

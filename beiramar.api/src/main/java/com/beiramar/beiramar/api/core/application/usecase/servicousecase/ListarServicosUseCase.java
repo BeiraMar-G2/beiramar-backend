@@ -1,6 +1,7 @@
 package com.beiramar.beiramar.api.core.application.usecase.servicousecase;
 
 import com.beiramar.beiramar.api.core.adapter.ServicoGateway;
+import com.beiramar.beiramar.api.core.application.exception.EntidadeNaoEncontradaException;
 import com.beiramar.beiramar.api.core.domain.Servico;
 
 import java.util.List;
@@ -14,6 +15,11 @@ public class ListarServicosUseCase {
     }
 
     public List<Servico> executar() {
-        return servicoGateway.listarTodos();
+        List<Servico> servicos = servicoGateway.listarTodos();
+
+        if (servicos.isEmpty()){
+            throw new EntidadeNaoEncontradaException("Nenhum Servico cadastrado");
+        }
+        return servicos;
     }
 }

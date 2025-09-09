@@ -1,6 +1,6 @@
 package com.beiramar.beiramar.api.infrastructure.persistence.usuariopersistence;
 
-import com.beiramar.beiramar.api.entity.AgendamentoEntity;
+import com.beiramar.beiramar.api.infrastructure.persistence.agendamentopersistence.AgendamentoEntity;
 import com.beiramar.beiramar.api.entity.DisponibilidadeEntity;
 import com.beiramar.beiramar.api.entity.LogSenhaEntity;
 import com.beiramar.beiramar.api.infrastructure.persistence.valorpacotepersistence.ValorPacoteEntity;

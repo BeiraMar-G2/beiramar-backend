@@ -13,7 +13,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/servicos")
 @Tag(name = "Serviços", description = "Endpoints relacionados a serviços")
-public class ServicoController {
+public class    ServicoController {
 
     private final CadastrarServicoUseCase cadastrarServicoUseCase;
     private final ListarServicosUseCase listarServicosUseCase;

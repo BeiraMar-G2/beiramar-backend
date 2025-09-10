@@ -17,7 +17,7 @@ INSERT INTO cargo (nome) VALUES
 ('Cliente');
 
 create table usuario (
-id_pessoa int primary key auto_increment,
+id_usuario int primary key auto_increment,
 nome varchar(100),
 email varchar(80),
 telefone varchar(45),
@@ -33,22 +33,19 @@ INSERT INTO usuario (nome, email, telefone, senha, dt_nasc, fk_cargo) VALUES
 ('Carla Dias', 'carla.dias@beiramar.com', '11977889900', 'carla12345', '1988-11-01', 3), -- Massagista
 ('Daniel Rocha', 'daniel.rocha@beiramar.com', '11966554433', 'daniel6789', '1982-05-10', 4), -- Fisioterapeuta
 ('Eduarda Souza', 'eduarda.s@beiramar.com', '11955443322', 'eduarda123', '1995-09-20', 5), -- Esteticista
-('Fernando Lima', 'fernando.lima@example.com', '11944332211', 'fernando98', '1970-01-05', 6), -- Cliente
-('Giovana Martins', 'giovana.m@example.com', '11933221100', 'giovana123', '1992-04-30', 6), -- Cliente
-('Heloisa Pereira', 'heloisa.p@example.com', '11922110099', 'heloisa456', '1980-08-12', 6), -- Cliente
-('Igor Almeida', 'igor.a@example.com', '11911009988', 'igor789012', '1998-02-28', 6); -- Cliente
+('Fernanda Lima', 'fernanda.lima@example.com', '11944332211', 'fernanda98', '1970-01-05', 6); -- Cliente
 
 create table logSenha (
 id_logSenha int auto_increment,
-fk_pessoa int,
+fk_usuario int,
 token char(6),
 dataLog datetime,
 status varchar(45),
-primary key (id_logSenha, fk_pessoa),
-constraint fkPessoaLog foreign key (fk_pessoa) references usuario (id_pessoa)
+primary key (id_logSenha, fk_usuario),
+constraint fkUsuarioLog foreign key (fk_usuario) references usuario (id_usuario)
 );
 
-INSERT INTO logSenha (fk_pessoa, token, dataLog, status) VALUES
+INSERT INTO logSenha (fk_usuario, token, dataLog, status) VALUES
 (1, 'A1B2C3', '2024-05-01 10:30:00', 'Sucesso'),
 (2, 'D4E5F6', '2024-05-02 11:00:00', 'Falha'),
 (3, 'G7H8I9', '2024-05-03 09:15:00', 'Sucesso'),
@@ -80,12 +77,12 @@ INSERT INTO disponibilidade (fk_funcionario, diaSemana, horaInicio, horaFim, dia
 create table pacote (
 id_pacote int primary key auto_increment,
 nome varchar(100),
-precoTotalSemDesconto decimal(10,2),
-qtdSessoesTotal int,
-tempoLimiteDias int
+preco_total_sem_desconto decimal(10,2),
+qtd_sessoes_total int,
+tempo_limite_dias int
 );
 
-INSERT INTO pacote (nome, precoTotalSemDesconto, qtdSessoesTotal, tempoLimiteDias) VALUES
+INSERT INTO pacote (nome, preco_total_sem_desconto, qtd_sessoes_total, tempo_limite_dias) VALUES
 ('Pacote Relax Total', 500.00, 5, 60),
 ('Pacote Bem Estar', 350.00, 3, 45),
 ('Pacote Estética Premium', 700.00, 7, 90),
@@ -96,15 +93,15 @@ fk_usuario int,
 fk_pacote int,
 valorTotal decimal(10,2),
 primary key (fk_usuario, fk_pacote),
-constraint fkValorUsuario foreign key (fk_usuario) references usuario (id_pessoa),
+constraint fkValorUsuario foreign key (fk_usuario) references usuario (id_usuario),
 constraint fkValorPacote foreign key (fk_pacote) references pacote (id_pacote)
 );
 
 INSERT INTO valorPacoteComDesconto (fk_usuario, fk_pacote, valorTotal) VALUES
-(6, 1, 450.00), -- Fernando com desconto no Pacote Relax Total
-(7, 2, 300.00), -- Giovana com desconto no Pacote Bem Estar
-(8, 3, 630.00), -- Heloisa com desconto no Pacote Estética Premium
-(9, 1, 475.00); -- Igor com outro desconto no Pacote Relax Total
+(3, 1, 450.00), -- Fernando com desconto no Pacote Relax Total
+(4, 2, 300.00), -- Giovana com desconto no Pacote Bem Estar
+(5, 3, 630.00), -- Heloisa com desconto no Pacote Estética Premium
+(6, 1, 475.00); -- Igor com outro desconto no Pacote Relax Total
 
 create table servico (
 id_servico int primary key auto_increment,
@@ -122,21 +119,21 @@ INSERT INTO servico (nome, duracao, descricao, preco) VALUES
 ('Peeling Facial', 60, 'Renovação celular para uma pele mais jovem.', 180.00),
 ('Sessão de Acupuntura', 60, 'Técnica milenar para equilíbrio energético.', 110.00);
 
-create table sessoesPacote (
+create table sessoes_pacote (
+id_sessoes_pacote int auto_increment,
 fk_pacote int,
 fk_servico int,
-qtsSessoes int,
-primary key (fk_pacote, fk_servico),
+qtd_sessoes int,
+primary key (id_sessoes_pacote, fk_pacote, fk_servico),
 constraint fkSessoesPacote foreign key (fk_pacote) references pacote (id_pacote),
 constraint fkSessoesServico foreign key (fk_servico) references servico (id_servico)
 );
 
-INSERT INTO sessoesPacote (fk_pacote, fk_servico, qtsSessoes) VALUES
+INSERT INTO sessoes_pacote (fk_pacote, fk_servico, qtd_sessoes) VALUES
 (1, 1, 3), -- Pacote Relax Total inclui 3 Massagens Relaxantes
 (1, 4, 2), -- Pacote Relax Total inclui 2 Drenagens Linfáticas
 (2, 1, 1), -- Pacote Bem Estar inclui 1 Massagem Relaxante
 (2, 2, 1), -- Pacote Bem Estar inclui 1 Limpeza de Pele Profunda
-(2, 6, 1), -- Pacote Bem Estar inclui 1 Sessão de Acupuntura
 (3, 2, 3), -- Pacote Estética Premium inclui 3 Limpezas de Pele Profunda
 (3, 5, 2), -- Pacote Estética Premium inclui 2 Peeling Facial
 (4, 3, 6); -- Pacote Fitness Fisioterapia inclui 6 Sessões de Fisioterapia
@@ -146,26 +143,27 @@ id_agendamento int auto_increment,
 fk_servico int,
 fk_cliente int,
 fk_funcionario int,
-dtHora datetime,
-valorPago decimal(10,2),
+dt_hora datetime,
+valor_pago decimal(10,2),
+status_agendamento enum('Agendado', 'Concluido', 'Cancelado'),
 status enum('Agendado', 'Concluido', 'Cancelado'),
-dtValidade date,
+dt_validade date,
 fk_pacote int,
 primary key(id_agendamento, fk_servico, fk_cliente, fk_funcionario),
 constraint fkAgendamentoServico foreign key (fk_servico) references servico (id_servico),
-constraint fkAgendamentoCliente foreign key (fk_cliente) references usuario (id_pessoa),
-constraint fkAgendamentoFuncionario foreign key (fk_funcionario) references usuario (id_pessoa),
+constraint fkAgendamentoCliente foreign key (fk_cliente) references usuario (id_usuario),
+constraint fkAgendamentoFuncionario foreign key (fk_funcionario) references usuario (id_usuario),
 constraint fkAgendamentoPacote foreign key (fk_pacote) references pacote (id_pacote)
 );
 
-INSERT INTO agendamento (fk_servico, fk_cliente, fk_funcionario, dtHora, valorPago, status, dtValidade, fk_pacote) VALUES
-(1, 6, 3, '2025-06-10 10:00:00', 120.00, 'Agendado', NULL, NULL), -- Massagem Relaxante para Fernando com Carla
-(2, 7, 5, '2025-06-11 14:30:00', 150.00, 'Agendado', NULL, NULL), -- Limpeza de Pele para Giovana com Eduarda
-(3, 8, 4, '2025-06-12 11:00:00', 100.00, 'Concluido', NULL, NULL), -- Fisioterapia para Heloisa com Daniel (já concluído)
-(1, 9, 3, '2025-06-13 16:00:00', 0.00, 'Agendado', '2025-08-13', 1), -- Massagem do Pacote Relax Total para Igor com Carla (valor 0, pois vem do pacote)
-(4, 6, 3, '2025-06-15 09:00:00', 0.00, 'Agendado', '2025-08-15', 1), -- Drenagem do Pacote Relax Total para Fernando com Carla
-(5, 7, 5, '2025-06-16 10:00:00', 180.00, 'Cancelado', NULL, NULL), -- Peeling para Giovana com Eduarda (cancelado)
-(3, 8, 4, '2025-06-17 14:00:00', 0.00, 'Agendado', '2025-09-17', 4); -- Fisioterapia do Pacote Fitness para Heloisa com Daniel
+INSERT INTO agendamento (fk_servico, fk_cliente, fk_funcionario, dt_hora, valor_pago, status_agendamento, status, dt_validade, fk_pacote) VALUES
+(1, 3, 6, '2025-08-10 10:00:00', 120.00, 'AGENDADO', 'AGENDADO', NULL, NULL), -- Massagem Relaxante para Fernando com Carla
+(2, 3, 6, '2025-08-11 14:30:00', 150.00, 'AGENDADO', 'AGENDADO', NULL, NULL), -- Limpeza de Pele para Giovana com Eduarda
+(3, 5, 6, '2025-08-12 11:00:00', 100.00, 'CONCLUIDO', 'CONCLUIDO', NULL, NULL), -- Fisioterapia para Heloisa com Daniel (já concluído)
+(1, 4, 6, '2025-07-13 16:00:00', 0.00, 'AGENDADO', 'AGENDADO', '2025-08-13', 1), -- Massagem do Pacote Relax Total para Igor com Carla (valor 0, pois vem do pacote)
+(4, 5, 6, '2025-07-15 09:00:00', 0.00, 'AGENDADO', 'AGENDADO', '2025-08-15', 1), -- Drenagem do Pacote Relax Total para Fernando com Carla
+(4, 4, 6, '2025-06-16 10:00:00', 180.00, 'CANCELADO', 'CANCELADO', NULL, NULL), -- Peeling para Giovana com Eduarda (cancelado)
+(3, 5, 6, '2025-06-17 14:00:00', 0.00, 'AGENDADO', 'AGENDADO', '2025-09-17', 4); -- Fisioterapia do Pacote Fitness para Heloisa com Daniel
 
 create table logStatus (
 fk_agendamento int primary key,

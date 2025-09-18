@@ -20,6 +20,7 @@ public class UsuarioEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idUsuario;
 
+    private String fotoPerfil;
     private String nome;
     private String email;
     private String telefone;
@@ -48,6 +49,14 @@ public class UsuarioEntity {
     @OneToMany(mappedBy = "usuario")
     private List<ValorPacoteEntity> pacotes;
 
+
+    public String getFotoPerfil() {
+        return fotoPerfil;
+    }
+
+    public void setFotoPerfil(String fotoPerfil) {
+        this.fotoPerfil = fotoPerfil;
+    }
 
     public Integer getIdUsuario() {
         return idUsuario;

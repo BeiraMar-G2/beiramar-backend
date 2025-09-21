@@ -5,6 +5,7 @@ import com.beiramar.beiramar.api.core.application.usecase.usuariousecase.*;
 import com.beiramar.beiramar.api.infrastructure.persistence.usuariopersistence.UsuarioJpaAdapter;
 import com.beiramar.beiramar.api.infrastructure.persistence.cargopersistence.CargoJpaRepository;
 import com.beiramar.beiramar.api.infrastructure.persistence.usuariopersistence.UsuarioJpaRepository;
+import com.beiramar.beiramar.api.repository.FilesEntityRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -44,7 +45,12 @@ public class UsuarioBeanConfig {
     }
 
     @Bean
-    public ListarUsuariosUseCase listarUsuariosUseCase(UsuarioGateway usuarioGateway) {
-        return new ListarUsuariosUseCase(usuarioGateway);
+    public ListarUsuariosUseCase listarUsuariosUseCase(UsuarioGateway usuarioGateway, FilesEntityRepository filesEntityRepository) {
+        return new ListarUsuariosUseCase(usuarioGateway, filesEntityRepository);
+    }
+
+    @Bean
+    public AtualizarFotoUsuarioUseCase atualizarFotoUsuarioUseCase(UsuarioGateway usuarioGateway) {
+        return new AtualizarFotoUsuarioUseCase(usuarioGateway);
     }
 }

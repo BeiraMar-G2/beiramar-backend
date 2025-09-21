@@ -10,14 +10,16 @@ public class UsuarioListagemCommand {
     private String telefone;
     private LocalDate dtNasc;
     private String cargo;
+    private String fotoUrl;
 
-    public UsuarioListagemCommand(Integer idUsuario, String nome, String email, String telefone, LocalDate dtNasc, String cargo) {
+    public UsuarioListagemCommand(Integer idUsuario, String nome, String email, String telefone, LocalDate dtNasc, String cargo, String fotoUrl) {
         this.idUsuario = idUsuario;
         this.nome = nome;
         this.email = email;
         this.telefone = telefone;
         this.dtNasc = dtNasc;
         this.cargo = cargo;
+        this.fotoUrl = fotoUrl;
     }
 
     public Integer getIdUsuario() { return idUsuario; }
@@ -26,4 +28,5 @@ public class UsuarioListagemCommand {
     public String getTelefone() { return telefone; }
     public LocalDate getDtNasc() { return dtNasc; }
     public String getCargo() { return cargo; }
+    public String getFotoUrl() { return fotoUrl;}
 }

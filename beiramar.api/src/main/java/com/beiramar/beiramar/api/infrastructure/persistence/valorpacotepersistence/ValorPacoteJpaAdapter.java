@@ -41,7 +41,8 @@ public class ValorPacoteJpaAdapter implements ValorPacoteGateway {
                 entity.getUsuario().getTelefone(),
                 entity.getUsuario().getSenha(),
                 entity.getUsuario().getDtNasc(),
-                cargo
+                cargo,
+                null
         );
 
         Pacote pacote = new Pacote(
@@ -121,8 +122,9 @@ public class ValorPacoteJpaAdapter implements ValorPacoteGateway {
                         new Cargo(
                                 entity.getCargo().getIdCargo(),
                                 entity.getCargo().getNome()
-                        )
-                ))
+                        ),
+                        null
+                                        ))
                 .orElseThrow(() -> new EntidadeNaoEncontradaException("Usuário não encontrado com ID: " + id));
     }
 

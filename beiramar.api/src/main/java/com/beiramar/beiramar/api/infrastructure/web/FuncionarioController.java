@@ -6,6 +6,8 @@ import com.beiramar.beiramar.api.core.application.command.usuariocommand.Usuario
 import com.beiramar.beiramar.api.core.application.usecase.usuariousecase.*;
 import com.beiramar.beiramar.api.core.domain.Usuario;
 import com.beiramar.beiramar.api.dto.funcionarioDtos.FuncionarioListagemDto;
+import com.beiramar.beiramar.api.entity.FilesEntity;
+import com.beiramar.beiramar.api.repository.FilesEntityRepository;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
@@ -28,19 +30,23 @@ public class FuncionarioController {
     private final BuscarUsuarioPorIdUseCase buscarUsuarioPorIdUseCase;
     private final DeletarUsuarioUseCase deletarUsuarioUseCase;
     private final ListarUsuariosPorCargoUseCase listarUsuariosPorCargoUseCase;
+    private final AtualizarFotoUsuarioUseCase atualizarFotoUsuarioUseCase;
+    private final FilesEntityRepository filesEntityRepository;
 
     public FuncionarioController(
             CadastrarUsuarioUseCase cadastrarUsuarioUseCase,
             AtualizarUsuarioUseCase atualizarUsuarioUseCase,
             BuscarUsuarioPorIdUseCase buscarUsuarioPorIdUseCase,
             DeletarUsuarioUseCase deletarUsuarioUseCase,
-            ListarUsuariosPorCargoUseCase listarUsuariosPorCargoUseCase
+            ListarUsuariosPorCargoUseCase listarUsuariosPorCargoUseCase, AtualizarFotoUsuarioUseCase atualizarFotoUsuarioUseCase, FilesEntityRepository filesEntityRepository
     ) {
         this.cadastrarUsuarioUseCase = cadastrarUsuarioUseCase;
         this.atualizarUsuarioUseCase = atualizarUsuarioUseCase;
         this.buscarUsuarioPorIdUseCase = buscarUsuarioPorIdUseCase;
         this.deletarUsuarioUseCase = deletarUsuarioUseCase;
         this.listarUsuariosPorCargoUseCase = listarUsuariosPorCargoUseCase;
+        this.atualizarFotoUsuarioUseCase = atualizarFotoUsuarioUseCase;
+        this.filesEntityRepository = filesEntityRepository;
     }
 
     @PostMapping
@@ -101,14 +107,54 @@ public class FuncionarioController {
         return ResponseEntity.noContent().build();
     }
 
+    @PutMapping("/{id}/foto")
+    @Operation(summary = "Atualizar foto do funcionario")
+    public ResponseEntity<UsuarioListagemCommand> atualizarFoto(
+            @PathVariable Integer id,
+            @RequestParam Integer fotoId) {
+
+        Usuario usuario = atualizarFotoUsuarioUseCase.executar(id, fotoId);
+
+        // Monta a URL da foto
+        String fotoUrl = null;
+        if (usuario.getFotoPerfilId() != null) {
+            fotoUrl = "https://meu-bucket.s3.amazonaws.com/" +
+                    filesEntityRepository.findById(usuario.getFotoPerfilId())
+                            .map(FilesEntity::getStoredName)
+                            .orElse(null);
+        }
+
+        UsuarioListagemCommand response = new UsuarioListagemCommand(
+                usuario.getIdUsuario(),
+                usuario.getNome(),
+                usuario.getEmail(),
+                usuario.getTelefone(),
+                usuario.getDtNasc(),
+                usuario.getCargo().getNome(),
+                fotoUrl
+        );
+
+        return ResponseEntity.ok(response);
+    }
+
     private UsuarioListagemCommand toListagemCommand(Usuario usuario) {
+        String fotoUrl = null;
+
+        if (usuario.getFotoPerfilId() != null) {
+            fotoUrl = "https://meu-bucket.s3.amazonaws.com/" +
+                    filesEntityRepository.findById(usuario.getFotoPerfilId())
+                            .map(FilesEntity::getStoredName)
+                            .orElse(null);
+        }
+
         return new UsuarioListagemCommand(
                 usuario.getIdUsuario(),
                 usuario.getNome(),
                 usuario.getEmail(),
                 usuario.getTelefone(),
                 usuario.getDtNasc(),
-                usuario.getCargo().getNome()
+                usuario.getCargo().getNome(),
+                fotoUrl
         );
     }
 }

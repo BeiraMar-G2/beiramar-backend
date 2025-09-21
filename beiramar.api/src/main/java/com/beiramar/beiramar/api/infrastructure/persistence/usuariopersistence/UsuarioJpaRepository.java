@@ -10,5 +10,6 @@ public interface UsuarioJpaRepository extends JpaRepository<UsuarioEntity, Integ
 
     List<UsuarioEntity> findByCargo(CargoEntity cargo);
     Optional<UsuarioEntity> findByEmail(String email);
+    List<UsuarioEntity> findByCargo_Nome(String nomeCargo);
 
 }

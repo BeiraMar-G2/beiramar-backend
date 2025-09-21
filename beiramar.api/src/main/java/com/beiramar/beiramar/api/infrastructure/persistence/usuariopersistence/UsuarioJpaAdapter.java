@@ -4,6 +4,7 @@ import com.beiramar.beiramar.api.core.adapter.UsuarioGateway;
 import com.beiramar.beiramar.api.core.application.exception.EntidadeNaoEncontradaException;
 import com.beiramar.beiramar.api.core.domain.Cargo;
 import com.beiramar.beiramar.api.core.domain.Usuario;
+import com.beiramar.beiramar.api.entity.FilesEntity;
 import com.beiramar.beiramar.api.infrastructure.persistence.cargopersistence.CargoEntity;
 import com.beiramar.beiramar.api.infrastructure.persistence.cargopersistence.CargoJpaRepository;
 
@@ -25,11 +26,21 @@ public class UsuarioJpaAdapter implements UsuarioGateway {
 
     private Usuario toDomain(UsuarioEntity entity) {
         Cargo cargo = new Cargo(entity.getCargo().getIdCargo(), entity.getCargo().getNome());
-        return new Usuario(entity.getIdUsuario(), entity.getNome(), entity.getEmail(), entity.getTelefone(), entity.getSenha(), entity.getDtNasc(), cargo);
+        Integer fotoPerfilId = entity.getFotoPerfil() != null ? entity.getFotoPerfil().getId() : null;
+
+        return new Usuario(
+                entity.getIdUsuario(),
+                entity.getNome(),
+                entity.getEmail(),
+                entity.getTelefone(),
+                entity.getSenha(),
+                entity.getDtNasc(),
+                cargo,
+                fotoPerfilId
+        );
     }
 
     private UsuarioEntity toEntity(Usuario usuario) {
-
         UsuarioEntity entity = new UsuarioEntity();
 
         entity.setIdUsuario(usuario.getIdUsuario());
@@ -42,6 +53,14 @@ public class UsuarioJpaAdapter implements UsuarioGateway {
         CargoEntity cargoEntity = new CargoEntity();
         cargoEntity.setIdCargo(usuario.getCargo().getIdCargo());
         entity.setCargo(cargoEntity);
+
+        if (usuario.getFotoPerfilId() != null) {
+            FilesEntity fileEntity = new FilesEntity();
+            fileEntity.setId(usuario.getFotoPerfilId());
+            entity.setFotoPerfil(fileEntity);
+        } else {
+            entity.setFotoPerfil(null);
+        }
 
         return entity;
     }
@@ -60,9 +79,7 @@ public class UsuarioJpaAdapter implements UsuarioGateway {
 
     @Override
     public List<Usuario> listarPorCargo(String nomeCargo) {
-        CargoEntity cargo = new CargoEntity();
-        cargo.setNome(nomeCargo);
-        return usuarioJpaRepository.findByCargo(cargo).stream()
+        return usuarioJpaRepository.findByCargo_Nome(nomeCargo).stream()
                 .map(this::toDomain)
                 .collect(Collectors.toList());
     }

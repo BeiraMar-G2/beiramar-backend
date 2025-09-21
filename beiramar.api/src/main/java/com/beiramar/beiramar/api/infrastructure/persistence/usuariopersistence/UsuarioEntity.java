@@ -1,5 +1,6 @@
 package com.beiramar.beiramar.api.infrastructure.persistence.usuariopersistence;
 
+import com.beiramar.beiramar.api.entity.FilesEntity;
 import com.beiramar.beiramar.api.infrastructure.persistence.agendamentopersistence.AgendamentoEntity;
 import com.beiramar.beiramar.api.entity.DisponibilidadeEntity;
 import com.beiramar.beiramar.api.entity.LogSenhaEntity;
@@ -20,7 +21,6 @@ public class UsuarioEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idUsuario;
 
-    private String fotoPerfil;
     private String nome;
     private String email;
     private String telefone;
@@ -49,12 +49,15 @@ public class UsuarioEntity {
     @OneToMany(mappedBy = "usuario")
     private List<ValorPacoteEntity> pacotes;
 
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "fotoPerfilId")
+    private FilesEntity fotoPerfil;
 
-    public String getFotoPerfil() {
+    public FilesEntity getFotoPerfil() {
         return fotoPerfil;
     }
 
-    public void setFotoPerfil(String fotoPerfil) {
+    public void setFotoPerfil(FilesEntity fotoPerfil) {
         this.fotoPerfil = fotoPerfil;
     }
 

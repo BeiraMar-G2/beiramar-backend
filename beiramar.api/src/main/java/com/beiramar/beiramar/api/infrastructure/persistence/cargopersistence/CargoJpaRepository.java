@@ -7,4 +7,5 @@ import java.util.Optional;
 public interface CargoJpaRepository extends JpaRepository<CargoEntity, Integer> {
 
     Optional<CargoEntity> findByNomeIgnoreCase(String nome);
+    CargoEntity findByIdCargo(Integer id);
 }

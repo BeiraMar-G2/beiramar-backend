@@ -2,6 +2,7 @@ package com.beiramar.beiramar.api.controller;
 
 import com.beiramar.beiramar.api.dto.autenticacaoDtos.UsuarioLoginDto;
 import com.beiramar.beiramar.api.dto.autenticacaoDtos.UsuarioTokenDto;
+import com.beiramar.beiramar.api.dto.clienteDtos.ClienteCadastroDto;
 import com.beiramar.beiramar.api.service.UsuarioService;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
@@ -35,5 +36,11 @@ public class AutenticacaoController {
                             )
                     }))@RequestBody UsuarioLoginDto dto) {
         return ResponseEntity.status(200).body(usuarioService.autenticar(dto));
+    }
+
+    @PostMapping("/login-google")
+    public ResponseEntity<UsuarioTokenDto> loginGoogle(@RequestBody ClienteCadastroDto dto) {
+        UsuarioTokenDto token = usuarioService.autenticarOuCriarComGoogle(dto);
+        return ResponseEntity.ok(token);
     }
 }

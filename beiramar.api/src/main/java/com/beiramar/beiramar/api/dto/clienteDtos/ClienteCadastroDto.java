@@ -29,10 +29,6 @@ public class ClienteCadastroDto {
     @Size(min = 8, max = 15, message = "Senha deve ser de 8 a 15 dígitos")
     private String senha;
 
-    @Schema(description = "Data de nascimento do usuário no DTO de cadastro", example = "2001-01-01")
-    @NotNull
-    private LocalDate dtNasc;
-
     @Schema(description = "Cargo do Usuario", example = "Funcionario/Cliente")
     @NotNull
     private Integer fkCargo;
@@ -68,14 +64,6 @@ public class ClienteCadastroDto {
 
     public void setSenha(String senha) {
         this.senha = senha;
-    }
-
-    public LocalDate getDtNasc() {
-        return dtNasc;
-    }
-
-    public void setDtNasc(LocalDate dtNasc) {
-        this.dtNasc = dtNasc;
     }
 
     public Integer getFkCargo() {

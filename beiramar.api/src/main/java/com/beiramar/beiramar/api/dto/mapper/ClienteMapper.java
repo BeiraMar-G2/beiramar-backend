@@ -14,7 +14,6 @@ public class ClienteMapper {
         usuario.setEmail(dto.getEmail());
         usuario.setTelefone(dto.getTelefone());
         usuario.setSenha(dto.getSenha());
-        usuario.setDtNasc(dto.getDtNasc());
         usuario.setCargo(cargo);
         return usuario;
     }

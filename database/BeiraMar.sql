@@ -18,6 +18,7 @@ INSERT INTO cargo (nome) VALUES
 
 create table usuario (
 id_usuario int primary key auto_increment,
+foto_perfil varchar(200),
 nome varchar(100),
 email varchar(80),
 telefone varchar(45),
@@ -28,12 +29,12 @@ constraint fkUsuarioCargo foreign key (fk_cargo) references cargo (id_cargo)
 );
 
 INSERT INTO usuario (nome, email, telefone, senha, dt_nasc, fk_cargo) VALUES
-('Ana Silva', 'ana.silva@beiramar.com', '11987654321', 'senha12345', '1985-03-15', 1), -- Administrador
+('Ana Silva', 'ana@beiramar.com', '11987654321', '$2a$10$RWnGTZiqVGs9WqUXkbyps.78KPRu79gph1KQJL4sgWDHQKd/ETod.', '1985-03-15', 1), -- Administrador (Senha: 12345678)
 ('Bruno Costa', 'bruno.costa@beiramar.com', '11991234567', 'senha67890', '1990-07-22', 2), -- Recepcionista
 ('Carla Dias', 'carla.dias@beiramar.com', '11977889900', 'carla12345', '1988-11-01', 3), -- Massagista
 ('Daniel Rocha', 'daniel.rocha@beiramar.com', '11966554433', 'daniel6789', '1982-05-10', 4), -- Fisioterapeuta
 ('Eduarda Souza', 'eduarda.s@beiramar.com', '11955443322', 'eduarda123', '1995-09-20', 5), -- Esteticista
-('Fernanda Lima', 'fernanda.lima@example.com', '11944332211', 'fernanda98', '1970-01-05', 6); -- Cliente
+('Fernanda Lima', 'fernanda@gmail.com', '11944332211', '$2a$10$RWnGTZiqVGs9WqUXkbyps.78KPRu79gph1KQJL4sgWDHQKd/ETod.', '1970-01-05', 6); -- Cliente (Senha: 12345678)
 
 create table logSenha (
 id_logSenha int auto_increment,
@@ -55,16 +56,16 @@ INSERT INTO logSenha (fk_usuario, token, dataLog, status) VALUES
 create table disponibilidade (
 id_disponibilidade int auto_increment,
 fk_funcionario int,
-diaSemana varchar (45),
-horaInicio time,
-horaFim time,
-diaMes varchar(45),
-fk_disponibilidadeExcecao int,
+dia_semana varchar (45),
+hora_inicio time,
+hora_fim time,
+dia_mes varchar(45),
+fk_disponibilidade_excecao int,
 primary key(id_disponibilidade, fk_funcionario),
-constraint fkDispDisp foreign key (fk_disponibilidadeExcecao) references disponibilidade (id_disponibilidade)
+constraint fkDispDisp foreign key (fk_disponibilidade_excecao) references disponibilidade (id_disponibilidade)
 );
 
-INSERT INTO disponibilidade (fk_funcionario, diaSemana, horaInicio, horaFim, diaMes, fk_disponibilidadeExcecao) VALUES
+INSERT INTO disponibilidade (fk_funcionario, dia_semana, hora_inicio, hora_fim, dia_mes, fk_disponibilidade_excecao) VALUES
 (3, 'Segunda-feira', '09:00:00', '18:00:00', NULL, NULL), -- Carla (Massagista) - Segunda normal
 (3, 'Terça-feira', '09:00:00', '18:00:00', NULL, NULL), -- Carla (Massagista) - Terça normal
 (4, 'Quarta-feira', '10:00:00', '19:00:00', NULL, NULL), -- Daniel (Fisioterapeuta) - Quarta normal
@@ -163,7 +164,7 @@ INSERT INTO agendamento (fk_servico, fk_cliente, fk_funcionario, dt_hora, valor_
 (1, 4, 6, '2025-07-13 16:00:00', 0.00, 'AGENDADO', 'AGENDADO', '2025-08-13', 1), -- Massagem do Pacote Relax Total para Igor com Carla (valor 0, pois vem do pacote)
 (4, 5, 6, '2025-07-15 09:00:00', 0.00, 'AGENDADO', 'AGENDADO', '2025-08-15', 1), -- Drenagem do Pacote Relax Total para Fernando com Carla
 (4, 4, 6, '2025-06-16 10:00:00', 180.00, 'CANCELADO', 'CANCELADO', NULL, NULL), -- Peeling para Giovana com Eduarda (cancelado)
-(3, 5, 6, '2025-06-17 14:00:00', 0.00, 'AGENDADO', 'AGENDADO', '2025-09-17', 4); -- Fisioterapia do Pacote Fitness para Heloisa com Daniel
+(3, 5, 6, '2025-06-16 14:00:00', 0.00, 'AGENDADO', 'AGENDADO', '2025-09-17', 4); -- Fisioterapia do Pacote Fitness para Heloisa com Daniel
 
 create table logStatus (
 fk_agendamento int primary key,

@@ -8,6 +8,7 @@ import java.time.LocalTime;
 
 @Entity
 @Schema(description = "Disponibilidade do Funcionário/Cliente")
+@Table(schema = "Disponibilidade")
 public class DisponibilidadeEntity {
 
     @Id

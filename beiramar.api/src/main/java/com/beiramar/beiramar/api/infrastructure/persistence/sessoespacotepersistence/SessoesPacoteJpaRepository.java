@@ -9,6 +9,6 @@ import java.util.List;
 
 public interface SessoesPacoteJpaRepository extends JpaRepository<SessoesPacoteEntity, Integer> {
 
-    @Query(value = "select s.*, sessoesPacote.qtd_sessoes from sessoesPacote join servico as s on id_servico=fk_servico where fk_pacote = :idPacote", nativeQuery = true)
+    @Query(value = "select s.*, sessoes_pacote.qtd_sessoes from sessoes_pacote join servico as s on id_servico=fk_servico where fk_pacote = :idPacote", nativeQuery = true)
     List<ServicoEntity> buscarServicosPorPacote(@Param("idPacote") Integer idPacote);
 }

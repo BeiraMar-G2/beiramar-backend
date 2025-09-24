@@ -23,8 +23,10 @@ public class CadastrarAgendamentoUseCase {
         Usuario cliente = agendamentoGateway.buscarClientePorId(command.getFkCliente());
         Usuario funcionario = agendamentoGateway.buscarFuncionarioPorId(command.getFkFuncionario());
         Servico servico = agendamentoGateway.buscarServicoPorId(command.getFkServico());
-        Pacote pacote = agendamentoGateway.buscarPacotePorId(command.getFkPacote());
-
+        Pacote pacote = null;
+        if (command.getFkPacote() != null) {
+            pacote = agendamentoGateway.buscarPacotePorId(command.getFkPacote());
+        }
 
         Agendamento agendamento = new Agendamento(
                 null,

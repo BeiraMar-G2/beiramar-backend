@@ -18,7 +18,7 @@ INSERT INTO cargo (nome) VALUES
 
 create table usuario (
 id_usuario int primary key auto_increment,
-foto_perfil varchar(200),
+foto_perfil_id varchar(200),
 nome varchar(100),
 email varchar(80),
 telefone varchar(45),

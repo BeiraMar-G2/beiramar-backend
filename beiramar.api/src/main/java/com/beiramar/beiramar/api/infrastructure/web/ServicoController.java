@@ -20,17 +20,23 @@ public class    ServicoController {
     private final BuscarServicoPorIdUseCase buscarServicoPorIdUseCase;
     private final AtualizarServicoUseCase atualizarServicoUseCase;
     private final DeletarServicoUseCase deletarServicoUseCase;
+    private final BuscarTop3ServicosMaisAgendadosUseCase buscarTop3ServicosMaisAgendadosUseCase;
+    private final BuscarTop3ServicosMenosAgendadosUseCase buscarTop3ServicosMenosAgendadosUseCase;
 
     public ServicoController(CadastrarServicoUseCase cadastrarServicoUseCase,
                              ListarServicosUseCase listarServicosUseCase,
                              BuscarServicoPorIdUseCase buscarServicoPorIdUseCase,
                              AtualizarServicoUseCase atualizarServicoUseCase,
-                             DeletarServicoUseCase deletarServicoUseCase) {
+                             DeletarServicoUseCase deletarServicoUseCase,
+                             BuscarTop3ServicosMaisAgendadosUseCase buscarTop3ServicosMaisAgendadosUseCase,
+                             BuscarTop3ServicosMenosAgendadosUseCase buscarTop3ServicosMenosAgendadosUseCase) {
         this.cadastrarServicoUseCase = cadastrarServicoUseCase;
         this.listarServicosUseCase = listarServicosUseCase;
         this.buscarServicoPorIdUseCase = buscarServicoPorIdUseCase;
         this.atualizarServicoUseCase = atualizarServicoUseCase;
         this.deletarServicoUseCase = deletarServicoUseCase;
+        this.buscarTop3ServicosMaisAgendadosUseCase = buscarTop3ServicosMaisAgendadosUseCase;
+        this.buscarTop3ServicosMenosAgendadosUseCase = buscarTop3ServicosMenosAgendadosUseCase;
     }
 
     @PostMapping
@@ -61,4 +67,13 @@ public class    ServicoController {
         return ResponseEntity.noContent().build();
     }
 
+    @GetMapping("/top3-mais-agendados")
+    public List<Object[]> getTop3ServicosMaisAgendados() {
+        return buscarTop3ServicosMaisAgendadosUseCase.executar();
+    }
+
+    @GetMapping("/top3-menos-agendados")
+    public List<Object[]> getTop3ServicosMenosAgendados() {
+        return buscarTop3ServicosMenosAgendadosUseCase.executar();
+    }
 }

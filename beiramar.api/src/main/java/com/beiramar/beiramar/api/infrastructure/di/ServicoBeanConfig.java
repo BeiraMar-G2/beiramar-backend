@@ -39,4 +39,14 @@ public class ServicoBeanConfig {
     public DeletarServicoUseCase deletarServicoUseCase(ServicoGateway servicoGateway) {
         return new DeletarServicoUseCase(servicoGateway);
     }
+
+    @Bean
+    public BuscarTop3ServicosMaisAgendadosUseCase buscarTop3ServicosMaisAgendadosUseCase(ServicoGateway servicoGateway) {
+        return new BuscarTop3ServicosMaisAgendadosUseCase(servicoGateway);
+    }
+
+    @Bean
+    public BuscarTop3ServicosMenosAgendadosUseCase buscarTop3ServicosMenosAgendadosUseCase(ServicoGateway servicoGateway) {
+        return new BuscarTop3ServicosMenosAgendadosUseCase(servicoGateway);
+    }
 }

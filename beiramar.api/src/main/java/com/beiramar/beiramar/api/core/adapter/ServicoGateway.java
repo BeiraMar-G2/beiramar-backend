@@ -12,4 +12,6 @@ public interface ServicoGateway {
     Optional<Servico> buscarPorId(Integer id);
     void deletar(Integer id);
     boolean existePorId(Integer id);
+    List<Object[]> buscarTop3ServicosMaisAgendados();
+    List<Object[]> buscarTop3ServicosMenosAgendados();
 }

@@ -58,4 +58,9 @@ public class AgendamentoBeanConfig {
     public ListarAgendamentosPorMesUseCase listarAgendamentosPorMesUseCase(AgendamentoGateway gateway) {
         return new ListarAgendamentosPorMesUseCase(gateway);
     }
+
+    @Bean
+    public ContarAgendamentoStatusAgendadoUseCase contarAgendamentoStatusAgendadoUseCase(AgendamentoGateway gateway) {
+        return new ContarAgendamentoStatusAgendadoUseCase(gateway);
+    }
 }

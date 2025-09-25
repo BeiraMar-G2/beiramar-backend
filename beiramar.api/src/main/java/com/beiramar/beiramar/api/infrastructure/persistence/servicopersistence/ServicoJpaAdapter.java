@@ -57,4 +57,14 @@ public class ServicoJpaAdapter implements ServicoGateway {
     public boolean existePorId(Integer id) {
         return servicoJpaRepository.existsById(id);
     }
+
+    @Override
+    public List<Object[]> buscarTop3ServicosMaisAgendados() {
+        return servicoJpaRepository.findTop3ServicosMaisAgendados();
+    }
+
+    @Override
+    public List<Object[]> buscarTop3ServicosMenosAgendados() {
+        return servicoJpaRepository.findTop3ServicosMenosAgendados();
+    }
 }

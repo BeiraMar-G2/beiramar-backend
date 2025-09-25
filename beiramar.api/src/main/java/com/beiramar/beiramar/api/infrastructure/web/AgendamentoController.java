@@ -23,6 +23,7 @@ public class AgendamentoController {
     private final ListarAgendamentosUseCase listarUseCase;
     private final ListarAgendamentosPorIdClienteUseCase listarPorClienteUseCase;
     private final ListarAgendamentosPorMesUseCase listarPorMesUseCase;
+    private final ContarAgendamentoStatusAgendadoUseCase contarAgendamentoUseCase;
 
     public AgendamentoController(
             CadastrarAgendamentoUseCase cadastrarUseCase,
@@ -31,7 +32,8 @@ public class AgendamentoController {
             DeletarAgendamentoUseCase deletarUseCase,
             ListarAgendamentosUseCase listarUseCase,
             ListarAgendamentosPorIdClienteUseCase listarPorClienteUseCase,
-            ListarAgendamentosPorMesUseCase listarPorMesUseCase
+            ListarAgendamentosPorMesUseCase listarPorMesUseCase,
+            ContarAgendamentoStatusAgendadoUseCase contarAgendamentoUseCase
     ) {
         this.cadastrarUseCase = cadastrarUseCase;
         this.atualizarUseCase = atualizarUseCase;
@@ -40,6 +42,7 @@ public class AgendamentoController {
         this.listarUseCase = listarUseCase;
         this.listarPorClienteUseCase = listarPorClienteUseCase;
         this.listarPorMesUseCase = listarPorMesUseCase;
+        this.contarAgendamentoUseCase = contarAgendamentoUseCase;
     }
 
     @PostMapping
@@ -81,6 +84,18 @@ public class AgendamentoController {
     public ResponseEntity<List<Agendamento>> listarPorMes(@RequestParam Integer mes,
                                                           @RequestParam Integer ano) {
         return ResponseEntity.ok(listarPorMesUseCase.executar(mes, ano));
+    }
+
+    @GetMapping("/contarAgendados")
+    public ResponseEntity<Long> contarAgendamentos(@RequestParam Integer dias) {
+        Long quantidade = contarAgendamentoUseCase.executar(dias);
+        return ResponseEntity.ok(quantidade);
+    }
+
+    @GetMapping("/contarCancelados")
+    public ResponseEntity<Long> contarAgendamentosCancelados(@RequestParam Integer dias) {
+        Long quantidade = contarAgendamentoUseCase.executarCancelados(dias);
+        return ResponseEntity.ok(quantidade);
     }
 
 }

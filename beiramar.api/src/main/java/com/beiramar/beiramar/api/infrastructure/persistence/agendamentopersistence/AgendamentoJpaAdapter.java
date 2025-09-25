@@ -191,6 +191,14 @@ public class AgendamentoJpaAdapter implements AgendamentoGateway {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public Long contarAgendamentosComStatusAgendadoPorDias(Integer dias) {
+        return agendamentoRepository.countByStatusAgendado(dias);
+    }
 
+    @Override
+    public Long contarAgendamentosCanceladosPorDias(Integer dias) {
+        return agendamentoRepository.countByStatusCancelado(dias);
+    }
 
 }

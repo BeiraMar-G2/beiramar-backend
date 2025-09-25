@@ -21,4 +21,6 @@ public interface AgendamentoGateway {
     Usuario buscarFuncionarioPorId(Integer id);
     List<Agendamento> listarPorIdCliente(Integer idCliente);
     List<Agendamento> listarPorMes(Integer mes, Integer ano);
+    Long contarAgendamentosComStatusAgendadoPorDias(Integer dias);
+    Long contarAgendamentosCanceladosPorDias(Integer dias);
 }

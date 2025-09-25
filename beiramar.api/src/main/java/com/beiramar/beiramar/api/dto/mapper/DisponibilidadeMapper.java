@@ -3,7 +3,7 @@ package com.beiramar.beiramar.api.dto.mapper;
 import com.beiramar.beiramar.api.dto.disponibilidadeDtos.DisponibilidadeAtualizacaoDto;
 import com.beiramar.beiramar.api.dto.disponibilidadeDtos.DisponibilidadeCadastroDto;
 import com.beiramar.beiramar.api.dto.disponibilidadeDtos.DisponibilidadeListagemDto;
-import com.beiramar.beiramar.api.entity.DisponibilidadeEntity;
+import com.beiramar.beiramar.api.infrastructure.persistence.disponibilidadepersistence.DisponibilidadeEntity;
 import com.beiramar.beiramar.api.infrastructure.persistence.usuariopersistence.UsuarioEntity;
 
 public class DisponibilidadeMapper {

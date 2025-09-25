@@ -3,10 +3,10 @@ package com.beiramar.beiramar.api.service;
 import com.beiramar.beiramar.api.dto.disponibilidadeDtos.DisponibilidadeAtualizacaoDto;
 import com.beiramar.beiramar.api.dto.disponibilidadeDtos.DisponibilidadeCadastroDto;
 import com.beiramar.beiramar.api.dto.disponibilidadeDtos.DisponibilidadeListagemDto;
-import com.beiramar.beiramar.api.entity.DisponibilidadeEntity;
+import com.beiramar.beiramar.api.infrastructure.persistence.disponibilidadepersistence.DisponibilidadeEntity;
 import com.beiramar.beiramar.api.infrastructure.persistence.usuariopersistence.UsuarioEntity;
 import com.beiramar.beiramar.api.core.application.exception.EntidadeNaoEncontradaException;
-import com.beiramar.beiramar.api.repository.DisponibilidadeRepository;
+import com.beiramar.beiramar.api.infrastructure.persistence.disponibilidadepersistence.DisponibilidadeJpaRepository;
 import com.beiramar.beiramar.api.infrastructure.persistence.usuariopersistence.UsuarioJpaRepository;
 import com.beiramar.beiramar.api.dto.mapper.DisponibilidadeMapper;
 import org.junit.jupiter.api.DisplayName;
@@ -31,7 +31,7 @@ class DisponibilidadeServiceTest {
     private DisponibilidadeService disponibilidadeService;
 
     @Mock
-    private DisponibilidadeRepository disponibilidadeRepository;
+    private DisponibilidadeJpaRepository disponibilidadeRepository;
 
     @Mock
     private UsuarioJpaRepository usuarioRepository;

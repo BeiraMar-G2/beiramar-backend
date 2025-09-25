@@ -1,4 +1,4 @@
-package com.beiramar.beiramar.api.entity;
+package com.beiramar.beiramar.api.infrastructure.persistence.disponibilidadepersistence;
 
 import com.beiramar.beiramar.api.infrastructure.persistence.usuariopersistence.UsuarioEntity;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -26,7 +26,6 @@ public class DisponibilidadeEntity {
 
     private Boolean disponibilidadeExcecao;
     private String fkFuncionarioExcecaoNome;
-
 
     public Integer getIdDisponibilidade() {
         return idDisponibilidade;

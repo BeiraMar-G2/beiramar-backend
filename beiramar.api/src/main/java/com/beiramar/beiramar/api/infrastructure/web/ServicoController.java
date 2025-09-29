@@ -23,6 +23,8 @@ public class    ServicoController {
     private final BuscarTop3ServicosMaisAgendadosUseCase buscarTop3ServicosMaisAgendadosUseCase;
     private final BuscarTop3ServicosMenosAgendadosUseCase buscarTop3ServicosMenosAgendadosUseCase;
     private final BuscarServicosMaisCanceladosUseCase buscarServicosMaisCanceladosUseCase;
+    private final BuscarAgendamentosPorDiaSemanaPorNomeServicoUseCase buscarAgendamentosPorDiaSemanaPorNomeServicoUseCase;
+    private final BuscarCancelamentosPorDiaSemanaPorNomeServicoUseCase buscarCancelamentosPorDiaSemanaPorNomeServicoUseCase;
 
     public ServicoController(CadastrarServicoUseCase cadastrarServicoUseCase,
                              ListarServicosUseCase listarServicosUseCase,
@@ -31,7 +33,9 @@ public class    ServicoController {
                              DeletarServicoUseCase deletarServicoUseCase,
                              BuscarTop3ServicosMaisAgendadosUseCase buscarTop3ServicosMaisAgendadosUseCase,
                              BuscarTop3ServicosMenosAgendadosUseCase buscarTop3ServicosMenosAgendadosUseCase,
-                             BuscarServicosMaisCanceladosUseCase buscarServicosMaisCanceladosUseCase) {
+                             BuscarServicosMaisCanceladosUseCase buscarServicosMaisCanceladosUseCase,
+                             BuscarAgendamentosPorDiaSemanaPorNomeServicoUseCase buscarAgendamentosPorDiaSemanaPorNomeServicoUseCase,
+                             BuscarCancelamentosPorDiaSemanaPorNomeServicoUseCase buscarCancelamentosPorDiaSemanaPorNomeServicoUseCase) {
         this.cadastrarServicoUseCase = cadastrarServicoUseCase;
         this.listarServicosUseCase = listarServicosUseCase;
         this.buscarServicoPorIdUseCase = buscarServicoPorIdUseCase;
@@ -40,6 +44,8 @@ public class    ServicoController {
         this.buscarTop3ServicosMaisAgendadosUseCase = buscarTop3ServicosMaisAgendadosUseCase;
         this.buscarTop3ServicosMenosAgendadosUseCase = buscarTop3ServicosMenosAgendadosUseCase;
         this.buscarServicosMaisCanceladosUseCase = buscarServicosMaisCanceladosUseCase;
+        this.buscarAgendamentosPorDiaSemanaPorNomeServicoUseCase = buscarAgendamentosPorDiaSemanaPorNomeServicoUseCase;
+        this.buscarCancelamentosPorDiaSemanaPorNomeServicoUseCase = buscarCancelamentosPorDiaSemanaPorNomeServicoUseCase;
     }
 
     @PostMapping
@@ -83,5 +89,15 @@ public class    ServicoController {
     @GetMapping("/mais-cancelados")
     public List<Object[]> getServicosMaisCancelados() {
         return buscarServicosMaisCanceladosUseCase.executar();
+    }
+
+    @GetMapping("/agendamentos-por-dia-semana")
+    public List<Object[]> getAgendamentosPorDiaSemanaPorNomeServico(@RequestParam String nomeServico) {
+        return buscarAgendamentosPorDiaSemanaPorNomeServicoUseCase.executar(nomeServico);
+    }
+
+    @GetMapping("/cancelamentos-por-dia-semana")
+    public List<Object[]> getCancelamentosPorDiaSemanaPorNomeServico(@RequestParam String nomeServico) {
+        return buscarCancelamentosPorDiaSemanaPorNomeServicoUseCase.executar(nomeServico);
     }
 }

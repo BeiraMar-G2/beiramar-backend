@@ -72,4 +72,14 @@ public class ServicoJpaAdapter implements ServicoGateway {
     public List<Object[]> buscarServicosMaisCancelados() {
         return servicoJpaRepository.findServicosMaisCancelados();
     }
+
+    @Override
+    public List<Object[]> buscarAgendamentosPorDiaSemanaPorNomeServico(String nomeServico) {
+        return servicoJpaRepository.findAgendamentosPorDiaSemanaPorNomeServico(nomeServico);
+    }
+
+    @Override
+    public List<Object[]> buscarCancelamentosPorDiaSemanaPorNomeServico(String nomeServico) {
+        return servicoJpaRepository.findCancelamentosPorDiaSemanaPorNomeServico(nomeServico);
+    }
 }

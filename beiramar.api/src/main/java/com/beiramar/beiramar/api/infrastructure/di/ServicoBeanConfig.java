@@ -54,4 +54,14 @@ public class ServicoBeanConfig {
     public BuscarServicosMaisCanceladosUseCase buscarServicosMaisCanceladosUseCase(ServicoGateway servicoGateway) {
         return new BuscarServicosMaisCanceladosUseCase(servicoGateway);
     }
+
+    @Bean
+    public BuscarAgendamentosPorDiaSemanaPorNomeServicoUseCase buscarAgendamentosPorDiaSemanaPorNomeServicoUseCase(ServicoGateway servicoGateway) {
+        return new BuscarAgendamentosPorDiaSemanaPorNomeServicoUseCase(servicoGateway);
+    }
+
+    @Bean
+    public BuscarCancelamentosPorDiaSemanaPorNomeServicoUseCase buscarCancelamentosPorDiaSemanaPorNomeServicoUseCase(ServicoGateway servicoGateway) {
+        return new BuscarCancelamentosPorDiaSemanaPorNomeServicoUseCase(servicoGateway);
+    }
 }

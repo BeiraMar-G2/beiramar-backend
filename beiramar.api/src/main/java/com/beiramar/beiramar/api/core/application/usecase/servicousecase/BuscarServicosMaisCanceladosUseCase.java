@@ -5,21 +5,21 @@ import com.beiramar.beiramar.api.core.application.exception.EntidadeNaoEncontrad
 
 import java.util.List;
 
-public class BuscarTop3ServicosMaisAgendadosUseCase {
-
+public class BuscarServicosMaisCanceladosUseCase {
     private final ServicoGateway servicoGateway;
 
-    public BuscarTop3ServicosMaisAgendadosUseCase(ServicoGateway servicoGateway) {
+    public BuscarServicosMaisCanceladosUseCase(ServicoGateway servicoGateway) {
         this.servicoGateway = servicoGateway;
     }
 
     public List<Object[]> executar() {
-        List<Object[]> top3ServicosComQuantidade = servicoGateway.buscarTop3ServicosMaisAgendados();
+        List<Object[]> servicosMaisCancelados = servicoGateway.buscarServicosMaisCancelados();
 
-        if (top3ServicosComQuantidade.isEmpty()) {
-            throw new EntidadeNaoEncontradaException("Nenhum serviço encontrado");
+        if (servicosMaisCancelados.isEmpty()) {
+            throw new EntidadeNaoEncontradaException("Nenhum serviço com cancelamentos encontrado");
         }
 
-        return top3ServicosComQuantidade;
+        return servicosMaisCancelados;
     }
+
 }

@@ -14,4 +14,5 @@ public interface ServicoGateway {
     boolean existePorId(Integer id);
     List<Object[]> buscarTop3ServicosMaisAgendados();
     List<Object[]> buscarTop3ServicosMenosAgendados();
+    List<Object[]> buscarServicosMaisCancelados();
 }

@@ -22,6 +22,7 @@ public class    ServicoController {
     private final DeletarServicoUseCase deletarServicoUseCase;
     private final BuscarTop3ServicosMaisAgendadosUseCase buscarTop3ServicosMaisAgendadosUseCase;
     private final BuscarTop3ServicosMenosAgendadosUseCase buscarTop3ServicosMenosAgendadosUseCase;
+    private final BuscarServicosMaisCanceladosUseCase buscarServicosMaisCanceladosUseCase;
 
     public ServicoController(CadastrarServicoUseCase cadastrarServicoUseCase,
                              ListarServicosUseCase listarServicosUseCase,
@@ -29,7 +30,8 @@ public class    ServicoController {
                              AtualizarServicoUseCase atualizarServicoUseCase,
                              DeletarServicoUseCase deletarServicoUseCase,
                              BuscarTop3ServicosMaisAgendadosUseCase buscarTop3ServicosMaisAgendadosUseCase,
-                             BuscarTop3ServicosMenosAgendadosUseCase buscarTop3ServicosMenosAgendadosUseCase) {
+                             BuscarTop3ServicosMenosAgendadosUseCase buscarTop3ServicosMenosAgendadosUseCase,
+                             BuscarServicosMaisCanceladosUseCase buscarServicosMaisCanceladosUseCase) {
         this.cadastrarServicoUseCase = cadastrarServicoUseCase;
         this.listarServicosUseCase = listarServicosUseCase;
         this.buscarServicoPorIdUseCase = buscarServicoPorIdUseCase;
@@ -37,6 +39,7 @@ public class    ServicoController {
         this.deletarServicoUseCase = deletarServicoUseCase;
         this.buscarTop3ServicosMaisAgendadosUseCase = buscarTop3ServicosMaisAgendadosUseCase;
         this.buscarTop3ServicosMenosAgendadosUseCase = buscarTop3ServicosMenosAgendadosUseCase;
+        this.buscarServicosMaisCanceladosUseCase = buscarServicosMaisCanceladosUseCase;
     }
 
     @PostMapping
@@ -75,5 +78,10 @@ public class    ServicoController {
     @GetMapping("/top3-menos-agendados")
     public List<Object[]> getTop3ServicosMenosAgendados() {
         return buscarTop3ServicosMenosAgendadosUseCase.executar();
+    }
+
+    @GetMapping("/mais-cancelados")
+    public List<Object[]> getServicosMaisCancelados() {
+        return buscarServicosMaisCanceladosUseCase.executar();
     }
 }

@@ -28,4 +28,11 @@ public interface ServicoJpaRepository extends JpaRepository<ServicoEntity, Integ
             "LIMIT 3", nativeQuery = true)
     List<Object[]> findTop3ServicosMenosAgendados();
 
+    @Query(value = "SELECT s.nome, COUNT(CASE WHEN a.status = 'Cancelado' THEN 1 END) as total_cancelamentos " +
+            "FROM Servico s " +
+            "LEFT JOIN Agendamento a ON s.id_servico = a.fk_servico " +
+            "GROUP BY s.id_servico, s.nome " +
+            "ORDER BY total_cancelamentos DESC", nativeQuery = true)
+    List<Object[]> findServicosMaisCancelados();
+
 }

@@ -49,4 +49,9 @@ public class ServicoBeanConfig {
     public BuscarTop3ServicosMenosAgendadosUseCase buscarTop3ServicosMenosAgendadosUseCase(ServicoGateway servicoGateway) {
         return new BuscarTop3ServicosMenosAgendadosUseCase(servicoGateway);
     }
+
+    @Bean
+    public BuscarServicosMaisCanceladosUseCase buscarServicosMaisCanceladosUseCase(ServicoGateway servicoGateway) {
+        return new BuscarServicosMaisCanceladosUseCase(servicoGateway);
+    }
 }

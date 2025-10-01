@@ -5,6 +5,8 @@ import com.beiramar.beiramar.api.entity.StatusLogSenha;
 import com.beiramar.beiramar.api.infrastructure.persistence.usuariopersistence.UsuarioEntity;
 import com.beiramar.beiramar.api.repository.LogSenhaRepository;
 import com.beiramar.beiramar.api.infrastructure.persistence.usuariopersistence.UsuarioJpaRepository;
+import com.beiramar.beiramar.api.service.messaging.EmailMessageDto;
+import com.beiramar.beiramar.api.service.messaging.EmailProducer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +26,8 @@ public class RecuperacaoSenhaService {
     @Autowired
     private EmailService emailService;
 
+    @Autowired
+    private EmailProducer emailProducer;
 
 
     public void enviarCodigo(String email){
@@ -39,7 +43,11 @@ public class RecuperacaoSenhaService {
             log.setDataHoraLogSenha(LocalDateTime.now());
             logSenhaRepository.save(log);
 
-            emailService.enviarCodigo(email, codigo, log);
+            EmailMessageDto msg = new EmailMessageDto();
+            msg.setEmail(email);
+            msg.setCodigo(codigo);
+            msg.setLogId(log.getIdLogSenha());
+            emailProducer.sendEmailToQueue(msg);
         });
     }
 

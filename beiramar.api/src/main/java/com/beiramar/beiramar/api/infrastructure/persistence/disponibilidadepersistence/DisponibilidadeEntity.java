@@ -7,8 +7,8 @@ import jakarta.persistence.*;
 import java.time.LocalTime;
 
 @Entity
-@Schema(description = "Disponibilidade do Funcionário/Cliente")
 @Table(schema = "Disponibilidade")
+@Schema(description = "Disponibilidade do Funcionário/Cliente")
 public class DisponibilidadeEntity {
 
     @Id

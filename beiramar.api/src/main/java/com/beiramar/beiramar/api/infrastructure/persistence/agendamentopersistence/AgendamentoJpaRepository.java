@@ -14,10 +14,10 @@ public interface AgendamentoJpaRepository extends JpaRepository<AgendamentoEntit
     List<AgendamentoEntity> findByMes(Integer mes, Integer ano);
 
 
-    @Query(value = "SELECT COUNT(*) FROM Agendamento a WHERE a.status = 'Agendado' AND a.dt_hora >= DATE_SUB(CURDATE(), INTERVAL ?1 DAY)", nativeQuery = true)
+    @Query(value = "SELECT COUNT(*) FROM agendamento a WHERE a.status = 'Agendado' AND a.dt_hora >= DATE_SUB(CURDATE(), INTERVAL ?1 DAY)", nativeQuery = true)
     Long countByStatusAgendado(Integer dias);
 
 
-    @Query(value = "SELECT COUNT(*) FROM Agendamento a WHERE a.status = 'Cancelado' AND a.dt_hora >= DATE_SUB(CURDATE(), INTERVAL ?1 DAY)", nativeQuery = true)
+    @Query(value = "SELECT COUNT(*) FROM agendamento a WHERE a.status = 'Cancelado' AND a.dt_hora >= DATE_SUB(CURDATE(), INTERVAL ?1 DAY)", nativeQuery = true)
     Long countByStatusCancelado(Integer dias);
 }

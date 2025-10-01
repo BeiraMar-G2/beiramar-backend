@@ -12,8 +12,8 @@ public interface ServicoJpaRepository extends JpaRepository<ServicoEntity, Integ
 
     @Query(value = "SELECT ROW_NUMBER() OVER (ORDER BY COUNT(a.id_agendamento) DESC) as posicao_ranking, " +
             "s.nome, COUNT(a.id_agendamento) as total_agendamentos " +
-            "FROM Servico s " +
-            "LEFT JOIN Agendamento a ON s.id_servico = a.fk_servico " +
+            "FROM servico s " +
+            "LEFT JOIN agendamento a ON s.id_servico = a.fk_servico " +
             "GROUP BY s.id_servico, s.nome " +
             "ORDER BY total_agendamentos DESC " +
             "LIMIT 3", nativeQuery = true)
@@ -21,16 +21,16 @@ public interface ServicoJpaRepository extends JpaRepository<ServicoEntity, Integ
 
     @Query(value = "SELECT ROW_NUMBER() OVER (ORDER BY COUNT(a.id_agendamento) ASC) as posicao_ranking, " +
             "s.nome, COUNT(a.id_agendamento) as total_agendamentos " +
-            "FROM Servico s " +
-            "LEFT JOIN Agendamento a ON s.id_servico = a.fk_servico " +
+            "FROM servico s " +
+            "LEFT JOIN agendamento a ON s.id_servico = a.fk_servico " +
             "GROUP BY s.id_servico, s.nome " +
             "ORDER BY total_agendamentos ASC " +
             "LIMIT 3", nativeQuery = true)
     List<Object[]> findTop3ServicosMenosAgendados();
 
     @Query(value = "SELECT s.nome, COUNT(CASE WHEN a.status = 'Cancelado' THEN 1 END) as total_cancelamentos " +
-            "FROM Servico s " +
-            "LEFT JOIN Agendamento a ON s.id_servico = a.fk_servico " +
+            "FROM servico s " +
+            "LEFT JOIN agendamento a ON s.id_servico = a.fk_servico " +
             "GROUP BY s.id_servico, s.nome " +
             "ORDER BY total_cancelamentos DESC " +
             "LIMIT 5", nativeQuery = true)
@@ -45,8 +45,8 @@ public interface ServicoJpaRepository extends JpaRepository<ServicoEntity, Integ
             "WHEN 6 THEN 'Sexta-feira' " +
             "WHEN 7 THEN 'Sábado' " +
             "END as dia_semana, COUNT(a.id_agendamento) as total_agendamentos " +
-            "FROM Servico s " +
-            "INNER JOIN Agendamento a ON s.id_servico = a.fk_servico " +
+            "FROM servico s " +
+            "INNER JOIN agendamento a ON s.id_servico = a.fk_servico " +
             "WHERE s.nome = ?1 AND a.status = 'Agendado' " +
             "AND a.dt_hora >= DATE_SUB(CURDATE(), INTERVAL 30 DAY) " +
             "GROUP BY CASE DAYOFWEEK(a.dt_hora) " +
@@ -70,8 +70,8 @@ public interface ServicoJpaRepository extends JpaRepository<ServicoEntity, Integ
             "WHEN 6 THEN 'Sexta-feira' " +
             "WHEN 7 THEN 'Sábado' " +
             "END as dia_semana, COUNT(a.id_agendamento) as total_cancelamentos " +
-            "FROM Servico s " +
-            "INNER JOIN Agendamento a ON s.id_servico = a.fk_servico " +
+            "FROM servico s " +
+            "INNER JOIN agendamento a ON s.id_servico = a.fk_servico " +
             "WHERE s.nome = ?1 AND a.status = 'Cancelado' " +
             "AND a.dt_hora >= DATE_SUB(CURDATE(), INTERVAL 30 DAY) " +
             "GROUP BY CASE DAYOFWEEK(a.dt_hora) " +

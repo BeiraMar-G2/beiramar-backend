@@ -13,12 +13,6 @@ public class BuscarAgendamentosPorDiaSemanaPorNomeServicoUseCase {
         this.servicoGateway = servicoGateway;
     }
 
-    /**
-     * Busca a quantidade de agendamentos de um serviço específico por dias da semana
-     * @param nomeServico Nome do serviço para buscar os agendamentos
-     * @return Lista com arrays contendo [dia_semana, quantidade_agendamentos]
-     *         Ordenados por ordem dos dias da semana (domingo a sábado)
-     */
     public List<Object[]> executar(String nomeServico) {
         if (nomeServico == null || nomeServico.trim().isEmpty()) {
             throw new IllegalArgumentException("Nome do serviço é obrigatório");

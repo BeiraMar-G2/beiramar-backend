@@ -6,14 +6,16 @@ public class UsuarioTokenDto {
     private String nome;
     private String email;
     private String token;
+    private String telefone;
     private String cargo;
 
-    public UsuarioTokenDto(Integer id, String nome, String email, String token, String cargo) {
+    public UsuarioTokenDto(Integer id, String nome, String email, String token, String cargo, String telefone) {
         this.id = id;
         this.nome = nome;
         this.email = email;
         this.token = token;
         this.cargo = cargo;
+        this.telefone = telefone;
     }
 
     public Integer getId() {
@@ -46,6 +48,14 @@ public class UsuarioTokenDto {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public String getTelefone() {
+        return telefone;
+    }
+
+    public void setTelefone(String telefone) {
+        this.telefone = telefone;
     }
 
     public String getCargo() {

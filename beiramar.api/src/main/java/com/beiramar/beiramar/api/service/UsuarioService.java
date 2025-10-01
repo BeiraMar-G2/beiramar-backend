@@ -50,7 +50,8 @@ public class UsuarioService {
                 usuario.getNome(),
                 usuario.getEmail(),
                 token,
-                usuario.getCargo().getNome()
+                usuario.getCargo().getNome(),
+                usuario.getTelefone()
         );
     }
 
@@ -76,7 +77,8 @@ public class UsuarioService {
                 usuario.getNome(),
                 usuario.getEmail(),
                 token,
-                usuario.getCargo().getNome()
+                usuario.getCargo().getNome(),
+                usuario.getTelefone()
         );
     }
 }

@@ -16,7 +16,13 @@ public class AtualizarFotoUsuarioUseCase {
         Usuario usuario = usuarioGateway.buscarPorId(idUsuario)
                 .orElseThrow(() -> new EntidadeNaoEncontradaException("Usuário não encontrado"));
 
-        usuario.atualizarFotoPerfil(fotoId);
+        if (usuario.getFotoPerfilId() == null) {
+            // criando
+            usuario.atualizarFotoPerfil(fotoId);
+        } else {
+            // atualizando
+            usuario.atualizarFotoPerfil(fotoId);
+        }
 
         return usuarioGateway.salvar(usuario);
     }

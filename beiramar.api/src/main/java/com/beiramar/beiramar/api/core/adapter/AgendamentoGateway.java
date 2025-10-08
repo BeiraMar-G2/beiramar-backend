@@ -4,7 +4,8 @@ import com.beiramar.beiramar.api.core.domain.Agendamento;
 import com.beiramar.beiramar.api.core.domain.Pacote;
 import com.beiramar.beiramar.api.core.domain.Servico;
 import com.beiramar.beiramar.api.core.domain.Usuario;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,4 +24,7 @@ public interface AgendamentoGateway {
     List<Agendamento> listarPorMes(Integer mes, Integer ano);
     Long contarAgendamentosComStatusAgendadoPorDias(Integer dias);
     Long contarAgendamentosCanceladosPorDias(Integer dias);
+    Page<Agendamento> listarPorIdClientePaginado(Integer idCliente, Pageable pageable);
+    Page<Agendamento> listarPorMesPaginado(Integer mes, Integer ano, Pageable pageable);
+    Page<Agendamento> listarTodosPaginado(Pageable pageable);
 }

@@ -3,14 +3,14 @@ package com.beiramar.beiramar.api.infrastructure.persistence.agendamentopersiste
 import com.beiramar.beiramar.api.core.adapter.AgendamentoGateway;
 import com.beiramar.beiramar.api.core.application.exception.EntidadeNaoEncontradaException;
 import com.beiramar.beiramar.api.core.domain.*;
-import com.beiramar.beiramar.api.entity.StatusAgendamento;
 import com.beiramar.beiramar.api.infrastructure.persistence.pacotepersistence.PacoteEntity;
 import com.beiramar.beiramar.api.infrastructure.persistence.pacotepersistence.PacoteJpaRepository;
 import com.beiramar.beiramar.api.infrastructure.persistence.servicopersistence.ServicoEntity;
 import com.beiramar.beiramar.api.infrastructure.persistence.servicopersistence.ServicoJpaRepository;
 import com.beiramar.beiramar.api.infrastructure.persistence.usuariopersistence.UsuarioEntity;
 import com.beiramar.beiramar.api.infrastructure.persistence.usuariopersistence.UsuarioJpaRepository;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -199,6 +199,24 @@ public class AgendamentoJpaAdapter implements AgendamentoGateway {
     @Override
     public Long contarAgendamentosCanceladosPorDias(Integer dias) {
         return agendamentoRepository.countByStatusCancelado(dias);
+    }
+
+    @Override
+    public Page<Agendamento> listarPorIdClientePaginado(Integer idCliente, Pageable pageable) {
+        Page<AgendamentoEntity> pageEntity = agendamentoRepository.findByClienteIdUsuario(idCliente, pageable);
+        return pageEntity.map(this::toDomain);
+    }
+
+    @Override
+    public Page<Agendamento> listarPorMesPaginado(Integer mes, Integer ano, Pageable pageable) {
+        Page<AgendamentoEntity> pageEntity = agendamentoRepository.findByMes(mes, ano, pageable);
+        return pageEntity.map(this::toDomain);
+    }
+
+    @Override
+    public Page<Agendamento> listarTodosPaginado(Pageable pageable) {
+        Page<AgendamentoEntity> pageEntity = agendamentoRepository.findAll(pageable);
+        return pageEntity.map(this::toDomain);
     }
 
 }

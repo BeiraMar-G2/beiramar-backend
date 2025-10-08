@@ -1,4 +1,4 @@
-package com.beiramar.beiramar.api.entity;
+package com.beiramar.beiramar.api.infrastructure.persistence.agendamentopersistence;
 
 public enum StatusAgendamento {
 

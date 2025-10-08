@@ -5,6 +5,9 @@ import com.beiramar.beiramar.api.core.application.command.agendamentocommand.Age
 import com.beiramar.beiramar.api.core.application.usecase.agendamentousecase.*;
 import com.beiramar.beiramar.api.core.domain.Agendamento;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,27 +24,24 @@ public class AgendamentoController {
     private final BuscarAgendamentoPorIdUseCase buscarPorIdUseCase;
     private final DeletarAgendamentoUseCase deletarUseCase;
     private final ListarAgendamentosUseCase listarUseCase;
+    private final ListarAgendamentosPaginadoUseCase listarPaginadoUseCase;
     private final ListarAgendamentosPorIdClienteUseCase listarPorClienteUseCase;
+    private final ListarAgendamentosPorIdClientePaginadoUseCase listarPorClientePaginadoUseCase;
     private final ListarAgendamentosPorMesUseCase listarPorMesUseCase;
+    private final ListarAgendamentosPorMesPaginadoUseCase listarPorMesPaginadoUseCase;
     private final ContarAgendamentoStatusAgendadoUseCase contarAgendamentoUseCase;
 
-    public AgendamentoController(
-            CadastrarAgendamentoUseCase cadastrarUseCase,
-            AtualizarAgendamentoUseCase atualizarUseCase,
-            BuscarAgendamentoPorIdUseCase buscarPorIdUseCase,
-            DeletarAgendamentoUseCase deletarUseCase,
-            ListarAgendamentosUseCase listarUseCase,
-            ListarAgendamentosPorIdClienteUseCase listarPorClienteUseCase,
-            ListarAgendamentosPorMesUseCase listarPorMesUseCase,
-            ContarAgendamentoStatusAgendadoUseCase contarAgendamentoUseCase
-    ) {
+    public AgendamentoController(CadastrarAgendamentoUseCase cadastrarUseCase, AtualizarAgendamentoUseCase atualizarUseCase, BuscarAgendamentoPorIdUseCase buscarPorIdUseCase, DeletarAgendamentoUseCase deletarUseCase, ListarAgendamentosUseCase listarUseCase, ListarAgendamentosPaginadoUseCase listarPaginadoUseCase, ListarAgendamentosPorIdClienteUseCase listarPorClienteUseCase, ListarAgendamentosPorIdClientePaginadoUseCase listarPorClientePaginadoUseCase, ListarAgendamentosPorMesUseCase listarPorMesUseCase, ListarAgendamentosPorMesPaginadoUseCase listarPorMesPaginadoUseCase, ContarAgendamentoStatusAgendadoUseCase contarAgendamentoUseCase) {
         this.cadastrarUseCase = cadastrarUseCase;
         this.atualizarUseCase = atualizarUseCase;
         this.buscarPorIdUseCase = buscarPorIdUseCase;
         this.deletarUseCase = deletarUseCase;
         this.listarUseCase = listarUseCase;
+        this.listarPaginadoUseCase = listarPaginadoUseCase;
         this.listarPorClienteUseCase = listarPorClienteUseCase;
+        this.listarPorClientePaginadoUseCase = listarPorClientePaginadoUseCase;
         this.listarPorMesUseCase = listarPorMesUseCase;
+        this.listarPorMesPaginadoUseCase = listarPorMesPaginadoUseCase;
         this.contarAgendamentoUseCase = contarAgendamentoUseCase;
     }
 
@@ -69,6 +69,17 @@ public class AgendamentoController {
         return ResponseEntity.ok(listarUseCase.executar());
     }
 
+
+    @GetMapping("/paginado")
+    public ResponseEntity<Page<Agendamento>> listarTodosPaginado(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
+    ) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Agendamento> agendamentos = listarPaginadoUseCase.executar(pageable);
+        return ResponseEntity.ok(agendamentos);
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletar(@PathVariable Integer id) {
         deletarUseCase.executar(id);
@@ -80,10 +91,33 @@ public class AgendamentoController {
         return ResponseEntity.ok(listarPorClienteUseCase.executar(idCliente));
     }
 
+    @GetMapping("/cliente/{idCliente}/paginado")
+    public ResponseEntity<Page<Agendamento>> listarPorClientePaginado(
+            @PathVariable Integer idCliente,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
+    ) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Agendamento> agendamentos = listarPorClientePaginadoUseCase.executar(idCliente, pageable);
+        return ResponseEntity.ok(agendamentos);
+    }
+
     @GetMapping("/mes")
     public ResponseEntity<List<Agendamento>> listarPorMes(@RequestParam Integer mes,
                                                           @RequestParam Integer ano) {
         return ResponseEntity.ok(listarPorMesUseCase.executar(mes, ano));
+    }
+
+    @GetMapping("/mes/{mes}/{ano}/paginado")
+    public ResponseEntity<Page<Agendamento>> listarPorMesPaginado(
+            @PathVariable int mes,
+            @PathVariable int ano,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
+    ) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Agendamento> agendamentos = listarPorMesPaginadoUseCase.executar(mes, ano, pageable);
+        return ResponseEntity.ok(agendamentos);
     }
 
     @GetMapping("/contarAgendados")

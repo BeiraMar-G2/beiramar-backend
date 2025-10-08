@@ -50,13 +50,28 @@ public class AgendamentoBeanConfig {
     }
 
     @Bean
+    public ListarAgendamentosPaginadoUseCase listarAgendamentosPaginadoUseCase(AgendamentoGateway gateway) {
+        return new ListarAgendamentosPaginadoUseCase(gateway);
+    }
+
+    @Bean
     public ListarAgendamentosPorIdClienteUseCase listarAgendamentosPorIdClienteUseCase(AgendamentoGateway gateway) {
         return new ListarAgendamentosPorIdClienteUseCase(gateway);
     }
 
     @Bean
+    public ListarAgendamentosPorIdClientePaginadoUseCase listarAgendamentosPorIdClientePaginadoUseCase(AgendamentoGateway gateway) {
+        return new ListarAgendamentosPorIdClientePaginadoUseCase(gateway);
+    }
+
+    @Bean
     public ListarAgendamentosPorMesUseCase listarAgendamentosPorMesUseCase(AgendamentoGateway gateway) {
         return new ListarAgendamentosPorMesUseCase(gateway);
+    }
+
+    @Bean
+    public ListarAgendamentosPorMesPaginadoUseCase listarAgendamentosPorMesPaginadoUseCase(AgendamentoGateway gateway) {
+        return new ListarAgendamentosPorMesPaginadoUseCase(gateway);
     }
 
     @Bean

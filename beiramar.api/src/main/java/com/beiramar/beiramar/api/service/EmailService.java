@@ -24,7 +24,7 @@ public class EmailService {
     private LogSenhaRepository logSenhaRepository;
 
     public void enviarCodigo(String email, String codigo, LogSenhaEntity log){
-        Email from = new Email("beiramar.estetica@gmail.com");
+        Email from = new Email("beiramarsptech@gmail.com");
         String subject = "Código de recuperação se senha";
         Email to = new Email(email);
         String htmlContent = """
@@ -60,7 +60,7 @@ public class EmailService {
 
     }
     public void enviarAutenticacao(String email){
-        Email from = new Email("beiramar.estetica@gmail.com");
+        Email from = new Email("beiramarsptech@gmail.com");
         String subject = "Código de recuperação usado";
         Email to = new Email(email);
 

@@ -1,13 +1,11 @@
 package com.beiramar.beiramar.api;
 
-import com.beiramar.beiramar.api.config.SendGridConfigurationProperties;
 import io.github.cdimascio.dotenv.Dotenv;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 
 @SpringBootApplication
-@EnableConfigurationProperties(SendGridConfigurationProperties.class)
 public class BeiraMarApplication {
 
 	public static void main(String[] args) {

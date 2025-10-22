@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface AgendamentoJpaRepository extends JpaRepository<AgendamentoEntity, Integer> {
@@ -12,6 +13,10 @@ public interface AgendamentoJpaRepository extends JpaRepository<AgendamentoEntit
     List<AgendamentoEntity> findByClienteIdUsuario(Integer idCliente);
 
     Page<AgendamentoEntity> findByClienteIdUsuario(Integer idCliente, Pageable pageable);
+
+    List<AgendamentoEntity> findByDtHoraBefore(LocalDateTime data);
+
+    Page<AgendamentoEntity> findByDtHoraBefore(LocalDateTime data, Pageable pageable);
 
     @Query("SELECT a FROM AgendamentoEntity a WHERE MONTH(a.dtHora) = :mes AND YEAR(a.dtHora) = :ano")
     List<AgendamentoEntity> findByMes(Integer mes, Integer ano);

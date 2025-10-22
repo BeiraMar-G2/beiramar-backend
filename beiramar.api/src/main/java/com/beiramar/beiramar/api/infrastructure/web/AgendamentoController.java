@@ -8,9 +8,11 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -29,9 +31,11 @@ public class AgendamentoController {
     private final ListarAgendamentosPorIdClientePaginadoUseCase listarPorClientePaginadoUseCase;
     private final ListarAgendamentosPorMesUseCase listarPorMesUseCase;
     private final ListarAgendamentosPorMesPaginadoUseCase listarPorMesPaginadoUseCase;
+    private final ListarAgendamentosHistoricoUseCase listarHistoricoUseCase;
+    private final ListarAgendamentosHistoricoPaginadoUseCase listarHistoricoPaginadoUseCase;
     private final ContarAgendamentoStatusAgendadoUseCase contarAgendamentoUseCase;
 
-    public AgendamentoController(CadastrarAgendamentoUseCase cadastrarUseCase, AtualizarAgendamentoUseCase atualizarUseCase, BuscarAgendamentoPorIdUseCase buscarPorIdUseCase, DeletarAgendamentoUseCase deletarUseCase, ListarAgendamentosUseCase listarUseCase, ListarAgendamentosPaginadoUseCase listarPaginadoUseCase, ListarAgendamentosPorIdClienteUseCase listarPorClienteUseCase, ListarAgendamentosPorIdClientePaginadoUseCase listarPorClientePaginadoUseCase, ListarAgendamentosPorMesUseCase listarPorMesUseCase, ListarAgendamentosPorMesPaginadoUseCase listarPorMesPaginadoUseCase, ContarAgendamentoStatusAgendadoUseCase contarAgendamentoUseCase) {
+    public AgendamentoController(CadastrarAgendamentoUseCase cadastrarUseCase, AtualizarAgendamentoUseCase atualizarUseCase, BuscarAgendamentoPorIdUseCase buscarPorIdUseCase, DeletarAgendamentoUseCase deletarUseCase, ListarAgendamentosUseCase listarUseCase, ListarAgendamentosPaginadoUseCase listarPaginadoUseCase, ListarAgendamentosPorIdClienteUseCase listarPorClienteUseCase, ListarAgendamentosPorIdClientePaginadoUseCase listarPorClientePaginadoUseCase, ListarAgendamentosPorMesUseCase listarPorMesUseCase, ListarAgendamentosPorMesPaginadoUseCase listarPorMesPaginadoUseCase, ListarAgendamentosHistoricoUseCase listarHistoricoUseCase, ListarAgendamentosHistoricoPaginadoUseCase listarHistoricoPaginadoUseCase, ContarAgendamentoStatusAgendadoUseCase contarAgendamentoUseCase) {
         this.cadastrarUseCase = cadastrarUseCase;
         this.atualizarUseCase = atualizarUseCase;
         this.buscarPorIdUseCase = buscarPorIdUseCase;
@@ -42,6 +46,8 @@ public class AgendamentoController {
         this.listarPorClientePaginadoUseCase = listarPorClientePaginadoUseCase;
         this.listarPorMesUseCase = listarPorMesUseCase;
         this.listarPorMesPaginadoUseCase = listarPorMesPaginadoUseCase;
+        this.listarHistoricoUseCase = listarHistoricoUseCase;
+        this.listarHistoricoPaginadoUseCase = listarHistoricoPaginadoUseCase;
         this.contarAgendamentoUseCase = contarAgendamentoUseCase;
     }
 
@@ -118,6 +124,27 @@ public class AgendamentoController {
         Pageable pageable = PageRequest.of(page, size);
         Page<Agendamento> agendamentos = listarPorMesPaginadoUseCase.executar(mes, ano, pageable);
         return ResponseEntity.ok(agendamentos);
+    }
+
+    @GetMapping("/historico")
+    public ResponseEntity<List<Agendamento>> listarHistorico(
+            @RequestParam("data")
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+            LocalDateTime data
+    ) {
+        return ResponseEntity.ok(listarHistoricoUseCase.executar(data));
+    }
+
+    @GetMapping("/historico/paginado")
+    public ResponseEntity<Page<Agendamento>> listarHistoricoPaginado(
+            @RequestParam("data")
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+            LocalDateTime data,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
+    ) {
+        Pageable pageable = PageRequest.of(page, size);
+        return ResponseEntity.ok(listarHistoricoPaginadoUseCase.executar(data, pageable));
     }
 
     @GetMapping("/contarAgendados")

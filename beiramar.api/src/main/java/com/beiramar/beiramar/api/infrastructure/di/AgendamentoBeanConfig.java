@@ -75,6 +75,16 @@ public class AgendamentoBeanConfig {
     }
 
     @Bean
+    public ListarAgendamentosHistoricoUseCase listarAgendamentosHistoricoUseCase(AgendamentoGateway gateway) {
+        return new ListarAgendamentosHistoricoUseCase(gateway);
+    }
+
+    @Bean
+    public ListarAgendamentosHistoricoPaginadoUseCase listarAgendamentosHistoricoPaginadoUseCase(AgendamentoGateway gateway) {
+        return new ListarAgendamentosHistoricoPaginadoUseCase(gateway);
+    }
+
+    @Bean
     public ContarAgendamentoStatusAgendadoUseCase contarAgendamentoStatusAgendadoUseCase(AgendamentoGateway gateway) {
         return new ContarAgendamentoStatusAgendadoUseCase(gateway);
     }

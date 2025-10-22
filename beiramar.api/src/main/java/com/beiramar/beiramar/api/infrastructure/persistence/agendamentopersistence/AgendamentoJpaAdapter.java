@@ -11,6 +11,8 @@ import com.beiramar.beiramar.api.infrastructure.persistence.usuariopersistence.U
 import com.beiramar.beiramar.api.infrastructure.persistence.usuariopersistence.UsuarioJpaRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -192,6 +194,14 @@ public class AgendamentoJpaAdapter implements AgendamentoGateway {
     }
 
     @Override
+    public List<Agendamento> listarHistorico(LocalDateTime data) {
+        return agendamentoRepository.findByDtHoraBefore(data)
+                .stream()
+                .map(this::toDomain)
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public Long contarAgendamentosComStatusAgendadoPorDias(Integer dias) {
         return agendamentoRepository.countByStatusAgendado(dias);
     }
@@ -216,6 +226,12 @@ public class AgendamentoJpaAdapter implements AgendamentoGateway {
     @Override
     public Page<Agendamento> listarTodosPaginado(Pageable pageable) {
         Page<AgendamentoEntity> pageEntity = agendamentoRepository.findAll(pageable);
+        return pageEntity.map(this::toDomain);
+    }
+
+    @Override
+    public Page<Agendamento> listarHistoricoPaginado(LocalDateTime data, Pageable pageable) {
+        Page<AgendamentoEntity> pageEntity = agendamentoRepository.findByDtHoraBefore(data, pageable);
         return pageEntity.map(this::toDomain);
     }
 

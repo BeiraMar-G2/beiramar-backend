@@ -15,8 +15,8 @@ public class ListarAgendamentosHistoricoUseCase {
         this.agendamentoGateway = agendamentoGateway;
     }
 
-    public List<Agendamento> executar(LocalDateTime data) {
-        List<Agendamento> historico = agendamentoGateway.listarHistorico(data);
+    public List<Agendamento> executar(Integer idCliente, LocalDateTime data) {
+        List<Agendamento> historico = agendamentoGateway.listarHistoricoPorIdCliente(idCliente, data);
         if (historico.isEmpty()) {
             throw new EntidadeNaoEncontradaException("Nenhum Agendamento Encontrado");
         }

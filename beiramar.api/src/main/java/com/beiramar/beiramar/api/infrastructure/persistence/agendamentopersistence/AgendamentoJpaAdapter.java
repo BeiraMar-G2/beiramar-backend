@@ -194,8 +194,8 @@ public class AgendamentoJpaAdapter implements AgendamentoGateway {
     }
 
     @Override
-    public List<Agendamento> listarHistorico(LocalDateTime data) {
-        return agendamentoRepository.findByDtHoraBefore(data)
+    public List<Agendamento> listarHistoricoPorIdCliente(Integer idCliente, LocalDateTime data) {
+        return agendamentoRepository.findHistoricoPorCliente(idCliente, data)
                 .stream()
                 .map(this::toDomain)
                 .collect(Collectors.toList());
@@ -230,8 +230,8 @@ public class AgendamentoJpaAdapter implements AgendamentoGateway {
     }
 
     @Override
-    public Page<Agendamento> listarHistoricoPaginado(LocalDateTime data, Pageable pageable) {
-        Page<AgendamentoEntity> pageEntity = agendamentoRepository.findByDtHoraBefore(data, pageable);
+    public Page<Agendamento> listarHistoricoPorIdClientePaginado(Integer idUsuario, LocalDateTime dataHora, Pageable pageable) {
+        Page<AgendamentoEntity> pageEntity = agendamentoRepository.findHistoricoPorClientePaginado(idUsuario, dataHora, pageable);
         return pageEntity.map(this::toDomain);
     }
 

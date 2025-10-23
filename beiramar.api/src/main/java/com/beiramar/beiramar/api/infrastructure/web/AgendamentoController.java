@@ -128,23 +128,21 @@ public class AgendamentoController {
 
     @GetMapping("/historico")
     public ResponseEntity<List<Agendamento>> listarHistorico(
-            @RequestParam("data")
-            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-            LocalDateTime data
+            @RequestParam("idCliente") Integer idCliente,
+            @RequestParam("data") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime data
     ) {
-        return ResponseEntity.ok(listarHistoricoUseCase.executar(data));
+        return ResponseEntity.ok(listarHistoricoUseCase.executar(idCliente, data));
     }
 
     @GetMapping("/historico/paginado")
     public ResponseEntity<Page<Agendamento>> listarHistoricoPaginado(
-            @RequestParam("data")
-            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-            LocalDateTime data,
+            @RequestParam("idCliente") Integer idCliente,
+            @RequestParam("data") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime data,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size
     ) {
         Pageable pageable = PageRequest.of(page, size);
-        return ResponseEntity.ok(listarHistoricoPaginadoUseCase.executar(data, pageable));
+        return ResponseEntity.ok(listarHistoricoPaginadoUseCase.executar(idCliente, data, pageable));
     }
 
     @GetMapping("/contarAgendados")

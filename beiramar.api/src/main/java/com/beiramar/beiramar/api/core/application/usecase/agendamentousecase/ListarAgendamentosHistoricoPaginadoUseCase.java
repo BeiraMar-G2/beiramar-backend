@@ -16,8 +16,8 @@ public class ListarAgendamentosHistoricoPaginadoUseCase {
         this.agendamentoGateway = agendamentoGateway;
     }
 
-    public Page<Agendamento> executar(LocalDateTime data, Pageable pageable) {
-        Page<Agendamento> agendamentos = agendamentoGateway.listarHistoricoPaginado(data, pageable);
+    public Page<Agendamento> executar(Integer idCliente, LocalDateTime data, Pageable pageable) {
+        Page<Agendamento> agendamentos = agendamentoGateway.listarHistoricoPorIdClientePaginado(idCliente, data, pageable);
 
         if (agendamentos.isEmpty()){
             throw new EntidadeNaoEncontradaException("Agendamento não encontrado");

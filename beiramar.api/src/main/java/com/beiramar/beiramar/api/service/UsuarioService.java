@@ -22,37 +22,55 @@ public class UsuarioService {
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
     private final GerenciadorTokenJwt gerenciadorTokenJwt;
+    private final TentativasLoginService tentativasLoginService;
 
-    public UsuarioService(
-            UsuarioJpaRepository usuarioRepository,
-            CargoJpaRepository cargoRepository,
-            PasswordEncoder passwordEncoder,
-            AuthenticationManager authenticationManager,
-            GerenciadorTokenJwt gerenciadorTokenJwt) {
+    public UsuarioService(UsuarioJpaRepository usuarioRepository,
+                          CargoJpaRepository cargoRepository, PasswordEncoder passwordEncoder,
+                          AuthenticationManager authenticationManager, GerenciadorTokenJwt gerenciadorTokenJwt,
+                          TentativasLoginService tentativasLoginService) {
         this.usuarioRepository = usuarioRepository;
         this.cargoRepository = cargoRepository;
         this.passwordEncoder = passwordEncoder;
         this.authenticationManager = authenticationManager;
         this.gerenciadorTokenJwt = gerenciadorTokenJwt;
+        this.tentativasLoginService = tentativasLoginService;
     }
 
     public UsuarioTokenDto autenticar(UsuarioLoginDto dto) {
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(dto.getEmail(), dto.getSenha())
-        );
 
-        UsuarioEntity usuario = usuarioRepository.findByEmail(dto.getEmail())
-                .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado"));
+        String email = dto.getEmail();
 
-        String token = gerenciadorTokenJwt.gerarToken(usuario);
-        return new UsuarioTokenDto(
-                usuario.getIdUsuario(),
-                usuario.getNome(),
-                usuario.getEmail(),
-                token,
-                usuario.getCargo().getNome(),
-                usuario.getTelefone()
-        );
+        // Verifica bloqueio antes de tentar autenticar
+        if (tentativasLoginService.estaBloqueado(email)) {
+            long minutos = tentativasLoginService.minutosRestantes(email);
+            throw new RuntimeException("Conta bloqueada. Tente novamente em " + minutos + " minutos.");
+        }
+
+        try {
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(email, dto.getSenha())
+            );
+
+            UsuarioEntity usuario = usuarioRepository.findByEmail(email)
+                    .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado"));
+
+            // Login bem-sucedido: limpa tentativas
+            tentativasLoginService.limparTentativas(email);
+
+            String token = gerenciadorTokenJwt.gerarToken(usuario);
+            return new UsuarioTokenDto(
+                    usuario.getIdUsuario(),
+                    usuario.getNome(),
+                    usuario.getEmail(),
+                    token,
+                    usuario.getCargo().getNome(),
+                    usuario.getTelefone()
+            );
+
+        } catch (Exception e) {
+            tentativasLoginService.registrarFalha(email);
+            throw new RuntimeException("Credenciais inválidas. Verifique seu e-mail e senha.");
+        }
     }
 
     public UsuarioTokenDto autenticarOuCriarComGoogle(ClienteCadastroDto dto) {

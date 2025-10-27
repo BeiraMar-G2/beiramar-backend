@@ -24,7 +24,9 @@ public class DisponibilidadeEntity {
     @JoinColumn(name = "fkFuncionario")
     private UsuarioEntity funcionario;
 
-    private Boolean disponibilidadeExcecao;
+    @ManyToOne
+    @JoinColumn(name = "fk_disponibilidade_excecao")
+    private DisponibilidadeEntity disponibilidadeExcecao;
     private String fkFuncionarioExcecaoNome;
 
     public Integer getIdDisponibilidade() {
@@ -75,11 +77,11 @@ public class DisponibilidadeEntity {
         this.funcionario = funcionario;
     }
 
-    public Boolean getDisponibilidadeExcecao() {
+    public DisponibilidadeEntity getDisponibilidadeExcecao() {
         return disponibilidadeExcecao;
     }
 
-    public void setDisponibilidadeExcecao(Boolean disponibilidadeExcecao) {
+    public void setDisponibilidadeExcecao(DisponibilidadeEntity disponibilidadeExcecao) {
         this.disponibilidadeExcecao = disponibilidadeExcecao;
     }
 

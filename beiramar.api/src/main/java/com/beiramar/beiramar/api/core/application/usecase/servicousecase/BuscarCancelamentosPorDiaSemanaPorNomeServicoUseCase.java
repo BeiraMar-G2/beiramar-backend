@@ -21,7 +21,7 @@ public class BuscarCancelamentosPorDiaSemanaPorNomeServicoUseCase {
         List<Object[]> cancelamentosPorDiaSemana = servicoGateway.buscarCancelamentosPorDiaSemanaPorNomeServico(nomeServico);
 
         if (cancelamentosPorDiaSemana.isEmpty()) {
-            throw new EntidadeNaoEncontradaException("Nenhum cancelamento encontrado para o serviço: " + nomeServico);
+            throw new EntidadeNaoEncontradaException("Nenhum cancelamento encontrado nops últimos 30 dias para o serviço: " + nomeServico);
         }
 
         return cancelamentosPorDiaSemana;

@@ -31,6 +31,7 @@ public interface ServicoJpaRepository extends JpaRepository<ServicoEntity, Integ
     @Query(value = "SELECT s.nome, COUNT(CASE WHEN a.status = 'Cancelado' THEN 1 END) as total_cancelamentos " +
             "FROM servico s " +
             "LEFT JOIN agendamento a ON s.id_servico = a.fk_servico " +
+            "WHERE a.dt_hora >= DATE_SUB(CURDATE(), INTERVAL 30 DAY) " +
             "GROUP BY s.id_servico, s.nome " +
             "ORDER BY total_cancelamentos DESC " +
             "LIMIT 5", nativeQuery = true)

@@ -1,5 +1,7 @@
 package com.beiramar.beiramar.api.dto.disponibilidadeDtos;
 
+import com.beiramar.beiramar.api.infrastructure.persistence.disponibilidadepersistence.DisponibilidadeEntity;
+
 import java.time.LocalTime;
 
 public class DisponibilidadeListagemDto {
@@ -10,10 +12,10 @@ public class DisponibilidadeListagemDto {
     private LocalTime horaFim;
     private String diaMes;
     private String nomeFuncionario;
-    private Boolean disponibilidadeExcecao;
+    private DisponibilidadeEntity disponibilidadeExcecao;
     private String fkFuncionarioExcecaoNome;
 
-    public DisponibilidadeListagemDto(Integer idDisponibilidade, String diaSemana, LocalTime horaInicio, LocalTime horaFim, String diaMes, String nomeFuncionario, Boolean disponibilidadeExcecao, String fkFuncionarioExcecaoNome) {
+    public DisponibilidadeListagemDto(Integer idDisponibilidade, String diaSemana, LocalTime horaInicio, LocalTime horaFim, String diaMes, String nomeFuncionario, DisponibilidadeEntity disponibilidadeExcecao, String fkFuncionarioExcecaoNome) {
         this.idDisponibilidade = idDisponibilidade;
         this.diaSemana = diaSemana;
         this.horaInicio = horaInicio;
@@ -76,11 +78,11 @@ public class DisponibilidadeListagemDto {
         this.nomeFuncionario = nomeFuncionario;
     }
 
-    public Boolean getDisponibilidadeExcecao() {
+    public DisponibilidadeEntity getDisponibilidadeExcecao() {
         return disponibilidadeExcecao;
     }
 
-    public void setDisponibilidadeExcecao(Boolean disponibilidadeExcecao) {
+    public void setDisponibilidadeExcecao(DisponibilidadeEntity disponibilidadeExcecao) {
         this.disponibilidadeExcecao = disponibilidadeExcecao;
     }
 

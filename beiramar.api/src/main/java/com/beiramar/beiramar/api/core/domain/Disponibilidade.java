@@ -1,5 +1,7 @@
 package com.beiramar.beiramar.api.core.domain;
 
+import com.beiramar.beiramar.api.infrastructure.persistence.disponibilidadepersistence.DisponibilidadeEntity;
+
 import java.time.LocalTime;
 
 public class Disponibilidade {
@@ -10,10 +12,10 @@ public class Disponibilidade {
     private LocalTime horaFim;
     private String diaMes;
     private Usuario funcionario;
-    private Boolean disponibilidadeExcecao;
+    private DisponibilidadeEntity disponibilidadeExcecao;
     private String fkFuncionarioExcecaoNome;
 
-    public Disponibilidade(Integer idDisponibilidade, String diaSemana, LocalTime horaInicio, LocalTime horaFim, String diaMes, Usuario funcionario, Boolean disponibilidadeExcecao, String fkFuncionarioExcecaoNome) {
+    public Disponibilidade(Integer idDisponibilidade, String diaSemana, LocalTime horaInicio, LocalTime horaFim, String diaMes, Usuario funcionario, DisponibilidadeEntity disponibilidadeExcecao, String fkFuncionarioExcecaoNome) {
         this.idDisponibilidade = idDisponibilidade;
         this.diaSemana = diaSemana;
         this.horaInicio = horaInicio;
@@ -24,7 +26,7 @@ public class Disponibilidade {
         this.fkFuncionarioExcecaoNome = fkFuncionarioExcecaoNome;
     }
 
-    public Disponibilidade(String diaSemana, LocalTime horaInicio, LocalTime horaFim, String diaMes, Usuario funcionario, Boolean disponibilidadeExcecao, String fkFuncionarioExcecaoNome) {
+    public Disponibilidade(String diaSemana, LocalTime horaInicio, LocalTime horaFim, String diaMes, Usuario funcionario, DisponibilidadeEntity disponibilidadeExcecao, String fkFuncionarioExcecaoNome) {
         this.diaSemana = diaSemana;
         this.horaInicio = horaInicio;
         this.horaFim = horaFim;
@@ -58,7 +60,7 @@ public class Disponibilidade {
         return funcionario;
     }
 
-    public Boolean getDisponibilidadeExcecao() {
+    public DisponibilidadeEntity getDisponibilidadeExcecao() {
         return disponibilidadeExcecao;
     }
 
@@ -66,7 +68,7 @@ public class Disponibilidade {
         return fkFuncionarioExcecaoNome;
     }
 
-    public void atualizar(String diaSemana, LocalTime horaInicio, LocalTime horaFim, String diaMes, Boolean disponibilidadeExcecao, String fkFuncionarioExcecaoNome){
+    public void atualizar(String diaSemana, LocalTime horaInicio, LocalTime horaFim, String diaMes, DisponibilidadeEntity disponibilidadeExcecao, String fkFuncionarioExcecaoNome){
         this.diaSemana = diaSemana;
         this.horaInicio = horaInicio;
         this.horaFim = horaFim;

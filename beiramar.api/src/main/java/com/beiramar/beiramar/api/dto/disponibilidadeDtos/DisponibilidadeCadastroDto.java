@@ -1,5 +1,6 @@
 package com.beiramar.beiramar.api.dto.disponibilidadeDtos;
 
+import com.beiramar.beiramar.api.infrastructure.persistence.disponibilidadepersistence.DisponibilidadeEntity;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
@@ -23,7 +24,7 @@ public class DisponibilidadeCadastroDto {
     private Integer idFuncionario;
 
 
-    private Boolean disponibilidadeExcecao;
+    private DisponibilidadeEntity disponibilidadeExcecao;
     private String fkFuncionarioExcecaoNome;
 
     public String getDiaSemana() {
@@ -66,11 +67,11 @@ public class DisponibilidadeCadastroDto {
         this.idFuncionario = idFuncionario;
     }
 
-    public Boolean getDisponibilidadeExcecao() {
+    public DisponibilidadeEntity getDisponibilidadeExcecao() {
         return disponibilidadeExcecao;
     }
 
-    public void setDisponibilidadeExcecao(Boolean disponibilidadeExcecao) {
+    public void setDisponibilidadeExcecao(DisponibilidadeEntity disponibilidadeExcecao) {
         this.disponibilidadeExcecao = disponibilidadeExcecao;
     }
 

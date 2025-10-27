@@ -1,5 +1,6 @@
 package com.beiramar.beiramar.api.core.application.command.disponibilidadecommand;
 
+import com.beiramar.beiramar.api.infrastructure.persistence.disponibilidadepersistence.DisponibilidadeEntity;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
@@ -16,11 +17,11 @@ public class DisponibilidadeAtualizacaoCommand {
     @NotBlank
     private String diaMes;
 
-    private Boolean disponibilidadeExcecao;
+    private DisponibilidadeEntity disponibilidadeExcecao;
     @NotNull
     private String fkFuncionarioExcecaoNome;
 
-    public DisponibilidadeAtualizacaoCommand(String diaSemana, LocalTime horaInicio, LocalTime horaFim, String diaMes, Boolean disponibilidadeExcecao, String fkFuncionarioExcecaoNome) {
+    public DisponibilidadeAtualizacaoCommand(String diaSemana, LocalTime horaInicio, LocalTime horaFim, String diaMes, DisponibilidadeEntity disponibilidadeExcecao, String fkFuncionarioExcecaoNome) {
         this.diaSemana = diaSemana;
         this.horaInicio = horaInicio;
         this.horaFim = horaFim;
@@ -45,7 +46,7 @@ public class DisponibilidadeAtualizacaoCommand {
         return diaMes;
     }
 
-    public Boolean getDisponibilidadeExcecao() {
+    public DisponibilidadeEntity getDisponibilidadeExcecao() {
         return disponibilidadeExcecao;
     }
 

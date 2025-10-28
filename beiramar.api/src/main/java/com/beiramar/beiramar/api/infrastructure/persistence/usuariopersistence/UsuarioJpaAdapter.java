@@ -34,7 +34,6 @@ public class UsuarioJpaAdapter implements UsuarioGateway {
                 entity.getEmail(),
                 entity.getTelefone(),
                 entity.getSenha(),
-                entity.getDtNasc(),
                 cargo,
                 fotoPerfilId
         );
@@ -48,7 +47,6 @@ public class UsuarioJpaAdapter implements UsuarioGateway {
         entity.setEmail(usuario.getEmail());
         entity.setTelefone(usuario.getTelefone());
         entity.setSenha(usuario.getSenha());
-        entity.setDtNasc(usuario.getDtNasc());
 
         CargoEntity cargoEntity = new CargoEntity();
         cargoEntity.setIdCargo(usuario.getCargo().getIdCargo());

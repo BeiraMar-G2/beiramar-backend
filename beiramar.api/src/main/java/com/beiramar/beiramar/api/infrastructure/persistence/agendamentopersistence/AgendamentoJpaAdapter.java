@@ -90,7 +90,6 @@ public class AgendamentoJpaAdapter implements AgendamentoGateway {
                 entity.getEmail(),
                 entity.getTelefone(),
                 entity.getSenha(),
-                entity.getDtNasc(),
                 entity.getCargo() != null ? new com.beiramar.beiramar.api.core.domain.Cargo(entity.getCargo().getIdCargo(), entity.getCargo().getNome()) : null,
                 null
         );

@@ -16,7 +16,7 @@ public class AtualizarUsuarioUseCase {
     public Usuario executar(Integer id, UsuarioAtualizacaoCommand command) {
         Usuario usuario = usuarioGateway.buscarPorId(id)
                 .orElseThrow(() -> new EntidadeNaoEncontradaException("Usuário não encontrado"));
-        usuario.atualizar(command.getNome(), command.getEmail(), command.getTelefone(), command.getDtNasc());
+        usuario.atualizar(command.getNome(), command.getEmail(), command.getTelefone());
         return usuarioGateway.salvar(usuario);
     }
 }

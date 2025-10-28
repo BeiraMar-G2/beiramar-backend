@@ -14,7 +14,6 @@ public class FuncionarioMapper {
         usuario.setEmail(dto.getEmail());
         usuario.setTelefone(dto.getTelefone());
         usuario.setSenha(dto.getSenha());
-        usuario.setDtNasc(dto.getDtNasc());
         usuario.setCargo(cargo);
         return usuario;
     }
@@ -33,6 +32,5 @@ public class FuncionarioMapper {
         usuario.setNome(dto.getNome());
         usuario.setEmail(dto.getEmail());
         usuario.setTelefone(dto.getTelefone());
-        usuario.setDtNasc(dto.getDtNasc());
     }
 }

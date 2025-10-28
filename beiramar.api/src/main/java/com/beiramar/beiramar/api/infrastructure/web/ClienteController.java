@@ -34,6 +34,7 @@ public class ClienteController {
     private final CadastrarUsuarioUseCase cadastrarUsuarioUseCase;
     private final AtualizarUsuarioUseCase atualizarUsuarioUseCase;
     private final BuscarUsuarioPorIdUseCase buscarUsuarioPorIdUseCase;
+    private final BuscarUsuarioPorEmailUseCase buscarUsuarioPorEmailUseCase;
     private final DeletarUsuarioUseCase deletarUsuarioUseCase;
     private final ListarUsuariosPorCargoUseCase listarUsuariosPorCargoUseCase;
     private final AtualizarFotoUsuarioUseCase atualizarFotoUsuarioUseCase;
@@ -43,12 +44,14 @@ public class ClienteController {
             CadastrarUsuarioUseCase cadastrarUsuarioUseCase,
             AtualizarUsuarioUseCase atualizarUsuarioUseCase,
             BuscarUsuarioPorIdUseCase buscarUsuarioPorIdUseCase,
+            BuscarUsuarioPorEmailUseCase buscarUsuarioPorEmailUseCase,
             DeletarUsuarioUseCase deletarUsuarioUseCase,
             ListarUsuariosPorCargoUseCase listarUsuariosPorCargoUseCase, AtualizarFotoUsuarioUseCase atualizarFotoUsuarioUseCase, FilesEntityRepository filesEntityRepository, FileController fileController
     ) {
         this.cadastrarUsuarioUseCase = cadastrarUsuarioUseCase;
         this.atualizarUsuarioUseCase = atualizarUsuarioUseCase;
         this.buscarUsuarioPorIdUseCase = buscarUsuarioPorIdUseCase;
+        this.buscarUsuarioPorEmailUseCase = buscarUsuarioPorEmailUseCase;
         this.deletarUsuarioUseCase = deletarUsuarioUseCase;
         this.listarUsuariosPorCargoUseCase = listarUsuariosPorCargoUseCase;
         this.atualizarFotoUsuarioUseCase = atualizarFotoUsuarioUseCase;
@@ -102,6 +105,13 @@ public class ClienteController {
         return ResponseEntity.ok(toListagemCommand(usuario));
     }
 
+    @GetMapping("/buscarPorEmail/{email}")
+    @Operation(summary = "Buscar cliente por Email")
+    public ResponseEntity<UsuarioListagemCommand> buscarPorEmail(@PathVariable String email) {
+        Usuario usuario = buscarUsuarioPorEmailUseCase.executar(email);
+        return ResponseEntity.ok(toListagemCommand(usuario));
+    }
+
     @PutMapping("/{id}")
     @Operation(summary = "Atualizar cliente")
     public ResponseEntity<UsuarioListagemCommand> atualizar(
@@ -141,7 +151,6 @@ public class ClienteController {
                 usuario.getNome(),
                 usuario.getEmail(),
                 usuario.getTelefone(),
-                usuario.getDtNasc(),
                 usuario.getCargo().getNome(),
                 fotoUrl
         );
@@ -164,7 +173,6 @@ public class ClienteController {
                 usuario.getNome(),
                 usuario.getEmail(),
                 usuario.getTelefone(),
-                usuario.getDtNasc(),
                 usuario.getCargo().getNome(),
                 fotoUrl
         );

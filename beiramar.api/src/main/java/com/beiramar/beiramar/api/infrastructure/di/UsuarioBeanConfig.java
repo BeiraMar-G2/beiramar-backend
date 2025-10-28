@@ -18,7 +18,6 @@ public class UsuarioBeanConfig {
         return new UsuarioJpaAdapter(usuarioJpaRepository, cargoJpaRepository);
     }
 
-
     @Bean
     public CadastrarUsuarioUseCase cadastrarUsuarioUseCase(UsuarioGateway usuarioGateway, PasswordEncoder passwordEncoder) {
         return new CadastrarUsuarioUseCase(usuarioGateway, passwordEncoder);
@@ -32,6 +31,11 @@ public class UsuarioBeanConfig {
     @Bean
     public BuscarUsuarioPorIdUseCase buscarUsuarioPorIdUseCase(UsuarioGateway usuarioGateway) {
         return new BuscarUsuarioPorIdUseCase(usuarioGateway);
+    }
+
+    @Bean
+    public BuscarUsuarioPorEmailUseCase buscarUsuarioPorEmailUseCase(UsuarioGateway usuarioGateway) {
+        return new BuscarUsuarioPorEmailUseCase(usuarioGateway);
     }
 
     @Bean

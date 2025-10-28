@@ -40,7 +40,6 @@ public class ValorPacoteJpaAdapter implements ValorPacoteGateway {
                 entity.getUsuario().getEmail(),
                 entity.getUsuario().getTelefone(),
                 entity.getUsuario().getSenha(),
-                entity.getUsuario().getDtNasc(),
                 cargo,
                 null
         );
@@ -118,7 +117,6 @@ public class ValorPacoteJpaAdapter implements ValorPacoteGateway {
                         entity.getEmail(),
                         entity.getTelefone(),
                         entity.getSenha(),
-                        entity.getDtNasc(),
                         new Cargo(
                                 entity.getCargo().getIdCargo(),
                                 entity.getCargo().getNome()

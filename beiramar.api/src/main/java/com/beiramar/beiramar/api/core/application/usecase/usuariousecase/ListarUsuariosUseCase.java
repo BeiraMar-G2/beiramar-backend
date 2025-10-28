@@ -38,7 +38,6 @@ public class ListarUsuariosUseCase {
                             usuario.getNome(),
                             usuario.getEmail(),
                             usuario.getTelefone(),
-                            usuario.getDtNasc(),
                             usuario.getCargo().getNome(),
                             fotoUrl
                     );

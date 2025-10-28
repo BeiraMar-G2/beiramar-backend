@@ -26,7 +26,6 @@ public class CadastrarUsuarioUseCase {
                 command.getEmail(),
                 command.getTelefone(),
                 passwordEncoder.encode(command.getSenha()),
-                command.getDtNasc(),
                 cargo
         );
         return usuarioGateway.salvar(usuario);

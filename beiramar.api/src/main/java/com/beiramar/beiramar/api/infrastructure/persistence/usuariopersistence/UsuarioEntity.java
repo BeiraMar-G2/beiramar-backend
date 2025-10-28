@@ -25,7 +25,6 @@ public class UsuarioEntity {
     private String email;
     private String telefone;
     private String senha;
-    private LocalDate dtNasc;
 
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -99,14 +98,6 @@ public class UsuarioEntity {
 
     public void setSenha(String senha) {
         this.senha = senha;
-    }
-
-    public LocalDate getDtNasc() {
-        return dtNasc;
-    }
-
-    public void setDtNasc(LocalDate dtNasc) {
-        this.dtNasc = dtNasc;
     }
 
     public CargoEntity getCargo() {

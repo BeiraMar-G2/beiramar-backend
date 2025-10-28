@@ -13,17 +13,14 @@ public class UsuarioAtualizacaoCommand {
     @NotBlank
     private String telefone;
 
-    private LocalDate dtNasc;
 
-    public UsuarioAtualizacaoCommand(String nome, String email, String telefone, LocalDate dtNasc) {
+    public UsuarioAtualizacaoCommand(String nome, String email, String telefone) {
         this.nome = nome;
         this.email = email;
         this.telefone = telefone;
-        this.dtNasc = dtNasc;
     }
 
     public String getNome() { return nome; }
     public String getEmail() { return email; }
     public String getTelefone() { return telefone; }
-    public LocalDate getDtNasc() { return dtNasc; }
 }

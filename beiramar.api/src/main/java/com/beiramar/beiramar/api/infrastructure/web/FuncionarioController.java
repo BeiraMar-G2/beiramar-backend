@@ -129,7 +129,6 @@ public class FuncionarioController {
                 usuario.getNome(),
                 usuario.getEmail(),
                 usuario.getTelefone(),
-                usuario.getDtNasc(),
                 usuario.getCargo().getNome(),
                 fotoUrl
         );
@@ -152,7 +151,6 @@ public class FuncionarioController {
                 usuario.getNome(),
                 usuario.getEmail(),
                 usuario.getTelefone(),
-                usuario.getDtNasc(),
                 usuario.getCargo().getNome(),
                 fotoUrl
         );

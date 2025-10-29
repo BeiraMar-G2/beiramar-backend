@@ -140,7 +140,7 @@ public class ClienteController {
         // Monta a URL da foto
         String fotoUrl = null;
         if (usuario.getFotoPerfilId() != null) {
-            fotoUrl = "https://meu-bucket.s3.amazonaws.com/" +
+            fotoUrl = "https://s3-raw-beiramar-sptech.s3.amazonaws.com/" +
                     filesEntityRepository.findById(usuario.getFotoPerfilId())
                             .map(FilesEntity::getStoredName)
                             .orElse(null);
@@ -162,7 +162,7 @@ public class ClienteController {
         String fotoUrl = null;
 
         if (usuario.getFotoPerfilId() != null) {
-            fotoUrl = "https://meu-bucket.s3.amazonaws.com/" +
+            fotoUrl = "https://s3-raw-beiramar-sptech.s3.amazonaws.com/" +
                     filesEntityRepository.findById(usuario.getFotoPerfilId())
                             .map(FilesEntity::getStoredName)
                             .orElse(null);

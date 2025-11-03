@@ -3,10 +3,10 @@ package com.beiramar.beiramar.api.service;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-import com.beiramar.beiramar.api.dto.cargoDtos.CargoAtualizacaoDto;
-import com.beiramar.beiramar.api.dto.cargoDtos.CargoCadastroDto;
-import com.beiramar.beiramar.api.dto.cargoDtos.CargoListagemDto;
-import com.beiramar.beiramar.api.dto.mapper.CargoMapper;
+import com.beiramar.beiramar.api.infrastructure.features.dto.cargoDtos.CargoAtualizacaoDto;
+import com.beiramar.beiramar.api.infrastructure.features.dto.cargoDtos.CargoCadastroDto;
+import com.beiramar.beiramar.api.infrastructure.features.dto.cargoDtos.CargoListagemDto;
+import com.beiramar.beiramar.api.infrastructure.features.dto.mapper.CargoMapper;
 import com.beiramar.beiramar.api.infrastructure.persistence.cargopersistence.CargoEntity;
 import com.beiramar.beiramar.api.core.application.exception.EntidadeNaoEncontradaException;
 import com.beiramar.beiramar.api.infrastructure.persistence.cargopersistence.CargoJpaRepository;

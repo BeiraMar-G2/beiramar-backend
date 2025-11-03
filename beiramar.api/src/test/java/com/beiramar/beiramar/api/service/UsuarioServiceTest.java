@@ -1,7 +1,8 @@
 package com.beiramar.beiramar.api.service;
 
 import com.beiramar.beiramar.api.config.GerenciadorTokenJwt;
-import com.beiramar.beiramar.api.dto.autenticacaoDtos.UsuarioLoginDto;
+import com.beiramar.beiramar.api.infrastructure.features.dto.autenticacaoDtos.UsuarioLoginDto;
+import com.beiramar.beiramar.api.infrastructure.features.service.UsuarioService;
 import com.beiramar.beiramar.api.infrastructure.persistence.cargopersistence.CargoEntity;
 import com.beiramar.beiramar.api.infrastructure.persistence.usuariopersistence.UsuarioEntity;
 import com.beiramar.beiramar.api.infrastructure.persistence.usuariopersistence.UsuarioJpaRepository;

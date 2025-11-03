@@ -5,9 +5,9 @@ import com.beiramar.beiramar.api.core.application.command.usuariocommand.Usuario
 import com.beiramar.beiramar.api.core.application.command.usuariocommand.UsuarioListagemCommand;
 import com.beiramar.beiramar.api.core.application.usecase.usuariousecase.*;
 import com.beiramar.beiramar.api.core.domain.Usuario;
-import com.beiramar.beiramar.api.dto.funcionarioDtos.FuncionarioListagemDto;
-import com.beiramar.beiramar.api.entity.FilesEntity;
-import com.beiramar.beiramar.api.repository.FilesEntityRepository;
+import com.beiramar.beiramar.api.infrastructure.features.dto.funcionarioDtos.FuncionarioListagemDto;
+import com.beiramar.beiramar.api.infrastructure.features.entity.FilesEntity;
+import com.beiramar.beiramar.api.infrastructure.features.repository.FilesEntityRepository;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;

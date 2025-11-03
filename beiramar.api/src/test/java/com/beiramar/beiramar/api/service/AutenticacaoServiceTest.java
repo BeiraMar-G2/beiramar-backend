@@ -3,7 +3,8 @@ package com.beiramar.beiramar.api.service;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-import com.beiramar.beiramar.api.dto.autenticacaoDtos.UsuarioDetalhesDto;
+import com.beiramar.beiramar.api.infrastructure.features.dto.autenticacaoDtos.UsuarioDetalhesDto;
+import com.beiramar.beiramar.api.infrastructure.features.service.AutenticacaoService;
 import com.beiramar.beiramar.api.infrastructure.persistence.usuariopersistence.UsuarioEntity;
 import com.beiramar.beiramar.api.infrastructure.persistence.usuariopersistence.UsuarioJpaRepository;
 import org.junit.jupiter.api.Test;

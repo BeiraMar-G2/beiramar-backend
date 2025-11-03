@@ -1,14 +1,14 @@
 package com.beiramar.beiramar.api.service;
 
-import com.beiramar.beiramar.api.dto.disponibilidadeDtos.DisponibilidadeAtualizacaoDto;
-import com.beiramar.beiramar.api.dto.disponibilidadeDtos.DisponibilidadeCadastroDto;
-import com.beiramar.beiramar.api.dto.disponibilidadeDtos.DisponibilidadeListagemDto;
+import com.beiramar.beiramar.api.infrastructure.features.dto.disponibilidadeDtos.DisponibilidadeAtualizacaoDto;
+import com.beiramar.beiramar.api.infrastructure.features.dto.disponibilidadeDtos.DisponibilidadeCadastroDto;
+import com.beiramar.beiramar.api.infrastructure.features.dto.disponibilidadeDtos.DisponibilidadeListagemDto;
 import com.beiramar.beiramar.api.infrastructure.persistence.disponibilidadepersistence.DisponibilidadeEntity;
 import com.beiramar.beiramar.api.infrastructure.persistence.usuariopersistence.UsuarioEntity;
 import com.beiramar.beiramar.api.core.application.exception.EntidadeNaoEncontradaException;
 import com.beiramar.beiramar.api.infrastructure.persistence.disponibilidadepersistence.DisponibilidadeJpaRepository;
 import com.beiramar.beiramar.api.infrastructure.persistence.usuariopersistence.UsuarioJpaRepository;
-import com.beiramar.beiramar.api.dto.mapper.DisponibilidadeMapper;
+import com.beiramar.beiramar.api.infrastructure.features.dto.mapper.DisponibilidadeMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

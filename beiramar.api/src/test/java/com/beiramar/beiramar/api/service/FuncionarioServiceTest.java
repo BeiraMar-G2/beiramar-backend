@@ -1,9 +1,9 @@
 package com.beiramar.beiramar.api.service;
 
-import com.beiramar.beiramar.api.dto.funcionarioDtos.FuncionarioAtualizacaoDto;
-import com.beiramar.beiramar.api.dto.funcionarioDtos.FuncionarioCadastroDto;
-import com.beiramar.beiramar.api.dto.funcionarioDtos.FuncionarioListagemDto;
-import com.beiramar.beiramar.api.dto.mapper.FuncionarioMapper;
+import com.beiramar.beiramar.api.infrastructure.features.dto.funcionarioDtos.FuncionarioAtualizacaoDto;
+import com.beiramar.beiramar.api.infrastructure.features.dto.funcionarioDtos.FuncionarioCadastroDto;
+import com.beiramar.beiramar.api.infrastructure.features.dto.funcionarioDtos.FuncionarioListagemDto;
+import com.beiramar.beiramar.api.infrastructure.features.dto.mapper.FuncionarioMapper;
 import com.beiramar.beiramar.api.infrastructure.persistence.cargopersistence.CargoEntity;
 import com.beiramar.beiramar.api.infrastructure.persistence.usuariopersistence.UsuarioEntity;
 import com.beiramar.beiramar.api.core.application.exception.EntidadeNaoEncontradaException;

@@ -1,9 +1,9 @@
 package com.beiramar.beiramar.api.service;
 
-import com.beiramar.beiramar.api.dto.mapper.ValorPacoteMapper;
-import com.beiramar.beiramar.api.dto.valorPacoteDtos.ValorPacoteAtualizacaoDto;
-import com.beiramar.beiramar.api.dto.valorPacoteDtos.ValorPacoteCadastroDto;
-import com.beiramar.beiramar.api.dto.valorPacoteDtos.ValorPacoteListagemDto;
+import com.beiramar.beiramar.api.infrastructure.features.dto.mapper.ValorPacoteMapper;
+import com.beiramar.beiramar.api.infrastructure.features.dto.valorPacoteDtos.ValorPacoteAtualizacaoDto;
+import com.beiramar.beiramar.api.infrastructure.features.dto.valorPacoteDtos.ValorPacoteCadastroDto;
+import com.beiramar.beiramar.api.infrastructure.features.dto.valorPacoteDtos.ValorPacoteListagemDto;
 import com.beiramar.beiramar.api.infrastructure.persistence.pacotepersistence.PacoteEntity;
 import com.beiramar.beiramar.api.infrastructure.persistence.usuariopersistence.UsuarioEntity;
 import com.beiramar.beiramar.api.infrastructure.persistence.valorpacotepersistence.ValorPacoteEntity;

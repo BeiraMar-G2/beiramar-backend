@@ -1,9 +1,10 @@
 package com.beiramar.beiramar.api.service;
 
-import com.beiramar.beiramar.api.entity.LogSenhaEntity;
-import com.beiramar.beiramar.api.entity.StatusLogSenha;
+import com.beiramar.beiramar.api.infrastructure.features.entity.LogSenhaEntity;
+import com.beiramar.beiramar.api.infrastructure.features.entity.StatusLogSenha;
+import com.beiramar.beiramar.api.infrastructure.features.service.RecuperacaoSenhaService;
 import com.beiramar.beiramar.api.infrastructure.persistence.usuariopersistence.UsuarioEntity;
-import com.beiramar.beiramar.api.repository.LogSenhaRepository;
+import com.beiramar.beiramar.api.infrastructure.features.repository.LogSenhaRepository;
 import com.beiramar.beiramar.api.infrastructure.persistence.usuariopersistence.UsuarioJpaRepository;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;

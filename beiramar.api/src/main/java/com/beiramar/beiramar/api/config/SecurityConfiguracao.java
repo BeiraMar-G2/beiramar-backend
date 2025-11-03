@@ -1,6 +1,6 @@
 package com.beiramar.beiramar.api.config;
 
-import com.beiramar.beiramar.api.service.AutenticacaoService;
+import com.beiramar.beiramar.api.infrastructure.features.service.AutenticacaoService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;

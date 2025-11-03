@@ -1,6 +1,6 @@
 package com.beiramar.beiramar.api.config;
 
-import com.beiramar.beiramar.api.service.AutenticacaoService;
+import com.beiramar.beiramar.api.infrastructure.features.service.AutenticacaoService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

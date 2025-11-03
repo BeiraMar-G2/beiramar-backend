@@ -1,14 +1,14 @@
 package com.beiramar.beiramar.api.infrastructure.web;
 
-import com.beiramar.beiramar.api.controller.FileController;
+import com.beiramar.beiramar.api.infrastructure.features.controller.FileController;
 import com.beiramar.beiramar.api.core.application.command.usuariocommand.UsuarioAtualizacaoCommand;
 import com.beiramar.beiramar.api.core.application.command.usuariocommand.UsuarioCadastroCommand;
 import com.beiramar.beiramar.api.core.application.command.usuariocommand.UsuarioListagemCommand;
 import com.beiramar.beiramar.api.core.application.usecase.usuariousecase.*;
 import com.beiramar.beiramar.api.core.domain.Usuario;
-import com.beiramar.beiramar.api.dto.clienteDtos.ClienteCadastroDto;
-import com.beiramar.beiramar.api.entity.FilesEntity;
-import com.beiramar.beiramar.api.repository.FilesEntityRepository;
+import com.beiramar.beiramar.api.infrastructure.features.dto.clienteDtos.ClienteCadastroDto;
+import com.beiramar.beiramar.api.infrastructure.features.entity.FilesEntity;
+import com.beiramar.beiramar.api.infrastructure.features.repository.FilesEntityRepository;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
@@ -17,13 +17,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController

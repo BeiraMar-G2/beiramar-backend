@@ -4,7 +4,7 @@ import com.beiramar.beiramar.api.core.adapter.UsuarioGateway;
 import com.beiramar.beiramar.api.core.application.exception.EntidadeNaoEncontradaException;
 import com.beiramar.beiramar.api.core.domain.Cargo;
 import com.beiramar.beiramar.api.core.domain.Usuario;
-import com.beiramar.beiramar.api.entity.FilesEntity;
+import com.beiramar.beiramar.api.infrastructure.features.entity.FilesEntity;
 import com.beiramar.beiramar.api.infrastructure.persistence.cargopersistence.CargoEntity;
 import com.beiramar.beiramar.api.infrastructure.persistence.cargopersistence.CargoJpaRepository;
 

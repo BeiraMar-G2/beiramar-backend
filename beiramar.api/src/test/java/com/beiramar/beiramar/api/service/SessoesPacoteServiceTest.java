@@ -1,9 +1,9 @@
 package com.beiramar.beiramar.api.service;
 
-import com.beiramar.beiramar.api.dto.mapper.SessoesPacoteMapper;
-import com.beiramar.beiramar.api.dto.sessaoPacoteDtos.SessoesPacoteAtualizacaoDto;
-import com.beiramar.beiramar.api.dto.sessaoPacoteDtos.SessoesPacoteCadastroDto;
-import com.beiramar.beiramar.api.dto.sessaoPacoteDtos.SessoesPacoteListagemDto;
+import com.beiramar.beiramar.api.infrastructure.features.dto.mapper.SessoesPacoteMapper;
+import com.beiramar.beiramar.api.infrastructure.features.dto.sessaoPacoteDtos.SessoesPacoteAtualizacaoDto;
+import com.beiramar.beiramar.api.infrastructure.features.dto.sessaoPacoteDtos.SessoesPacoteCadastroDto;
+import com.beiramar.beiramar.api.infrastructure.features.dto.sessaoPacoteDtos.SessoesPacoteListagemDto;
 import com.beiramar.beiramar.api.infrastructure.persistence.pacotepersistence.PacoteEntity;
 import com.beiramar.beiramar.api.infrastructure.persistence.servicopersistence.ServicoEntity;
 import com.beiramar.beiramar.api.infrastructure.persistence.sessoespacotepersistence.SessoesPacoteEntity;

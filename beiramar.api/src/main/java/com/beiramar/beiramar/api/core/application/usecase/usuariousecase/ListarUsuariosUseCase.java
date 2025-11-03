@@ -2,10 +2,9 @@ package com.beiramar.beiramar.api.core.application.usecase.usuariousecase;
 
 import com.beiramar.beiramar.api.core.adapter.UsuarioGateway;
 import com.beiramar.beiramar.api.core.application.command.usuariocommand.UsuarioListagemCommand;
-import com.beiramar.beiramar.api.core.application.exception.EntidadeNaoEncontradaException;
 import com.beiramar.beiramar.api.core.domain.Usuario;
-import com.beiramar.beiramar.api.entity.FilesEntity;
-import com.beiramar.beiramar.api.repository.FilesEntityRepository;
+import com.beiramar.beiramar.api.infrastructure.features.entity.FilesEntity;
+import com.beiramar.beiramar.api.infrastructure.features.repository.FilesEntityRepository;
 
 import java.util.List;
 

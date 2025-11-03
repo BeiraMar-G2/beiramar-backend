@@ -1,15 +1,14 @@
 package com.beiramar.beiramar.api.infrastructure.persistence.usuariopersistence;
 
-import com.beiramar.beiramar.api.entity.FilesEntity;
+import com.beiramar.beiramar.api.infrastructure.features.entity.FilesEntity;
 import com.beiramar.beiramar.api.infrastructure.persistence.agendamentopersistence.AgendamentoEntity;
 import com.beiramar.beiramar.api.infrastructure.persistence.disponibilidadepersistence.DisponibilidadeEntity;
-import com.beiramar.beiramar.api.entity.LogSenhaEntity;
+import com.beiramar.beiramar.api.infrastructure.features.entity.LogSenhaEntity;
 import com.beiramar.beiramar.api.infrastructure.persistence.valorpacotepersistence.ValorPacoteEntity;
 import com.beiramar.beiramar.api.infrastructure.persistence.cargopersistence.CargoEntity;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @Entity

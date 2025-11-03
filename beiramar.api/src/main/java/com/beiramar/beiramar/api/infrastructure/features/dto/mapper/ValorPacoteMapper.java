@@ -1,0 +1,33 @@
+package com.beiramar.beiramar.api.infrastructure.features.dto.mapper;
+
+import com.beiramar.beiramar.api.infrastructure.features.dto.valorPacoteDtos.ValorPacoteAtualizacaoDto;
+import com.beiramar.beiramar.api.infrastructure.features.dto.valorPacoteDtos.ValorPacoteCadastroDto;
+import com.beiramar.beiramar.api.infrastructure.features.dto.valorPacoteDtos.ValorPacoteListagemDto;
+import com.beiramar.beiramar.api.infrastructure.persistence.pacotepersistence.PacoteEntity;
+import com.beiramar.beiramar.api.infrastructure.persistence.usuariopersistence.UsuarioEntity;
+import com.beiramar.beiramar.api.infrastructure.persistence.valorpacotepersistence.ValorPacoteEntity;
+
+public class ValorPacoteMapper {
+
+    public static ValorPacoteEntity toEntity(ValorPacoteCadastroDto dto, UsuarioEntity usuario, PacoteEntity pacote){
+
+        ValorPacoteEntity valorPacote = new ValorPacoteEntity();
+        valorPacote.setUsuario(usuario);
+        valorPacote.setPacote(pacote);
+        valorPacote.setValorTotal(dto.getValorTotal());
+        return valorPacote;
+    }
+
+    public static ValorPacoteListagemDto toDto(ValorPacoteEntity valorPacote){
+        return new ValorPacoteListagemDto(
+                valorPacote.getIdValorPacote(),
+                valorPacote.getValorTotal(),
+                valorPacote.getUsuario().getNome(),
+                valorPacote.getPacote().getNome()
+        );
+    }
+
+    public static void AtualizarEntity(ValorPacoteEntity valorPacote, ValorPacoteAtualizacaoDto dto){
+        valorPacote.setValorTotal(dto.getValorTotal());
+    }
+}

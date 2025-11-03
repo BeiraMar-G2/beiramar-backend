@@ -1,10 +1,10 @@
 package com.beiramar.beiramar.api.service;
 
 
-import com.beiramar.beiramar.api.dto.agendamentosDtos.AgendamentoAtualizacaoDto;
-import com.beiramar.beiramar.api.dto.agendamentosDtos.AgendamentoCadastroDto;
-import com.beiramar.beiramar.api.dto.agendamentosDtos.AgendamentoListagemDto;
-import com.beiramar.beiramar.api.dto.mapper.AgendamentoMapper;
+import com.beiramar.beiramar.api.infrastructure.features.dto.agendamentosDtos.AgendamentoAtualizacaoDto;
+import com.beiramar.beiramar.api.infrastructure.features.dto.agendamentosDtos.AgendamentoCadastroDto;
+import com.beiramar.beiramar.api.infrastructure.features.dto.agendamentosDtos.AgendamentoListagemDto;
+import com.beiramar.beiramar.api.infrastructure.features.dto.mapper.AgendamentoMapper;
 import com.beiramar.beiramar.api.core.application.exception.EntidadeNaoEncontradaException;
 import com.beiramar.beiramar.api.infrastructure.persistence.agendamentopersistence.AgendamentoEntity;
 import com.beiramar.beiramar.api.infrastructure.persistence.cargopersistence.CargoEntity;

@@ -1,9 +1,9 @@
 package com.beiramar.beiramar.api.service;
 
-import com.beiramar.beiramar.api.dto.mapper.PacoteMapper;
-import com.beiramar.beiramar.api.dto.pacoteDtos.PacoteAtualizacaoDto;
-import com.beiramar.beiramar.api.dto.pacoteDtos.PacoteCadastroDto;
-import com.beiramar.beiramar.api.dto.pacoteDtos.PacoteListagemDto;
+import com.beiramar.beiramar.api.infrastructure.features.dto.mapper.PacoteMapper;
+import com.beiramar.beiramar.api.infrastructure.features.dto.pacoteDtos.PacoteAtualizacaoDto;
+import com.beiramar.beiramar.api.infrastructure.features.dto.pacoteDtos.PacoteCadastroDto;
+import com.beiramar.beiramar.api.infrastructure.features.dto.pacoteDtos.PacoteListagemDto;
 import com.beiramar.beiramar.api.infrastructure.persistence.pacotepersistence.PacoteEntity;
 import com.beiramar.beiramar.api.core.application.exception.EntidadeNaoEncontradaException;
 import com.beiramar.beiramar.api.infrastructure.persistence.pacotepersistence.PacoteJpaRepository;

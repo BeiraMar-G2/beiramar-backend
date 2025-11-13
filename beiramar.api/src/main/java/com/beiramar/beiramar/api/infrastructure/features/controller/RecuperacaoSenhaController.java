@@ -2,6 +2,7 @@ package com.beiramar.beiramar.api.infrastructure.features.controller;
 
 import com.beiramar.beiramar.api.infrastructure.features.dto.notificacaoDtos.CodigoSenhaRequestDTO;
 import com.beiramar.beiramar.api.infrastructure.features.dto.notificacaoDtos.EmailRequestDTO;
+import com.beiramar.beiramar.api.infrastructure.features.dto.notificacaoDtos.TrocarSenhaRequestDTO;
 import com.beiramar.beiramar.api.infrastructure.features.repository.LogSenhaRepository;
 import com.beiramar.beiramar.api.infrastructure.features.service.RecuperacaoSenhaService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -63,6 +64,22 @@ public class RecuperacaoSenhaController {
         }
     }
 
-
+    @PostMapping("/trocar-senha")
+    @Operation(summary = "Troca a senha do usuário após validação do código")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Senha alterada com sucesso"),
+            @ApiResponse(responseCode = "400", description = "Senhas não coincidem ou código não foi validado"),
+            @ApiResponse(responseCode = "404", description = "Usuário não encontrado")
+    })
+    public ResponseEntity<String> trocarSenha(@RequestBody TrocarSenhaRequestDTO dto) {
+        try {
+            service.alterarSenha(dto.getEmail(), dto.getNovaSenha(), dto.getConfirmarNovaSenha());
+            return ResponseEntity.ok("Senha alterada com sucesso.");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (IllegalStateException e) {
+            return ResponseEntity.status(401).body(e.getMessage());
+        }
+    }
 
 }

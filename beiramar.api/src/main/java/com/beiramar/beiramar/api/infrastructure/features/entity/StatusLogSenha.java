@@ -4,6 +4,6 @@ public enum StatusLogSenha {
     COD_CRIADO,
     COD_ENVIADO,
     COD_ERRO,
-    COD_ALTENTICADO,
+    COD_AUTENTICADO,
     SENHA_ALTERADA
 }

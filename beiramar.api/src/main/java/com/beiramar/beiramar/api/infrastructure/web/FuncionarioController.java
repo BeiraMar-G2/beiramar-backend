@@ -3,6 +3,7 @@ package com.beiramar.beiramar.api.infrastructure.web;
 import com.beiramar.beiramar.api.core.application.command.usuariocommand.UsuarioAtualizacaoCommand;
 import com.beiramar.beiramar.api.core.application.command.usuariocommand.UsuarioCadastroCommand;
 import com.beiramar.beiramar.api.core.application.command.usuariocommand.UsuarioListagemCommand;
+import com.beiramar.beiramar.api.core.application.command.usuariocommand.UsuarioTrocarSenhaCommand;
 import com.beiramar.beiramar.api.core.application.usecase.usuariousecase.*;
 import com.beiramar.beiramar.api.core.domain.Usuario;
 import com.beiramar.beiramar.api.infrastructure.features.dto.funcionarioDtos.FuncionarioListagemDto;
@@ -32,14 +33,9 @@ public class FuncionarioController {
     private final ListarUsuariosPorCargoUseCase listarUsuariosPorCargoUseCase;
     private final AtualizarFotoUsuarioUseCase atualizarFotoUsuarioUseCase;
     private final FilesEntityRepository filesEntityRepository;
+    private final TrocarSenhaUsuarioUseCase trocarSenhaUsuarioUseCase;
 
-    public FuncionarioController(
-            CadastrarUsuarioUseCase cadastrarUsuarioUseCase,
-            AtualizarUsuarioUseCase atualizarUsuarioUseCase,
-            BuscarUsuarioPorIdUseCase buscarUsuarioPorIdUseCase,
-            DeletarUsuarioUseCase deletarUsuarioUseCase,
-            ListarUsuariosPorCargoUseCase listarUsuariosPorCargoUseCase, AtualizarFotoUsuarioUseCase atualizarFotoUsuarioUseCase, FilesEntityRepository filesEntityRepository
-    ) {
+    public FuncionarioController(CadastrarUsuarioUseCase cadastrarUsuarioUseCase, AtualizarUsuarioUseCase atualizarUsuarioUseCase, BuscarUsuarioPorIdUseCase buscarUsuarioPorIdUseCase, DeletarUsuarioUseCase deletarUsuarioUseCase, ListarUsuariosPorCargoUseCase listarUsuariosPorCargoUseCase, AtualizarFotoUsuarioUseCase atualizarFotoUsuarioUseCase, FilesEntityRepository filesEntityRepository, TrocarSenhaUsuarioUseCase trocarSenhaUsuarioUseCase) {
         this.cadastrarUsuarioUseCase = cadastrarUsuarioUseCase;
         this.atualizarUsuarioUseCase = atualizarUsuarioUseCase;
         this.buscarUsuarioPorIdUseCase = buscarUsuarioPorIdUseCase;
@@ -47,6 +43,7 @@ public class FuncionarioController {
         this.listarUsuariosPorCargoUseCase = listarUsuariosPorCargoUseCase;
         this.atualizarFotoUsuarioUseCase = atualizarFotoUsuarioUseCase;
         this.filesEntityRepository = filesEntityRepository;
+        this.trocarSenhaUsuarioUseCase = trocarSenhaUsuarioUseCase;
     }
 
     @PostMapping
@@ -134,6 +131,16 @@ public class FuncionarioController {
         );
 
         return ResponseEntity.ok(response);
+    }
+
+    @PutMapping("/{id}/trocar-senha")
+    @Operation(summary = "Trocar senha do funcionario")
+    public ResponseEntity<String> trocarSenha(
+            @PathVariable Integer id,
+            @RequestBody @Valid UsuarioTrocarSenhaCommand command
+    ) {
+        trocarSenhaUsuarioUseCase.executar(id, command);
+        return ResponseEntity.ok("Senha alterada com sucesso!");
     }
 
     private UsuarioListagemCommand toListagemCommand(Usuario usuario) {

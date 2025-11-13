@@ -16,5 +16,6 @@ public interface UsuarioGateway {
     void deletar(Integer id);
     boolean existePorId(Integer id);
     Cargo buscarCargoPorId(Integer id);
+    void atualizarSenha(Integer idUsuario, String novaSenha);
 
 }

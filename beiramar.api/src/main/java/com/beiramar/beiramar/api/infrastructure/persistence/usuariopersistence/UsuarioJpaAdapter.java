@@ -116,4 +116,12 @@ public class UsuarioJpaAdapter implements UsuarioGateway {
                 .orElseThrow(() -> new IllegalArgumentException("Cargo não encontrado com id: " + id));
     }
 
+    @Override
+    public void atualizarSenha(Integer idUsuario, String novaSenha) {
+        UsuarioEntity entity = usuarioJpaRepository.findById(idUsuario)
+                .orElseThrow(() -> new EntidadeNaoEncontradaException("Usuário não encontrado"));
+        entity.setSenha(novaSenha);
+        usuarioJpaRepository.save(entity);
+    }
+
 }

@@ -57,4 +57,10 @@ public class UsuarioBeanConfig {
     public AtualizarFotoUsuarioUseCase atualizarFotoUsuarioUseCase(UsuarioGateway usuarioGateway) {
         return new AtualizarFotoUsuarioUseCase(usuarioGateway);
     }
+
+    @Bean
+    public TrocarSenhaUsuarioUseCase trocarSenhaUsuarioUseCase(UsuarioGateway usuarioGateway, PasswordEncoder passwordEncoder) {
+        return new TrocarSenhaUsuarioUseCase(usuarioGateway, passwordEncoder);
+    }
+
 }

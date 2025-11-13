@@ -5,8 +5,10 @@ import com.beiramar.beiramar.api.infrastructure.features.entity.StatusLogSenha;
 import com.beiramar.beiramar.api.infrastructure.persistence.usuariopersistence.UsuarioEntity;
 import com.beiramar.beiramar.api.infrastructure.persistence.usuariopersistence.UsuarioJpaRepository;
 import com.beiramar.beiramar.api.infrastructure.features.repository.LogSenhaRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -26,6 +28,9 @@ public class RecuperacaoSenhaService {
 
     @Autowired
     private RabbitTemplate rabbitTemplate;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     private static final String QUEUE_NAME = "email-queue";
 
@@ -76,9 +81,36 @@ public class RecuperacaoSenhaService {
         }
 
         // Marca como autenticado
-        log.setStatus(StatusLogSenha.COD_ALTENTICADO);
+        log.setStatus(StatusLogSenha.COD_AUTENTICADO);
         logSenhaRepository.save(log);
 
         return true;
     }
+
+    @Transactional
+    public void alterarSenha(String email, String novaSenha, String confirmarNovaSenha) {
+
+        // Verifica se as senhas coincidem
+        if (!novaSenha.equals(confirmarNovaSenha)) {
+            throw new IllegalArgumentException("As senhas não coincidem.");
+        }
+
+        // Verifica se o usuário existe
+        var usuario = usuarioRepository.findByEmail(email)
+                .orElseThrow(() -> new IllegalArgumentException("Usuário não encontrado."));
+
+        // Busca o último log autenticado (código validado)
+        var logAutenticado = logSenhaRepository
+                .findTopByUsuarioEmailAndStatusOrderByDataHoraLogSenhaDesc(email, StatusLogSenha.COD_AUTENTICADO)
+                .orElseThrow(() -> new IllegalStateException("Código não foi validado ou expirou."));
+
+        // Atualiza a senha do usuário
+        usuario.setSenha(passwordEncoder.encode(novaSenha));
+        usuarioRepository.save(usuario);
+
+        // Atualiza o log de recuperação
+        logAutenticado.setStatus(StatusLogSenha.SENHA_ALTERADA);
+        logSenhaRepository.save(logAutenticado);
+    }
+
 }

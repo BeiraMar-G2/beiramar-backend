@@ -1,44 +1,63 @@
 package com.beiramar.beiramar.api.infrastructure.features.service;
 
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.TimeUnit;
 
 @Service
 public class TentativasLoginService {
 
-    private static final int maxTentativas = 3;
-    private static final int minutosBloqueio = 15;
+    private static final int MAX_TENTATIVAS = 3;
+    private static final int BLOQUEIO_MINUTOS = 15;
 
-    private final Map<String, Integer> tentativas = new ConcurrentHashMap<>();
-    private final Map<String, LocalDateTime> bloqueados = new ConcurrentHashMap<>();
+    private final RedisTemplate<String, Object> redisTemplate;
+
+    public TentativasLoginService(RedisTemplate<String, Object> redisTemplate) {
+        this.redisTemplate = redisTemplate;
+    }
 
     public void registrarFalha(String email) {
-        int novaQtd = tentativas.getOrDefault(email, 0) + 1;
-        tentativas.put(email, novaQtd);
+        String keyTentativas = "tentativas:" + email;
+        String keyBloqueio = "bloqueio:" + email;
 
-        if (novaQtd >= maxTentativas) {
-            bloqueados.put(email, LocalDateTime.now().plusMinutes(minutosBloqueio));
-            tentativas.remove(email);
+        // Incrementa o contador de tentativas no Redis
+        Long tentativas = redisTemplate.opsForValue().increment(keyTentativas);
+
+        if (tentativas == 1) {
+            // Define expiração das tentativas (por ex: 15 minutos)
+            redisTemplate.expire(keyTentativas, BLOQUEIO_MINUTOS, TimeUnit.MINUTES);
+        }
+
+        if (tentativas >= MAX_TENTATIVAS) {
+            // Bloqueia o usuário por 15 minutos
+            redisTemplate.opsForValue().set(keyBloqueio,
+                    LocalDateTime.now().plusMinutes(BLOQUEIO_MINUTOS).toString(),
+                    BLOQUEIO_MINUTOS,
+                    TimeUnit.MINUTES);
+
+            // Remove contador de tentativas
+            redisTemplate.delete(keyTentativas);
         }
     }
 
     public void limparTentativas(String email) {
-        tentativas.remove(email);
-        bloqueados.remove(email);
+        redisTemplate.delete("tentativas:" + email);
+        redisTemplate.delete("bloqueio:" + email);
     }
 
     public boolean estaBloqueado(String email) {
-        LocalDateTime tempoBloqueio = bloqueados.get(email);
+        String keyBloqueio = "bloqueio:" + email;
+        Object valor = redisTemplate.opsForValue().get(keyBloqueio);
 
-        if (tempoBloqueio == null) {
-            return false;
-        }
+        if (valor == null) return false;
+
+        LocalDateTime tempoBloqueio = LocalDateTime.parse(valor.toString());
 
         if (LocalDateTime.now().isAfter(tempoBloqueio)) {
-            bloqueados.remove(email);
+            redisTemplate.delete(keyBloqueio);
             return false;
         }
 
@@ -46,8 +65,12 @@ public class TentativasLoginService {
     }
 
     public long minutosRestantes(String email) {
-        LocalDateTime tempo = bloqueados.get(email);
-        if (tempo == null) return 0;
-        return java.time.Duration.between(LocalDateTime.now(), tempo).toMinutes();
+        String keyBloqueio = "bloqueio:" + email;
+        Object valor = redisTemplate.opsForValue().get(keyBloqueio);
+
+        if (valor == null) return 0;
+
+        LocalDateTime tempo = LocalDateTime.parse(valor.toString());
+        return Duration.between(LocalDateTime.now(), tempo).toMinutes();
     }
 }

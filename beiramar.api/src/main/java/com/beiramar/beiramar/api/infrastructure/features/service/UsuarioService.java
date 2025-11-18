@@ -4,9 +4,11 @@ import com.beiramar.beiramar.api.config.GerenciadorTokenJwt;
 import com.beiramar.beiramar.api.infrastructure.features.dto.autenticacaoDtos.UsuarioLoginDto;
 import com.beiramar.beiramar.api.infrastructure.features.dto.autenticacaoDtos.UsuarioTokenDto;
 import com.beiramar.beiramar.api.infrastructure.features.dto.clienteDtos.ClienteCadastroDto;
+import com.beiramar.beiramar.api.infrastructure.features.dto.notificacaoDtos.ErroDto;
 import com.beiramar.beiramar.api.infrastructure.persistence.cargopersistence.CargoJpaRepository;
 import com.beiramar.beiramar.api.infrastructure.persistence.usuariopersistence.UsuarioEntity;
 import com.beiramar.beiramar.api.infrastructure.persistence.usuariopersistence.UsuarioJpaRepository;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -35,29 +37,38 @@ public class UsuarioService {
         this.tentativasLoginService = tentativasLoginService;
     }
 
-    public UsuarioTokenDto autenticar(UsuarioLoginDto dto) {
-
+    public ResponseEntity<?> autenticar(UsuarioLoginDto dto) {
         String email = dto.getEmail();
 
-        // Verifica bloqueio antes de tentar autenticar
+        // 1. Verifica bloqueio
         if (tentativasLoginService.estaBloqueado(email)) {
             long minutos = tentativasLoginService.minutosRestantes(email);
-            throw new RuntimeException("Conta bloqueada. Tente novamente em " + minutos + " minutos.");
+            return ResponseEntity
+                    .status(429)
+                    .body(new ErroDto("Conta bloqueada. Tente novamente em " + minutos + " minutos."));
         }
 
         try {
+            // 2. Tenta autenticar
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(email, dto.getSenha())
             );
 
             UsuarioEntity usuario = usuarioRepository.findByEmail(email)
-                    .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado"));
+                    .orElse(null);
 
-            // Login bem-sucedido: limpa tentativas
+            if (usuario == null) {
+                return ResponseEntity
+                        .status(401)
+                        .body(new ErroDto("Credenciais inválidas."));
+            }
+
+            // 3. Limpa tentativas após sucesso
             tentativasLoginService.limparTentativas(email);
 
             String token = gerenciadorTokenJwt.gerarToken(usuario);
-            return new UsuarioTokenDto(
+
+            UsuarioTokenDto tokenDto = new UsuarioTokenDto(
                     usuario.getIdUsuario(),
                     usuario.getNome(),
                     usuario.getEmail(),
@@ -66,11 +77,18 @@ public class UsuarioService {
                     usuario.getTelefone()
             );
 
+            return ResponseEntity.ok(tokenDto);
+
         } catch (Exception e) {
+            // 4. Registra falha
             tentativasLoginService.registrarFalha(email);
-            throw new RuntimeException("Credenciais inválidas. Verifique seu e-mail e senha.");
+
+            return ResponseEntity
+                    .status(401)
+                    .body(new ErroDto("Credenciais inválidas. Verifique seu e-mail e senha."));
         }
     }
+
 
     public UsuarioTokenDto autenticarOuCriarComGoogle(ClienteCadastroDto dto) {
         UsuarioEntity usuario = usuarioRepository.findByEmail(dto.getEmail())

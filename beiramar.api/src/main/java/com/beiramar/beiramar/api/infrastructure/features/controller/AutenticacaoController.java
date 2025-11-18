@@ -23,7 +23,7 @@ public class AutenticacaoController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<UsuarioTokenDto> login(@io.swagger.v3.oas.annotations.parameters.RequestBody(
+    public ResponseEntity<?> login(@io.swagger.v3.oas.annotations.parameters.RequestBody(
             description = "Dados do cliente a ser cadastrado",
             required = true,
             content = @Content(

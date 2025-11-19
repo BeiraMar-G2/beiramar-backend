@@ -38,10 +38,17 @@ public interface AgendamentoJpaRepository extends JpaRepository<AgendamentoEntit
     @Query("SELECT a FROM AgendamentoEntity a WHERE MONTH(a.dtHora) = :mes AND YEAR(a.dtHora) = :ano")
     Page<AgendamentoEntity> findByMes(Integer mes, Integer ano, Pageable pageable);
 
-    @Query(value = "SELECT COUNT(*) FROM agendamento a WHERE a.status = 'Agendado' AND a.dt_hora >= DATE_SUB(CURDATE(), INTERVAL ?1 DAY)", nativeQuery = true)
-    Long countByStatusAgendado(Integer dias);
+    @Query(value = "SELECT COUNT(*) FROM agendamento a " +
+            "WHERE UPPER(a.status) = UPPER('Agendado') " +
+            "AND a.dt_hora BETWEEN :dataInicio AND :dataFim",
+            nativeQuery = true)
+    Long countAgendadosPorPeriodo(@Param("dataInicio") LocalDateTime dataInicio,
+                                  @Param("dataFim") LocalDateTime dataFim);
 
-
-    @Query(value = "SELECT COUNT(*) FROM agendamento a WHERE a.status = 'Cancelado' AND a.dt_hora >= DATE_SUB(CURDATE(), INTERVAL ?1 DAY)", nativeQuery = true)
-    Long countByStatusCancelado(Integer dias);
+    @Query(value = "SELECT COUNT(*) FROM agendamento a " +
+            "WHERE UPPER(a.status) = UPPER('Cancelado') " +
+            "AND a.dt_hora BETWEEN :dataInicio AND :dataFim",
+            nativeQuery = true)
+    Long countCanceladosPorPeriodo(@Param("dataInicio") LocalDateTime dataInicio,
+                                   @Param("dataFim") LocalDateTime dataFim);
 }

@@ -5,37 +5,54 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
 public interface ServicoJpaRepository extends JpaRepository<ServicoEntity, Integer> {
 
-    @Query(value = "SELECT ROW_NUMBER() OVER (ORDER BY COUNT(a.id_agendamento) DESC) as posicao_ranking, " +
-            "s.nome, COUNT(a.id_agendamento) as total_agendamentos " +
-            "FROM servico s " +
-            "LEFT JOIN agendamento a ON s.id_servico = a.fk_servico " +
-            "GROUP BY s.id_servico, s.nome " +
-            "ORDER BY total_agendamentos DESC " +
-            "LIMIT 3", nativeQuery = true)
-    List<Object[]> findTop3ServicosMaisAgendados();
+    @Query(value =
+            "SELECT ROW_NUMBER() OVER (ORDER BY COUNT(a.id_agendamento) DESC) AS posicao, " +
+                    "s.nome, COUNT(a.id_agendamento) AS total " +
+                    "FROM servico s " +
+                    "LEFT JOIN agendamento a ON s.id_servico = a.fk_servico " +
+                    "AND a.dt_hora BETWEEN :dataInicio AND :dataFim " +
+                    "GROUP BY s.id_servico, s.nome " +
+                    "ORDER BY total DESC " +
+                    "LIMIT 3",
+            nativeQuery = true)
+    List<Object[]> findTop3ServicosMaisAgendados(
+            LocalDateTime dataInicio,
+            LocalDateTime dataFim);
 
-    @Query(value = "SELECT ROW_NUMBER() OVER (ORDER BY COUNT(a.id_agendamento) ASC) as posicao_ranking, " +
-            "s.nome, COUNT(a.id_agendamento) as total_agendamentos " +
-            "FROM servico s " +
-            "LEFT JOIN agendamento a ON s.id_servico = a.fk_servico " +
-            "GROUP BY s.id_servico, s.nome " +
-            "ORDER BY total_agendamentos ASC " +
-            "LIMIT 3", nativeQuery = true)
-    List<Object[]> findTop3ServicosMenosAgendados();
 
-    @Query(value = "SELECT s.nome, COUNT(CASE WHEN a.status = 'Cancelado' THEN 1 END) as total_cancelamentos " +
-            "FROM servico s " +
-            "LEFT JOIN agendamento a ON s.id_servico = a.fk_servico " +
-            "WHERE a.dt_hora >= DATE_SUB(CURDATE(), INTERVAL 30 DAY) " +
-            "GROUP BY s.id_servico, s.nome " +
-            "ORDER BY total_cancelamentos DESC " +
-            "LIMIT 5", nativeQuery = true)
-    List<Object[]> findServicosMaisCancelados();
+    @Query(value =
+            "SELECT ROW_NUMBER() OVER (ORDER BY COUNT(a.id_agendamento) ASC) AS posicao, " +
+                    "s.nome, COUNT(a.id_agendamento) AS total " +
+                    "FROM servico s " +
+                    "LEFT JOIN agendamento a ON s.id_servico = a.fk_servico " +
+                    "AND a.dt_hora BETWEEN :dataInicio AND :dataFim " +
+                    "GROUP BY s.id_servico, s.nome " +
+                    "ORDER BY total ASC " +
+                    "LIMIT 3",
+            nativeQuery = true)
+    List<Object[]> findTop3ServicosMenosAgendados(
+            LocalDateTime dataInicio,
+            LocalDateTime dataFim);
+
+    @Query(value =
+            "SELECT s.nome, COUNT(CASE WHEN a.status = 'Cancelado' THEN 1 END) AS total_cancelamentos " +
+                    "FROM servico s " +
+                    "LEFT JOIN agendamento a ON s.id_servico = a.fk_servico " +
+                    "AND a.dt_hora BETWEEN :dataInicio AND :dataFim " +
+                    "WHERE 1=1 " +
+                    "GROUP BY s.id_servico, s.nome " +
+                    "ORDER BY total_cancelamentos DESC " +
+                    "LIMIT 5",
+            nativeQuery = true)
+    List<Object[]> findServicosMaisCancelados(
+            LocalDateTime dataInicio,
+            LocalDateTime dataFim);
 
     @Query(value = "SELECT CASE DAYOFWEEK(a.dt_hora) " +
             "WHEN 1 THEN 'Domingo' " +

@@ -5,9 +5,11 @@ import com.beiramar.beiramar.api.core.application.command.servicocommand.Servico
 import com.beiramar.beiramar.api.core.application.usecase.servicousecase.*;
 import com.beiramar.beiramar.api.core.domain.Servico;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -77,18 +79,24 @@ public class    ServicoController {
     }
 
     @GetMapping("/top3-mais-agendados")
-    public List<Object[]> getTop3ServicosMaisAgendados() {
-        return buscarTop3ServicosMaisAgendadosUseCase.executar();
+    public List<Object[]> getTop3ServicosMaisAgendados(
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime dataInicio,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime dataFim) {
+        return buscarTop3ServicosMaisAgendadosUseCase.executar(dataInicio, dataFim);
     }
 
     @GetMapping("/top3-menos-agendados")
-    public List<Object[]> getTop3ServicosMenosAgendados() {
-        return buscarTop3ServicosMenosAgendadosUseCase.executar();
+    public List<Object[]> getTop3ServicosMenosAgendados(
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime dataInicio,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime dataFim) {
+        return buscarTop3ServicosMenosAgendadosUseCase.executar(dataInicio, dataFim);
     }
 
     @GetMapping("/mais-cancelados")
-    public List<Object[]> getServicosMaisCancelados() {
-        return buscarServicosMaisCanceladosUseCase.executar();
+    public List<Object[]> getServicosMaisCancelados(
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime dataInicio,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime dataFim) {
+        return buscarServicosMaisCanceladosUseCase.executar(dataInicio, dataFim);
     }
 
     @GetMapping("/agendamentos-por-dia-semana")

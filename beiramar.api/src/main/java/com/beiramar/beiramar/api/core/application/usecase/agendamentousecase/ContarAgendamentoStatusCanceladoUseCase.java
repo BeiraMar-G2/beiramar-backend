@@ -2,6 +2,8 @@ package com.beiramar.beiramar.api.core.application.usecase.agendamentousecase;
 
 import com.beiramar.beiramar.api.core.adapter.AgendamentoGateway;
 
+import java.time.LocalDateTime;
+
 public class ContarAgendamentoStatusCanceladoUseCase {
     private final AgendamentoGateway agendamentoGateway;
 
@@ -9,12 +11,15 @@ public class ContarAgendamentoStatusCanceladoUseCase {
         this.agendamentoGateway = agendamentoGateway;
     }
 
-    public Long executarCancelados(Integer dias) {
-        if (dias == null || dias <= 0) {
-            throw new IllegalArgumentException("O número de dias deve ser maior que zero");
+    public Long executar(LocalDateTime dataInicio, LocalDateTime dataFim) {
+        if (dataInicio == null || dataFim == null) {
+            throw new IllegalArgumentException("Datas não podem ser nulas");
+        }
+        if (dataInicio.isAfter(dataFim)) {
+            throw new IllegalArgumentException("dataInicio não pode ser depois de dataFim");
         }
 
-        return agendamentoGateway.contarAgendamentosCanceladosPorDias(dias);
+        return agendamentoGateway.contarAgendamentosCanceladosPorPeriodo(dataInicio, dataFim);
     }
 
 }

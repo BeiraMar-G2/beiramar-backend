@@ -25,8 +25,8 @@ public interface AgendamentoGateway {
     List<Agendamento> listarPorIdCliente(Integer idCliente);
     List<Agendamento> listarPorMes(Integer mes, Integer ano);
     List<Agendamento> listarHistoricoPorIdCliente(Integer idCLiente, LocalDateTime data);
-    Long contarAgendamentosComStatusAgendadoPorDias(Integer dias);
-    Long contarAgendamentosCanceladosPorDias(Integer dias);
+    Long contarAgendamentosComStatusAgendadoPorPeriodo(LocalDateTime dataInicio, LocalDateTime dataFim);
+    Long contarAgendamentosCanceladosPorPeriodo(LocalDateTime dataInicio, LocalDateTime dataFim);
     Page<Agendamento> listarPorIdClientePaginado(Integer idCliente, Pageable pageable);
     Page<Agendamento> listarPorMesPaginado(Integer mes, Integer ano, Pageable pageable);
     Page<Agendamento> listarTodosPaginado(Pageable pageable);

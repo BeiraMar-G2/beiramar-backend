@@ -20,23 +20,5 @@ public class CadastrarServicoUseCase {
                 command.getDescricao(), command.getDuracao());
         return servicoGateway.salvar(servico);
     }
-
-    public static class BuscarTop3ServicosMaisAgendados {
-
-        private final ServicoGateway servicoGateway;
-
-        public BuscarTop3ServicosMaisAgendados(ServicoGateway servicoGateway) {
-            this.servicoGateway = servicoGateway;
-        }
-
-        public List<Object[]> executar() {
-            List<Object[]> top3Servicos = servicoGateway.buscarTop3ServicosMaisAgendados();
-
-            if (top3Servicos.isEmpty()) {
-                throw new EntidadeNaoEncontradaException("Nenhum serviço encontrado");
-            }
-
-            return top3Servicos;
-        }
-    }
+    
 }

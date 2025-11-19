@@ -3,6 +3,7 @@ package com.beiramar.beiramar.api.infrastructure.persistence.servicopersistence;
 import com.beiramar.beiramar.api.core.adapter.ServicoGateway;
 import com.beiramar.beiramar.api.core.domain.Servico;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -59,18 +60,18 @@ public class ServicoJpaAdapter implements ServicoGateway {
     }
 
     @Override
-    public List<Object[]> buscarTop3ServicosMaisAgendados() {
-        return servicoJpaRepository.findTop3ServicosMaisAgendados();
+    public List<Object[]> buscarTop3ServicosMaisAgendados(LocalDateTime dataInicio, LocalDateTime dataFim) {
+        return servicoJpaRepository.findTop3ServicosMaisAgendados(dataInicio, dataFim);
     }
 
     @Override
-    public List<Object[]> buscarTop3ServicosMenosAgendados() {
-        return servicoJpaRepository.findTop3ServicosMenosAgendados();
+    public List<Object[]> buscarTop3ServicosMenosAgendados(LocalDateTime dataInicio, LocalDateTime dataFim) {
+        return servicoJpaRepository.findTop3ServicosMenosAgendados(dataInicio, dataFim);
     }
 
     @Override
-    public List<Object[]> buscarServicosMaisCancelados() {
-        return servicoJpaRepository.findServicosMaisCancelados();
+    public List<Object[]> buscarServicosMaisCancelados(LocalDateTime dataInicio, LocalDateTime dataFim) {
+        return servicoJpaRepository.findServicosMaisCancelados(dataInicio, dataFim);
     }
 
     @Override

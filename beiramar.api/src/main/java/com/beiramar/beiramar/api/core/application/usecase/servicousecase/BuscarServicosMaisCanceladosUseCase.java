@@ -3,6 +3,7 @@ package com.beiramar.beiramar.api.core.application.usecase.servicousecase;
 import com.beiramar.beiramar.api.core.adapter.ServicoGateway;
 import com.beiramar.beiramar.api.core.application.exception.EntidadeNaoEncontradaException;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class BuscarServicosMaisCanceladosUseCase {
@@ -12,14 +13,16 @@ public class BuscarServicosMaisCanceladosUseCase {
         this.servicoGateway = servicoGateway;
     }
 
-    public List<Object[]> executar() {
-        List<Object[]> servicosMaisCancelados = servicoGateway.buscarServicosMaisCancelados();
+    public List<Object[]> executar(LocalDateTime dataInicio, LocalDateTime dataFim) {
 
-        if (servicosMaisCancelados.isEmpty()) {
-            throw new EntidadeNaoEncontradaException("Nenhum serviço com cancelamentos encontrado");
+        List<Object[]> maisCancelados =
+                servicoGateway.buscarServicosMaisCancelados(dataInicio, dataFim);
+
+        if (maisCancelados.isEmpty()) {
+            throw new EntidadeNaoEncontradaException("Nenhum serviço encontrado");
         }
 
-        return servicosMaisCancelados;
+        return maisCancelados;
     }
 
 }

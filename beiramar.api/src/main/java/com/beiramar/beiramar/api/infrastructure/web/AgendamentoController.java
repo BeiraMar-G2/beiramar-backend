@@ -146,14 +146,20 @@ public class AgendamentoController {
     }
 
     @GetMapping("/contarAgendados")
-    public ResponseEntity<Long> contarAgendamentos(@RequestParam Integer dias) {
-        Long quantidade = contarAgendamentoUseCase.executar(dias);
+    public ResponseEntity<Long> contarAgendamentos(
+            @RequestParam("inicio") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime inicio,
+            @RequestParam("fim") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime fim
+    ) {
+        Long quantidade = contarAgendamentoUseCase.executar(inicio, fim);
         return ResponseEntity.ok(quantidade);
     }
 
     @GetMapping("/contarCancelados")
-    public ResponseEntity<Long> contarAgendamentosCancelados(@RequestParam Integer dias) {
-        Long quantidade = contarAgendamentoUseCase.executarCancelados(dias);
+    public ResponseEntity<Long> contarAgendamentosCancelados(
+            @RequestParam("inicio") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime inicio,
+            @RequestParam("fim") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime fim
+    ) {
+        Long quantidade = contarAgendamentoUseCase.executar(inicio, fim);
         return ResponseEntity.ok(quantidade);
     }
 

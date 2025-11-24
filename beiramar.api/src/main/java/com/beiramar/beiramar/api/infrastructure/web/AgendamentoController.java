@@ -34,8 +34,9 @@ public class AgendamentoController {
     private final ListarAgendamentosHistoricoUseCase listarHistoricoUseCase;
     private final ListarAgendamentosHistoricoPaginadoUseCase listarHistoricoPaginadoUseCase;
     private final ContarAgendamentoStatusAgendadoUseCase contarAgendamentoUseCase;
+    private final ContarAgendamentoStatusCanceladoUseCase contarCanceladosUseCase;
 
-    public AgendamentoController(CadastrarAgendamentoUseCase cadastrarUseCase, AtualizarAgendamentoUseCase atualizarUseCase, BuscarAgendamentoPorIdUseCase buscarPorIdUseCase, DeletarAgendamentoUseCase deletarUseCase, ListarAgendamentosUseCase listarUseCase, ListarAgendamentosPaginadoUseCase listarPaginadoUseCase, ListarAgendamentosPorIdClienteUseCase listarPorClienteUseCase, ListarAgendamentosPorIdClientePaginadoUseCase listarPorClientePaginadoUseCase, ListarAgendamentosPorMesUseCase listarPorMesUseCase, ListarAgendamentosPorMesPaginadoUseCase listarPorMesPaginadoUseCase, ListarAgendamentosHistoricoUseCase listarHistoricoUseCase, ListarAgendamentosHistoricoPaginadoUseCase listarHistoricoPaginadoUseCase, ContarAgendamentoStatusAgendadoUseCase contarAgendamentoUseCase) {
+    public AgendamentoController(CadastrarAgendamentoUseCase cadastrarUseCase, AtualizarAgendamentoUseCase atualizarUseCase, BuscarAgendamentoPorIdUseCase buscarPorIdUseCase, DeletarAgendamentoUseCase deletarUseCase, ListarAgendamentosUseCase listarUseCase, ListarAgendamentosPaginadoUseCase listarPaginadoUseCase, ListarAgendamentosPorIdClienteUseCase listarPorClienteUseCase, ListarAgendamentosPorIdClientePaginadoUseCase listarPorClientePaginadoUseCase, ListarAgendamentosPorMesUseCase listarPorMesUseCase, ListarAgendamentosPorMesPaginadoUseCase listarPorMesPaginadoUseCase, ListarAgendamentosHistoricoUseCase listarHistoricoUseCase, ListarAgendamentosHistoricoPaginadoUseCase listarHistoricoPaginadoUseCase, ContarAgendamentoStatusAgendadoUseCase contarAgendamentoUseCase, ContarAgendamentoStatusCanceladoUseCase contarCanceladosUseCase) {
         this.cadastrarUseCase = cadastrarUseCase;
         this.atualizarUseCase = atualizarUseCase;
         this.buscarPorIdUseCase = buscarPorIdUseCase;
@@ -49,6 +50,7 @@ public class AgendamentoController {
         this.listarHistoricoUseCase = listarHistoricoUseCase;
         this.listarHistoricoPaginadoUseCase = listarHistoricoPaginadoUseCase;
         this.contarAgendamentoUseCase = contarAgendamentoUseCase;
+        this.contarCanceladosUseCase = contarCanceladosUseCase;
     }
 
     @PostMapping
@@ -159,7 +161,7 @@ public class AgendamentoController {
             @RequestParam("inicio") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime inicio,
             @RequestParam("fim") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime fim
     ) {
-        Long quantidade = contarAgendamentoUseCase.executar(inicio, fim);
+        Long quantidade = contarCanceladosUseCase.executar(inicio, fim);
         return ResponseEntity.ok(quantidade);
     }
 

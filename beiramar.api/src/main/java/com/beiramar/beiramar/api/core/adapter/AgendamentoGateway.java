@@ -7,6 +7,7 @@ import com.beiramar.beiramar.api.core.domain.Usuario;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -27,6 +28,7 @@ public interface AgendamentoGateway {
     List<Agendamento> listarHistoricoPorIdCliente(Integer idCLiente, LocalDateTime data);
     Long contarAgendamentosComStatusAgendadoPorPeriodo(LocalDateTime dataInicio, LocalDateTime dataFim);
     Long contarAgendamentosCanceladosPorPeriodo(LocalDateTime dataInicio, LocalDateTime dataFim);
+    Long contarAgedamentosConcluidosPorPerido(LocalDateTime dataInicio, LocalDateTime dataFim);
     Page<Agendamento> listarPorIdClientePaginado(Integer idCliente, Pageable pageable);
     Page<Agendamento> listarPorMesPaginado(Integer mes, Integer ano, Pageable pageable);
     Page<Agendamento> listarTodosPaginado(Pageable pageable);

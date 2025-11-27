@@ -211,6 +211,11 @@ public class AgendamentoJpaAdapter implements AgendamentoGateway {
     }
 
     @Override
+    public Long contarAgedamentosConcluidosPorPerido(LocalDateTime dataInicio, LocalDateTime dataFim) {
+        return agendamentoRepository.countConcluidosPorPeriodo(dataInicio, dataFim);
+    }
+
+    @Override
     public Page<Agendamento> listarPorIdClientePaginado(Integer idCliente, Pageable pageable) {
         Page<AgendamentoEntity> pageEntity = agendamentoRepository.findByClienteIdUsuario(idCliente, pageable);
         return pageEntity.map(this::toDomain);

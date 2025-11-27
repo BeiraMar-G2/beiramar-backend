@@ -13,9 +13,8 @@ public class Disponibilidade {
     private String diaMes;
     private Usuario funcionario;
     private DisponibilidadeEntity disponibilidadeExcecao;
-    private String fkFuncionarioExcecaoNome;
 
-    public Disponibilidade(Integer idDisponibilidade, String diaSemana, LocalTime horaInicio, LocalTime horaFim, String diaMes, Usuario funcionario, DisponibilidadeEntity disponibilidadeExcecao, String fkFuncionarioExcecaoNome) {
+    public Disponibilidade(Integer idDisponibilidade, String diaSemana, LocalTime horaInicio, LocalTime horaFim, String diaMes, Usuario funcionario, DisponibilidadeEntity disponibilidadeExcecao) {
         this.idDisponibilidade = idDisponibilidade;
         this.diaSemana = diaSemana;
         this.horaInicio = horaInicio;
@@ -23,17 +22,15 @@ public class Disponibilidade {
         this.diaMes = diaMes;
         this.funcionario = funcionario;
         this.disponibilidadeExcecao = disponibilidadeExcecao;
-        this.fkFuncionarioExcecaoNome = fkFuncionarioExcecaoNome;
     }
 
-    public Disponibilidade(String diaSemana, LocalTime horaInicio, LocalTime horaFim, String diaMes, Usuario funcionario, DisponibilidadeEntity disponibilidadeExcecao, String fkFuncionarioExcecaoNome) {
+    public Disponibilidade(String diaSemana, LocalTime horaInicio, LocalTime horaFim, String diaMes, Usuario funcionario, DisponibilidadeEntity disponibilidadeExcecao) {
         this.diaSemana = diaSemana;
         this.horaInicio = horaInicio;
         this.horaFim = horaFim;
         this.diaMes = diaMes;
         this.funcionario = funcionario;
         this.disponibilidadeExcecao = disponibilidadeExcecao;
-        this.fkFuncionarioExcecaoNome = fkFuncionarioExcecaoNome;
     }
 
     public Integer getIdDisponibilidade() {
@@ -64,16 +61,12 @@ public class Disponibilidade {
         return disponibilidadeExcecao;
     }
 
-    public String getFkFuncionarioExcecaoNome() {
-        return fkFuncionarioExcecaoNome;
-    }
 
-    public void atualizar(String diaSemana, LocalTime horaInicio, LocalTime horaFim, String diaMes, DisponibilidadeEntity disponibilidadeExcecao, String fkFuncionarioExcecaoNome){
+    public void atualizar(String diaSemana, LocalTime horaInicio, LocalTime horaFim, String diaMes, DisponibilidadeEntity disponibilidadeExcecao){
         this.diaSemana = diaSemana;
         this.horaInicio = horaInicio;
         this.horaFim = horaFim;
         this.diaMes = diaMes;
         this.disponibilidadeExcecao = disponibilidadeExcecao;
-        this.fkFuncionarioExcecaoNome = fkFuncionarioExcecaoNome;
     }
 }

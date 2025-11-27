@@ -27,7 +27,6 @@ public class DisponibilidadeEntity {
     @ManyToOne
     @JoinColumn(name = "fk_disponibilidade_excecao")
     private DisponibilidadeEntity disponibilidadeExcecao;
-    private String fkFuncionarioExcecaoNome;
 
     public Integer getIdDisponibilidade() {
         return idDisponibilidade;
@@ -83,13 +82,5 @@ public class DisponibilidadeEntity {
 
     public void setDisponibilidadeExcecao(DisponibilidadeEntity disponibilidadeExcecao) {
         this.disponibilidadeExcecao = disponibilidadeExcecao;
-    }
-
-    public String getFkFuncionarioExcecaoNome() {
-        return fkFuncionarioExcecaoNome;
-    }
-
-    public void setFkFuncionarioExcecaoNome(String fkFuncionarioExcecaoNome) {
-        this.fkFuncionarioExcecaoNome = fkFuncionarioExcecaoNome;
     }
 }

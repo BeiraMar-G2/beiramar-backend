@@ -31,8 +31,7 @@ public class DisponibilidadeJpaAdapter implements DisponibilidadeGateway {
                 entity.getHoraFim(),
                 entity.getDiaMes(),
                 funcionario,
-                entity.getDisponibilidadeExcecao(),
-                entity.getFkFuncionarioExcecaoNome()
+                entity.getDisponibilidadeExcecao()
         );
     }
 
@@ -45,7 +44,6 @@ public class DisponibilidadeJpaAdapter implements DisponibilidadeGateway {
         entity.setHoraFim(domain.getHoraFim());
         entity.setDiaMes(domain.getDiaMes());
         entity.setDisponibilidadeExcecao(domain.getDisponibilidadeExcecao());
-        entity.setFkFuncionarioExcecaoNome(domain.getFkFuncionarioExcecaoNome());
 
         if (domain.getFuncionario() != null) {
             entity.setFuncionario(usuarioJpaRepository.findById(domain.getFuncionario().getIdUsuario())

@@ -13,9 +13,8 @@ public class DisponibilidadeListagemDto {
     private String diaMes;
     private String nomeFuncionario;
     private DisponibilidadeEntity disponibilidadeExcecao;
-    private String fkFuncionarioExcecaoNome;
 
-    public DisponibilidadeListagemDto(Integer idDisponibilidade, String diaSemana, LocalTime horaInicio, LocalTime horaFim, String diaMes, String nomeFuncionario, DisponibilidadeEntity disponibilidadeExcecao, String fkFuncionarioExcecaoNome) {
+    public DisponibilidadeListagemDto(Integer idDisponibilidade, String diaSemana, LocalTime horaInicio, LocalTime horaFim, String diaMes, String nomeFuncionario, DisponibilidadeEntity disponibilidadeExcecao) {
         this.idDisponibilidade = idDisponibilidade;
         this.diaSemana = diaSemana;
         this.horaInicio = horaInicio;
@@ -23,7 +22,6 @@ public class DisponibilidadeListagemDto {
         this.diaMes = diaMes;
         this.nomeFuncionario = nomeFuncionario;
         this.disponibilidadeExcecao = disponibilidadeExcecao;
-        this.fkFuncionarioExcecaoNome = fkFuncionarioExcecaoNome;
     }
 
     public DisponibilidadeListagemDto() {
@@ -84,13 +82,5 @@ public class DisponibilidadeListagemDto {
 
     public void setDisponibilidadeExcecao(DisponibilidadeEntity disponibilidadeExcecao) {
         this.disponibilidadeExcecao = disponibilidadeExcecao;
-    }
-
-    public String getFkFuncionarioExcecaoNome() {
-        return fkFuncionarioExcecaoNome;
-    }
-
-    public void setFkFuncionarioExcecaoNome(String fkFuncionarioExcecaoNome) {
-        this.fkFuncionarioExcecaoNome = fkFuncionarioExcecaoNome;
     }
 }

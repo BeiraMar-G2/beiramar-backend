@@ -17,7 +17,6 @@ public class DisponibilidadeMapper {
         disponibilidade.setHoraFim(dto.getHoraFim());
         disponibilidade.setDiaMes(dto.getDiaMes());
         disponibilidade.setDisponibilidadeExcecao(dto.getDisponibilidadeExcecao());
-        disponibilidade.setFkFuncionarioExcecaoNome(dto.getFkFuncionarioExcecaoNome());
         return disponibilidade;
     }
 
@@ -29,8 +28,7 @@ public class DisponibilidadeMapper {
                 disponibilidade.getHoraFim(),
                 disponibilidade.getDiaMes(),
                 disponibilidade.getFuncionario().getNome(),
-                disponibilidade.getDisponibilidadeExcecao(),
-                disponibilidade.getFkFuncionarioExcecaoNome()
+                disponibilidade.getDisponibilidadeExcecao()
         );
     }
 
@@ -40,7 +38,6 @@ public class DisponibilidadeMapper {
         disponibilidade.setHoraFim(dto.getHoraFim());
         disponibilidade.setDiaMes(dto.getDiaMes());
         disponibilidade.setDisponibilidadeExcecao(dto.getDisponibilidadeExcecao());
-        disponibilidade.setFkFuncionarioExcecaoNome(dto.getFkFuncionarioExcecaoNome());
 
     }
 }

@@ -1,0 +1,136 @@
+name: CI/CD para EC2 pública e privada
+
+on:
+  push:
+    branches:
+      - master # O branch que acionará o deploy
+  workflow_dispatch: # Permite execução manual do workflow
+jobs:
+  build_and_deploy:
+    runs-on: ubuntu-latest
+    steps:
+      # 1. Checkout do repositório
+      - name: BE - Checkout do Código
+        uses: actions/checkout@v4
+
+      # 2. Configurar JDK
+      - name: BE - Configurar JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin' # ou a distribuição que preferir
+          java-version: '21'
+          cache: 'maven' # Configura cache do Maven para acelerar builds futuros
+          cache-dependency-path: 'anjos-bolos-api/pom.xml' # Caminho correto para o pom.xml
+      # 6. Configurar IP_PUBLICO no application.properties
+      - name: BE - Configurar IP Público e Banco de Dados no application.properties
+        run: |
+          # Substitui CORS origins pelo IP do REMOTE_HOST na porta 80
+          sed -i "s|^cors.allowed.origins=.*|cors.allowed.origins=http://${{ secrets.REMOTE_HOST }}:80|g" src/main/resources/application.properties
+          
+          echo "✅ IP_PUBLICO configurado para: http://${{ secrets.REMOTE_HOST }}:80"
+          
+          # Substitui URL do banco de dados para apontar para a EC2 privada
+          sed -i "s|^spring.datasource.url=.*|spring.datasource.url=jdbc:mysql://${{ secrets.REMOTE_HOST_PRIVADO }}:3306/anjos_bolos?useSSL=false\&allowPublicKeyRetrieval=true|g" src/main/resources/application.properties
+          
+          echo "✅ Database URL configurado para: jdbc:mysql://${{ secrets.REMOTE_HOST_PRIVADO }}:3306/anjos_bolos"
+          
+          # Mostra as linhas modificadas para confirmar
+          echo "Configurações aplicadas:"
+          grep "cors.allowed.origins" src/main/resources/application.properties
+          grep "spring.datasource.url" src/main/resources/application.properties
+        working-directory: ./anjos-bolos-api
+
+      # 7. Geração do .jar
+      - name: BE - Gerar Artefato .JAR
+        run: mvn package -DskipTests=true # -DskipTests=true pq os testes foram executados no passo anterior
+        working-directory: ./anjos-bolos-api
+
+      # 8. Dando o mesmo nome sempre ao .jar
+      - name: BE - Renomear JAR para beiramar_api.jar # ou o nome que preferir parta o jar
+        run: |
+          # Encontra o primeiro (e único) arquivo .jar gerado na pasta 'target'
+          # e o renomeia para o nome fixo.
+          # O comando 'ls target/*.jar' retorna o nome original.
+          
+          JAR_NAME=$(ls target/*.jar)
+          
+          # Renomeia o arquivo.
+          mv $JAR_NAME target/beiramar_api.jar
+          
+          echo "Renomeado para: target/beiramar_api.jar"
+        working-directory: ./anjos-bolos-api
+
+      # 8. Copiar JAR para EC2 pública via SCP
+      - name: BE - Copiar JAR para EC2 pública
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.REMOTE_HOST }}
+          username: ${{ secrets.REMOTE_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          source: "./anjos-bolos-api/target/beiramar_api.jar"
+          target: "/home/${{ secrets.REMOTE_USER }}/"
+          strip_components: 3
+
+          # 9. Transferir JAR da EC2 pública para privada e executar
+      - name: BE - Transferir para EC2 privada e reiniciar aplicação
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.REMOTE_HOST }}
+          username: ${{ secrets.REMOTE_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            set -e
+            
+            # Configurar PATH para a sessão
+            export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+            
+            # Verificar se o arquivo foi copiado
+            echo "Verificando arquivo copiado:"
+            ls -lh /home/${{ secrets.REMOTE_USER }}/beiramar_api.jar
+            
+            # Usar chave SSH existente para acessar EC2 privada
+            ARQUIVO_PEM="/home/${{ secrets.REMOTE_USER }}/anjos-bolos-low-cost-key.pem"
+            echo "Usando chave SSH existente: $ARQUIVO_PEM"
+            
+            # Transferir JAR para EC2 privada
+            USUARIO_IP="${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST_PRIVADO }}"
+            echo "Transferindo para EC2 privada: $USUARIO_IP"
+            
+            # Garantir que o diretório existe na EC2 privada
+            ssh -o StrictHostKeyChecking=no -i $ARQUIVO_PEM $USUARIO_IP \
+              'export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin" && /usr/bin/sudo mkdir -p /usr/share/api'
+            
+            # Copiar o JAR
+            scp -o StrictHostKeyChecking=no -i $ARQUIVO_PEM \
+              /home/${{ secrets.REMOTE_USER }}/beiramar_api.jar \
+              $USUARIO_IP:/tmp/beiramar_api.jar
+            
+            # Mover para o diretório final com sudo e ajustar permissões
+            ssh -o StrictHostKeyChecking=no -i $ARQUIVO_PEM $USUARIO_IP \
+              'export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin" && /usr/bin/sudo mv /tmp/beiramar_api.jar /usr/share/api/beiramar_api.jar && /usr/bin/sudo chmod 644 /usr/share/api/beiramar_api.jar'
+            
+            echo "Arquivo transferido com sucesso!"
+            
+            # Reiniciar aplicação via Docker Compose (força recriação)
+            echo "Reiniciando aplicação..."
+            ssh -o StrictHostKeyChecking=no -i $ARQUIVO_PEM $USUARIO_IP << 'ENDSSH'
+              export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+              cd /home/ubuntu
+              echo "Parando containers..."
+              /usr/bin/sudo /usr/local/bin/docker-compose -f compose-api.yaml down 2>/dev/null || true
+              echo "Recriando e iniciando containers com novo JAR..."
+              /usr/bin/sudo /usr/local/bin/docker-compose -f compose-api.yaml up -d --force-recreate
+              echo "Aguardando inicialização..."
+              sleep 5
+              echo "Status dos containers:"
+              /usr/bin/sudo /usr/local/bin/docker-compose -f compose-api.yaml ps
+              echo "Containers recriados e iniciados!"
+            ENDSSH
+            
+            echo "Aplicação reiniciada com sucesso!"
+            
+            # Limpar arquivos temporários na EC2 pública
+            echo "Limpando arquivos temporários..."
+            rm -f /home/${{ secrets.REMOTE_USER }}/beiramar_api.jar
+            
+            echo "Limpeza concluída!"

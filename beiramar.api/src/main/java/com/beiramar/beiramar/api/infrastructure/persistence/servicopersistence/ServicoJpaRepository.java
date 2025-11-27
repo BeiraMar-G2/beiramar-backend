@@ -17,6 +17,7 @@ public interface ServicoJpaRepository extends JpaRepository<ServicoEntity, Integ
                     "FROM servico s " +
                     "LEFT JOIN agendamento a ON s.id_servico = a.fk_servico " +
                     "AND a.dt_hora BETWEEN :dataInicio AND :dataFim " +
+                    "AND UPPER(a.status_agendamento) = UPPER('Agendado')" +
                     "GROUP BY s.id_servico, s.nome " +
                     "ORDER BY total DESC " +
                     "LIMIT 3",

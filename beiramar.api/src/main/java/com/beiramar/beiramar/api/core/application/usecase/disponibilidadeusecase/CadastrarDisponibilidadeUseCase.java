@@ -23,8 +23,7 @@ public class CadastrarDisponibilidadeUseCase {
                 command.getHoraFim(),
                 command.getDiaMes(),
                 funcionario,
-                command.getDisponibilidadeExcecao(),
-                command.getFkFuncionarioExcecaoNome()
+                command.getDisponibilidadeExcecao()
         );
         return disponibilidadeGateway.salvar(disponibilidade);
     }

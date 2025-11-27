@@ -22,8 +22,7 @@ public class AtualizarDisponibilidadeUseCase {
                 command.getHoraInicio(),
                 command.getHoraFim(),
                 command.getDiaMes(),
-                command.getDisponibilidadeExcecao(),
-                command.getFkFuncionarioExcecaoNome());
+                command.getDisponibilidadeExcecao());
 
         return disponibilidadeGateway.salvar(disponibilidade);
     }

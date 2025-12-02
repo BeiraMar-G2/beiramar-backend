@@ -105,7 +105,7 @@ jobs:
 
       # 4. Gerar Artefato .JAR
       - name: BE - Gerar Artefato .JAR
-        run: mvn package -DskipTests=true
+        run: mvn clean package -DskipTests=true -Dmaven.test.skip=true
         working-directory: ./beiramar.api
 
       # 5. Renomear JAR para nome fixo

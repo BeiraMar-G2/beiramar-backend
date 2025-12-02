@@ -143,49 +143,48 @@ jobs:
           echo ""
           echo "Ver 'SSH_TIMEOUT_FIX.md' para soluções detalhadas"
 
-      # 6.5 Aguardar propagação de EIP
-      - name: ⏳ Aguardar propagação de Elastic IP
+      # 6.5 Preparar chave SSH
+      - name: 🔑 Preparar Chave SSH
         run: |
-          echo "⏳ Aguardando 30 segundos para propagação de Elastic IP..."
-          sleep 30
-          echo "✅ Pronto para conectar!"
+          mkdir -p ~/.ssh
+          echo "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          ssh-keyscan -H ${{ secrets.BACKEND_HOST }} >> ~/.ssh/known_hosts 2>/dev/null || true
 
-      # 7. Copiar JAR para EC2 privada via SCP
-      - name: BE - Copiar JAR para EC2 privada
-        uses: appleboy/scp-action@v0.1.7
-        with:
-          host: ${{ secrets.BACKEND_HOST }}
-          username: ${{ secrets.BACKEND_USER }}
-          key: ${{ secrets.EC2_SSH_KEY }}
-          source: "./beiramar.api/target/beiramar-api.jar"
-          target: "/tmp/"
-          strip_components: 3
-
-          # 8. Transferir JAR e reiniciar aplicação
-      - name: BE - Transferir JAR e reiniciar aplicação no Docker Compose
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: ${{ secrets.BACKEND_HOST }}
-          username: ${{ secrets.BACKEND_USER }}
-          key: ${{ secrets.EC2_SSH_KEY }}
-          script: |
-            set -e
-            
-            echo "📦 Verificando arquivo copiado..."
-            ls -lh /tmp/beiramar-api.jar
-            
-            echo "🚀 Movendo JAR para o diretório de aplicação..."
-            sudo mv /tmp/beiramar-api.jar /usr/share/api/beiramar-api.jar
-            sudo chmod 644 /usr/share/api/beiramar-api.jar
-            
-            echo "🛑 Parando containers..."
-            cd /home/ubuntu
-            sudo docker-compose -f compose.yaml down 2>/dev/null || true
-            
-            echo "🔄 Recriando e iniciando containers com novo JAR..."
-            sudo docker-compose -f compose.yaml up -d --force-recreate
-            
-            echo "⏳ Aguardando inicialização..."
+      # 7. Copiar JAR e Reiniciar via SSH
+      - name: BE - Copiar JAR e Reiniciar Aplicação
+        run: |
+          set -e
+          
+          SSH_CMD="ssh -i ~/.ssh/deploy_key -o ConnectTimeout=10 -o StrictHostKeyChecking=no ${{ secrets.BACKEND_USER }}@${{ secrets.BACKEND_HOST }}"
+          
+          echo "📦 Copiando JAR via SCP..."
+          scp -i ~/.ssh/deploy_key -o ConnectTimeout=10 \
+            ./beiramar.api/target/beiramar-api.jar \
+            ${{ secrets.BACKEND_USER }}@${{ secrets.BACKEND_HOST }}:/tmp/beiramar-api.jar
+          
+          echo "✅ JAR copiado com sucesso!"
+          
+          echo "🚀 Executando deploy remoto..."
+          $SSH_CMD << 'EOSSH'
+          set -e
+          
+          echo "📦 Verificando arquivo copiado..."
+          ls -lh /tmp/beiramar-api.jar
+          
+          echo "🚀 Movendo JAR para o diretório de aplicação..."
+          sudo mv /tmp/beiramar-api.jar /usr/share/api/beiramar-api.jar || \
+            { echo "Criando diretório..."; sudo mkdir -p /usr/share/api; sudo mv /tmp/beiramar-api.jar /usr/share/api/beiramar-api.jar; }
+          sudo chmod 644 /usr/share/api/beiramar-api.jar
+          
+          echo "🛑 Parando containers..."
+          cd /home/ubuntu || cd /home/ec2-user || cd ~
+          sudo docker-compose -f compose.yaml down 2>/dev/null || echo "Nenhum container rodando"
+          
+          echo "🔄 Recriando e iniciando containers com novo JAR..."
+          sudo docker-compose -f compose.yaml up -d --force-recreate
+          
+          echo "⏳ Aguardando inicialização..."
             sleep 10
             
             echo "✅ Verificando status dos containers..."

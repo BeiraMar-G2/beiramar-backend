@@ -116,7 +116,34 @@ jobs:
           echo "Renomeado para: target/beiramar-api.jar"
         working-directory: ./beiramar.api
 
-      # 6. Copiar JAR para EC2 privada via SCP
+      # 6. Diagnóstico de Conectividade
+      - name: 🔍 Diagnóstico - Verificar Conectividade SSH
+        run: |
+          echo "🔍 ========================================="
+          echo "Informações da Conexão SSH:"
+          echo "  • Host: ${{ secrets.BACKEND_HOST }}"
+          echo "  • User: ${{ secrets.BACKEND_USER }}"
+          echo "  • Port: 22"
+          echo ""
+          echo "Detalhes do Arquivo:"
+          JAR_PATH="./beiramar.api/target/beiramar-api.jar"
+          if [ -f "$JAR_PATH" ]; then
+            ls -lh "$JAR_PATH"
+            echo "  ✅ JAR encontrado"
+          else
+            echo "  ❌ JAR não encontrado"
+          fi
+          echo "🔍 ========================================="
+          echo ""
+          echo "Nota: Se o SCP falhar com 'timeout', verifique:"
+          echo "  1. BACKEND_HOST é um IP público (não privado 10.x.x.x)?"
+          echo "  2. Security Group permite SSH (porta 22)?"
+          echo "  3. EC2 está em estado 'running'?"
+          echo "  4. Chave SSH (EC2_SSH_KEY) está correta?"
+          echo ""
+          echo "Ver 'SSH_TIMEOUT_FIX.md' para soluções detalhadas"
+
+      # 7. Copiar JAR para EC2 privada via SCP
       - name: BE - Copiar JAR para EC2 privada
         uses: appleboy/scp-action@v0.1.7
         with:
@@ -127,7 +154,7 @@ jobs:
           target: "/tmp/"
           strip_components: 3
 
-          # 7. Transferir JAR e reiniciar aplicação
+          # 8. Transferir JAR e reiniciar aplicação
       - name: BE - Transferir JAR e reiniciar aplicação no Docker Compose
         uses: appleboy/ssh-action@v1.0.3
         with:

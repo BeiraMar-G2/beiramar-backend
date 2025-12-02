@@ -5,10 +5,50 @@ on:
     branches:
       - master # O branch que acionará o deploy
   workflow_dispatch: # Permite execução manual do workflow
+    inputs:
+      environment:
+        description: 'Ambiente para deploy'
+        required: true
+        default: 'production'
+        type: choice
+        options:
+          - production
+          - staging
+          - development
+      skip_tests:
+        description: 'Pular testes?'
+        required: false
+        default: true
+        type: boolean
+      force_restart:
+        description: 'Forçar restart mesmo se não houver mudanças?'
+        required: false
+        default: false
+        type: boolean
+
 jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
     steps:
+      # 0. Exibir informações do trigger
+      - name: 📋 Informações do Deploy
+        run: |
+          echo "🚀 ========================================="
+          echo "📍 Repositório: ${{ github.repository }}"
+          echo "📌 Branch: ${{ github.ref_name }}"
+          echo "🔗 Trigger: ${{ github.event_name }}"
+          
+          if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
+            echo "🎮 EXECUÇÃO MANUAL"
+            echo "  • Ambiente: ${{ github.event.inputs.environment }}"
+            echo "  • Pular testes: ${{ github.event.inputs.skip_tests }}"
+            echo "  • Forçar restart: ${{ github.event.inputs.force_restart }}"
+          else
+            echo "⚙️ EXECUÇÃO AUTOMÁTICA (Push)"
+          fi
+          
+          echo "✨ ========================================="
+
       # 1. Checkout do repositório
       - name: BE - Checkout do Código
         uses: actions/checkout@v4

@@ -93,4 +93,9 @@ public class AgendamentoBeanConfig {
     public ContarAgendamentoStatusCanceladoUseCase contarAgendamentoStatusCanceladoUseCase(AgendamentoGateway gateway) {
         return new ContarAgendamentoStatusCanceladoUseCase(gateway);
     }
+
+    @Bean
+    public ContarAgendamentosStatusConcluidoUseCase contarAgendamentosStatusConcluidoUseCase(AgendamentoGateway gateway) {
+        return new ContarAgendamentosStatusConcluidoUseCase(gateway);
+    }
 }

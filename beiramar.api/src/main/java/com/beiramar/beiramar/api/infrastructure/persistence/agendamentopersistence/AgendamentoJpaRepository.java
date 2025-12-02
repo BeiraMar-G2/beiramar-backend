@@ -51,4 +51,11 @@ public interface AgendamentoJpaRepository extends JpaRepository<AgendamentoEntit
             nativeQuery = true)
     Long countCanceladosPorPeriodo(@Param("dataInicio") LocalDateTime dataInicio,
                                    @Param("dataFim") LocalDateTime dataFim);
+
+    @Query(value = "SELECT COUNT(*) FROM agendamento a " +
+            "WHERE UPPER(a.status) = UPPER('Concluido') " +
+            "AND a.dt_hora BETWEEN :dataInicio AND :dataFim",
+            nativeQuery = true)
+    Long countConcluidosPorPeriodo(@Param("dataInicio") LocalDateTime dataInicio,
+                                   @Param("dataFim") LocalDateTime dataFim);
 }

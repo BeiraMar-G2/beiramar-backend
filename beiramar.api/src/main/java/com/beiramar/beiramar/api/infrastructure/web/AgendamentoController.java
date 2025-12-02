@@ -35,8 +35,9 @@ public class AgendamentoController {
     private final ListarAgendamentosHistoricoPaginadoUseCase listarHistoricoPaginadoUseCase;
     private final ContarAgendamentoStatusAgendadoUseCase contarAgendamentoUseCase;
     private final ContarAgendamentoStatusCanceladoUseCase contarCanceladosUseCase;
+    private final ContarAgendamentosStatusConcluidoUseCase contarConcluidosUseCase;
 
-    public AgendamentoController(CadastrarAgendamentoUseCase cadastrarUseCase, AtualizarAgendamentoUseCase atualizarUseCase, BuscarAgendamentoPorIdUseCase buscarPorIdUseCase, DeletarAgendamentoUseCase deletarUseCase, ListarAgendamentosUseCase listarUseCase, ListarAgendamentosPaginadoUseCase listarPaginadoUseCase, ListarAgendamentosPorIdClienteUseCase listarPorClienteUseCase, ListarAgendamentosPorIdClientePaginadoUseCase listarPorClientePaginadoUseCase, ListarAgendamentosPorMesUseCase listarPorMesUseCase, ListarAgendamentosPorMesPaginadoUseCase listarPorMesPaginadoUseCase, ListarAgendamentosHistoricoUseCase listarHistoricoUseCase, ListarAgendamentosHistoricoPaginadoUseCase listarHistoricoPaginadoUseCase, ContarAgendamentoStatusAgendadoUseCase contarAgendamentoUseCase, ContarAgendamentoStatusCanceladoUseCase contarCanceladosUseCase) {
+    public AgendamentoController(CadastrarAgendamentoUseCase cadastrarUseCase, AtualizarAgendamentoUseCase atualizarUseCase, BuscarAgendamentoPorIdUseCase buscarPorIdUseCase, DeletarAgendamentoUseCase deletarUseCase, ListarAgendamentosUseCase listarUseCase, ListarAgendamentosPaginadoUseCase listarPaginadoUseCase, ListarAgendamentosPorIdClienteUseCase listarPorClienteUseCase, ListarAgendamentosPorIdClientePaginadoUseCase listarPorClientePaginadoUseCase, ListarAgendamentosPorMesUseCase listarPorMesUseCase, ListarAgendamentosPorMesPaginadoUseCase listarPorMesPaginadoUseCase, ListarAgendamentosHistoricoUseCase listarHistoricoUseCase, ListarAgendamentosHistoricoPaginadoUseCase listarHistoricoPaginadoUseCase, ContarAgendamentoStatusAgendadoUseCase contarAgendamentoUseCase, ContarAgendamentoStatusCanceladoUseCase contarCanceladosUseCase, ContarAgendamentosStatusConcluidoUseCase contarConcluidosUseCase) {
         this.cadastrarUseCase = cadastrarUseCase;
         this.atualizarUseCase = atualizarUseCase;
         this.buscarPorIdUseCase = buscarPorIdUseCase;
@@ -51,6 +52,7 @@ public class AgendamentoController {
         this.listarHistoricoPaginadoUseCase = listarHistoricoPaginadoUseCase;
         this.contarAgendamentoUseCase = contarAgendamentoUseCase;
         this.contarCanceladosUseCase = contarCanceladosUseCase;
+        this.contarConcluidosUseCase = contarConcluidosUseCase;
     }
 
     @PostMapping
@@ -162,6 +164,15 @@ public class AgendamentoController {
             @RequestParam("fim") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime fim
     ) {
         Long quantidade = contarCanceladosUseCase.executar(inicio, fim);
+        return ResponseEntity.ok(quantidade);
+    }
+
+    @GetMapping("/contarConcluidos")
+    public ResponseEntity<Long> contarAgendamentosConcluidos(
+            @RequestParam("inicio") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime inicio,
+            @RequestParam("fim") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime fim
+    ) {
+        Long quantidade = contarConcluidosUseCase.executar(inicio, fim);
         return ResponseEntity.ok(quantidade);
     }
 

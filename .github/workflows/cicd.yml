@@ -60,6 +60,7 @@ jobs:
           distribution: 'temurin'
           java-version: '21'
           cache: 'maven'
+          
           cache-dependency-path: 'beiramar.api/pom.xml'
       
       # 3. Configurar variáveis de ambiente no application.properties

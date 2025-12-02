@@ -143,6 +143,13 @@ jobs:
           echo ""
           echo "Ver 'SSH_TIMEOUT_FIX.md' para soluções detalhadas"
 
+      # 6.5 Aguardar propagação de EIP
+      - name: ⏳ Aguardar propagação de Elastic IP
+        run: |
+          echo "⏳ Aguardando 30 segundos para propagação de Elastic IP..."
+          sleep 30
+          echo "✅ Pronto para conectar!"
+
       # 7. Copiar JAR para EC2 privada via SCP
       - name: BE - Copiar JAR para EC2 privada
         uses: appleboy/scp-action@v0.1.7

@@ -3,7 +3,8 @@ name: CI/CD para EC2 pública e privada
 on:
   push:
     branches:
-      - master # O branch que acionará o deploy
+      - main       # Branch principal do projeto
+      - master     # Manter por compatibilidade
   workflow_dispatch: # Permite execução manual do workflow
     inputs:
       environment:

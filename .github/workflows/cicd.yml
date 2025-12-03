@@ -46,11 +46,11 @@ jobs:
         working-directory: ./beiramar.api
 
       # 6. Renomear JAR
-      - name: BE - Renomear JAR para beiramar-api.jar
+      - name: BE - Renomear JAR para app_loko.jar
         run: |
           JAR_NAME=$(ls target/*.jar)
-          mv $JAR_NAME target/beiramar-api.jar
-          echo "Renomeado para: target/beiramar-api.jar"
+          mv $JAR_NAME target/app_loko.jar
+          echo "Renomeado para: target/app_loko.jar"
         working-directory: ./beiramar.api
 
       # 7. Deploy para EC2 pública via rsync
@@ -62,7 +62,7 @@ jobs:
           REMOTE_USER: ${{ secrets.REMOTE_USER }}
           TARGET: /home/${{ secrets.REMOTE_USER }}/backend
           ARGS: "-rltgoDzvO --delete"
-          SOURCE: "./beiramar.api/target/beiramar-api.jar"
+          SOURCE: "./beiramar.api/target/app_loko.jar"
 
       # 8. Enviar jar da EC2 pública para a privada
       - name: BE - Executar Comando Shell na EC2
@@ -82,7 +82,7 @@ jobs:
             USUARIO_IP=${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST_PRIVADO }}
 
             # Enviar jar da pública para a privada
-            scp -o StrictHostKeyChecking=no -i $ARQUIVO_PEM /home/${{ secrets.REMOTE_USER }}/backend/beiramar-api.jar $USUARIO_IP:/home/ec2-user/beiramar-api.jar
+            scp -o StrictHostKeyChecking=no -i $ARQUIVO_PEM /home/${{ secrets.REMOTE_USER }}/backend/app_loko.jar $USUARIO_IP:/usr/share/api/app_loko.jar
 
             # Reiniciar serviço na privada
             ssh -i $ARQUIVO_PEM $USUARIO_IP 'sudo docker-compose restart api'

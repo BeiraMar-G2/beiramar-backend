@@ -3,112 +3,49 @@ name: CI/CD para EC2 pública e privada
 on:
   push:
     branches:
-      - main       # Branch principal do projeto
-      - master     # Manter por compatibilidade
-  workflow_dispatch: # Permite execução manual do workflow
-    inputs:
-      environment:
-        description: 'Ambiente para deploy'
-        required: true
-        default: 'production'
-        type: choice
-        options:
-          - production
-          - staging
-          - development
-      skip_tests:
-        description: 'Pular testes?'
-        required: false
-        default: true
-        type: boolean
-      force_restart:
-        description: 'Forçar restart mesmo se não houver mudanças?'
-        required: false
-        default: false
-        type: boolean
+      - main
 
 jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
-    steps:
-      # 0. Exibir informações do trigger
-      - name: 📋 Informações do Deploy
-        run: |
-          echo "🚀 ========================================="
-          echo "📍 Repositório: ${{ github.repository }}"
-          echo "📌 Branch: ${{ github.ref_name }}"
-          echo "🔗 Trigger: ${{ github.event_name }}"
-          
-          if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
-            echo "🎮 EXECUÇÃO MANUAL"
-            echo "  • Ambiente: ${{ github.event.inputs.environment }}"
-            echo "  • Pular testes: ${{ github.event.inputs.skip_tests }}"
-            echo "  • Forçar restart: ${{ github.event.inputs.force_restart }}"
-          else
-            echo "⚙️ EXECUÇÃO AUTOMÁTICA (Push)"
-          fi
-          
-          echo "✨ ========================================="
 
-      # 1. Checkout do repositório
-      - name: BE - Checkout do Código
+    steps:
+      # 1. Checkout
+      - name: Checkout do Repositório
         uses: actions/checkout@v4
 
-      # 2. Configurar JDK
+      # 2. Debug (opcional mas recomendável)
+      - name: DEBUG - Mostrar diretórios
+        run: |
+          pwd
+          ls -R .
+
+      # 3. Configuração do Java/Maven
       - name: BE - Configurar JDK
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: '21'
           cache: 'maven'
-          
-          cache-dependency-path: 'beiramar.api/pom.xml'
-      
-      # 3. Configurar variáveis de ambiente no application.properties
-      - name: BE - Configurar Banco de Dados e CORS no application.properties
-        run: |
-          echo "📄 Conteúdo atual de application.properties:"
-          cat src/main/resources/application.properties | head -20
-          echo "... (truncado)"
-          echo ""
-          echo "==========================================="
-          echo ""
-          
-          # Substituir ou adicionar spring.datasource.url
-          echo "🔧 Atualizando spring.datasource.url..."
-          if grep -q "^spring.datasource.url=" src/main/resources/application.properties; then
-            sed -i "s|^spring.datasource.url=.*|spring.datasource.url=jdbc:mysql://${{ secrets.DB_HOST }}:3306/beiramar?useSSL=false\&allowPublicKeyRetrieval=true|g" src/main/resources/application.properties
-            echo "✅ spring.datasource.url atualizado"
-          else
-            echo "spring.datasource.url=jdbc:mysql://${{ secrets.DB_HOST }}:3306/beiramar?useSSL=false\&allowPublicKeyRetrieval=true" >> src/main/resources/application.properties
-            echo "✅ spring.datasource.url adicionado"
-          fi
-          
-          # Substituir ou adicionar cors.allowed.origins
-          echo "🔧 Atualizando cors.allowed.origins..."
-          if grep -q "^cors.allowed.origins=" src/main/resources/application.properties; then
-            sed -i "s|^cors.allowed.origins=.*|cors.allowed.origins=http://${{ secrets.ALB_DNS_NAME }}|g" src/main/resources/application.properties
-            echo "✅ cors.allowed.origins atualizado"
-          else
-            echo "cors.allowed.origins=http://${{ secrets.ALB_DNS_NAME }}" >> src/main/resources/application.properties
-            echo "✅ cors.allowed.origins adicionado"
-          fi
-          
-          echo ""
-          echo "📋 Valores configurados:"
-          echo "---"
-          grep "^spring.datasource.url=" src/main/resources/application.properties || echo "⚠️ spring.datasource.url não encontrado"
-          grep "^cors.allowed.origins=" src/main/resources/application.properties || echo "⚠️ cors.allowed.origins não encontrado"
-          echo "---"
-          echo "✨ Configuração concluída com sucesso!"
-        working-directory: ./beiramar.api
 
-      # 4. Gerar Artefato .JAR
+      # 4. Criar pasta no servidor público
+      - name: BE - Criar pasta backend no servidor público
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.REMOTE_HOST }}
+          username: ${{ secrets.REMOTE_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            set -e
+            mkdir -p /home/${{ secrets.REMOTE_USER }}/backend
+            chown ${{ secrets.REMOTE_USER }} /home/${{ secrets.REMOTE_USER }}/backend || true
+
+      # 5. Gerar JAR
       - name: BE - Gerar Artefato .JAR
         run: mvn clean package -DskipTests=true -Dmaven.test.skip=true
         working-directory: ./beiramar.api
 
-      # 5. Renomear JAR para nome fixo
+      # 6. Renomear JAR
       - name: BE - Renomear JAR para beiramar-api.jar
         run: |
           JAR_NAME=$(ls target/*.jar)
@@ -116,79 +53,36 @@ jobs:
           echo "Renomeado para: target/beiramar-api.jar"
         working-directory: ./beiramar.api
 
-      # 6. Diagnóstico de Conectividade
-      - name: 🔍 Diagnóstico - Verificar Conectividade SSH
-        run: |
-          echo "🔍 ========================================="
-          echo "Informações da Conexão SSH:"
-          echo "  • Host: ${{ secrets.BACKEND_HOST }}"
-          echo "  • User: ${{ secrets.BACKEND_USER }}"
-          echo "  • Port: 22"
-          echo ""
-          echo "Detalhes do Arquivo:"
-          JAR_PATH="./beiramar.api/target/beiramar-api.jar"
-          if [ -f "$JAR_PATH" ]; then
-            ls -lh "$JAR_PATH"
-            echo "  ✅ JAR encontrado"
-          else
-            echo "  ❌ JAR não encontrado"
-          fi
-          echo "🔍 ========================================="
-          echo ""
-          echo "Nota: Se o SCP falhar com 'timeout', verifique:"
-          echo "  1. BACKEND_HOST é um IP público (não privado 10.x.x.x)?"
-          echo "  2. Security Group permite SSH (porta 22)?"
-          echo "  3. EC2 está em estado 'running'?"
-          echo "  4. Chave SSH (EC2_SSH_KEY) está correta?"
-          echo ""
-          echo "Ver 'SSH_TIMEOUT_FIX.md' para soluções detalhadas"
+      # 7. Deploy para EC2 pública via rsync
+      - name: BE - Copiar arquivos e Deploy
+        uses: easingthemes/ssh-deploy@main
+        with:
+          SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
+          REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
+          REMOTE_USER: ${{ secrets.REMOTE_USER }}
+          TARGET: /home/${{ secrets.REMOTE_USER }}/backend
+          ARGS: "-rltgoDzvO --delete"
+          SOURCE: "./beiramar.api/target/beiramar-api.jar"
 
-      # 6.5 Preparar chave SSH
-      - name: 🔑 Preparar Chave SSH
-        run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/deploy_key
-          chmod 600 ~/.ssh/deploy_key
-          ssh-keyscan -H ${{ secrets.BACKEND_HOST }} >> ~/.ssh/known_hosts 2>/dev/null || true
+      # 8. Enviar jar da EC2 pública para a privada
+      - name: BE - Executar Comando Shell na EC2
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.REMOTE_HOST }}
+          username: ${{ secrets.REMOTE_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            set -e
 
-      # 7. Copiar JAR e Reiniciar via SSH
-      - name: BE - Copiar JAR e Reiniciar Aplicação
-        run: |
-          set -e
-          
-          SSH_CMD="ssh -i ~/.ssh/deploy_key -o ConnectTimeout=10 -o StrictHostKeyChecking=no ${{ secrets.BACKEND_USER }}@${{ secrets.BACKEND_HOST }}"
-          
-          echo "📦 Copiando JAR via SCP..."
-          scp -i ~/.ssh/deploy_key -o ConnectTimeout=10 \
-            ./beiramar.api/target/beiramar-api.jar \
-            ${{ secrets.BACKEND_USER }}@${{ secrets.BACKEND_HOST }}:/tmp/beiramar-api.jar
-          
-          echo "✅ JAR copiado com sucesso!"
-          
-          echo "🚀 Executando deploy remoto..."
-          $SSH_CMD << 'EOSSH'
-          set -e
-          
-          echo "📦 Verificando arquivo copiado..."
-          ls -lh /tmp/beiramar-api.jar
-          
-          echo "🚀 Movendo JAR para o diretório de aplicação..."
-          sudo mv /tmp/beiramar-api.jar /usr/share/api/beiramar-api.jar || \
-            { echo "Criando diretório..."; sudo mkdir -p /usr/share/api; sudo mv /tmp/beiramar-api.jar /usr/share/api/beiramar-api.jar; }
-          sudo chmod 644 /usr/share/api/beiramar-api.jar
-          
-          echo "🛑 Parando containers..."
-          cd /home/ubuntu || cd /home/ec2-user || cd ~
-          sudo docker-compose -f compose.yaml down 2>/dev/null || echo "Nenhum container rodando"
-          
-          echo "🔄 Recriando e iniciando containers com novo JAR..."
-          sudo docker-compose -f compose.yaml up -d --force-recreate
-          
-          echo "⏳ Aguardando inicialização..."
-            sleep 10
-            
-            echo "✅ Verificando status dos containers..."
-            sudo docker-compose -f compose.yaml ps
-            
-            echo "🎉 Aplicação reiniciada com sucesso!"
-            echo "📍 Acesse em: http://${{ secrets.ALB_DNS_NAME }}/api"
+            ARQUIVO_PEM="/home/${{ secrets.REMOTE_USER }}/chavetmp.pem"
+            rm -f $ARQUIVO_PEM
+            echo "${{ secrets.EC2_SSH_KEY }}" > $ARQUIVO_PEM
+            chmod 400 $ARQUIVO_PEM
+
+            USUARIO_IP=${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST_PRIVADO }}
+
+            # Enviar jar da pública para a privada
+            scp -o StrictHostKeyChecking=no -i $ARQUIVO_PEM /home/${{ secrets.REMOTE_USER }}/backend/beiramar-api.jar $USUARIO_IP:/usr/share/api/beiramar-api.jar
+
+            # Reiniciar serviço na privada
+            ssh -i $ARQUIVO_PEM $USUARIO_IP 'sudo docker-compose restart api'

@@ -76,6 +76,18 @@ jobs:
             sudo chown -R ${{ secrets.REMOTE_USER }}:${{ secrets.REMOTE_USER }} /home/${{ secrets.REMOTE_USER }}/backend
             sudo chmod -R 775 /home/${{ secrets.REMOTE_USER }}/backend
 
+      - name: DEBUG - Verificar usuário e permissão real na EC2
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.REMOTE_HOST }}
+          username: ${{ secrets.REMOTE_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            whoami
+            id
+            ls -ld /home/${{ secrets.REMOTE_USER }}/backend
+            ls -ld /home/${{ secrets.REMOTE_USER }}/backend/api
+            ls -l /home/${{ secrets.REMOTE_USER }}/backend/api
 
       # 9. Enviar jar da EC2 pública para a privada
       - name: BE - Executar Comando Shell na EC2

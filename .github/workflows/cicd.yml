@@ -64,7 +64,20 @@ jobs:
           ARGS: "-rltgoDzvO --delete"
           SOURCE: "./beiramar.api/target/app_loko.jar"
 
-      # 8. Enviar jar da EC2 pública para a privada
+      # 8. Ajustar permissões da pasta no servidor público
+      - name: BE - Ajustar permissões da pasta no servidor
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.REMOTE_HOST }}
+          username: ${{ secrets.REMOTE_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            sudo mkdir -p /home/${{ secrets.REMOTE_USER }}/backend/api
+            sudo chown -R ${{ secrets.REMOTE_USER }}:${{ secrets.REMOTE_USER }} /home/${{ secrets.REMOTE_USER }}/backend
+            sudo chmod -R 775 /home/${{ secrets.REMOTE_USER }}/backend
+
+
+      # 9. Enviar jar da EC2 pública para a privada
       - name: BE - Executar Comando Shell na EC2
         uses: appleboy/ssh-action@v1.0.3
         with:

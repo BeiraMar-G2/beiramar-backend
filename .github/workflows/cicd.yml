@@ -82,7 +82,7 @@ jobs:
             USUARIO_IP=${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST_PRIVADO }}
 
             # Enviar jar da pública para a privada
-            scp -o StrictHostKeyChecking=no -i $ARQUIVO_PEM /home/${{ secrets.REMOTE_USER }}/backend/app_loko.jar $USUARIO_IP:/home/ec2-user/app_loko.jar
+            scp -o StrictHostKeyChecking=no -i $ARQUIVO_PEM /home/${{ secrets.REMOTE_USER }}/backend/app_loko.jar $USUARIO_IP:/usr/share/api/app_loko.jar
 
             # Reiniciar serviço na privada
             ssh -i $ARQUIVO_PEM $USUARIO_IP 'sudo docker-compose restart api'

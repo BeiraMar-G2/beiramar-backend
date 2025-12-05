@@ -74,6 +74,8 @@ jobs:
           script: |
             set -e
 
+            ssh-keygen -R ${{ secrets.REMOTE_HOST_PRIVADO }}
+
             # Criar chave temporária
             ARQUIVO_PEM="/home/${{ secrets.REMOTE_USER }}/chavetmp.pem"
             rm -f $ARQUIVO_PEM

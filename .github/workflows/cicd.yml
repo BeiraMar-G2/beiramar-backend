@@ -14,13 +14,13 @@ jobs:
       - name: Checkout do Repositório
         uses: actions/checkout@v4
 
-      # 2. Debug (opcional mas recomendável)
+      # 2. Debug
       - name: DEBUG - Mostrar diretórios
         run: |
           pwd
           ls -R .
 
-      # 3. Configuração do Java/Maven
+      # 3. JDK + Maven
       - name: BE - Configurar JDK
         uses: actions/setup-java@v4
         with:
@@ -28,7 +28,7 @@ jobs:
           java-version: '21'
           cache: 'maven'
 
-      # 4. Criar pasta no servidor público
+      # 4. Criar pasta backend na EC2 pública
       - name: BE - Criar pasta backend no servidor público
         uses: appleboy/ssh-action@v1.0.3
         with:
@@ -38,7 +38,7 @@ jobs:
           script: |
             set -e
             mkdir -p /home/${{ secrets.REMOTE_USER }}/backend
-            chown ${{ secrets.REMOTE_USER }} /home/${{ secrets.REMOTE_USER }}/backend || true
+            chown -R ${{ secrets.REMOTE_USER }} /home/${{ secrets.REMOTE_USER }}/backend
 
       # 5. Gerar JAR
       - name: BE - Gerar Artefato .JAR
@@ -54,7 +54,7 @@ jobs:
         working-directory: ./beiramar.api
 
       # 7. Deploy para EC2 pública via rsync
-      - name: BE - Copiar arquivos e Deploy
+      - name: BE - Copiar arquivos e Deploy para EC2 pública
         uses: easingthemes/ssh-deploy@main
         with:
           SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
@@ -64,8 +64,8 @@ jobs:
           ARGS: "-rltgoDzvO --delete"
           SOURCE: "./beiramar.api/target/app_loko.jar"
 
-      # 8. Enviar jar da EC2 pública para a privada
-      - name: BE - Executar Comando Shell na EC2
+      # 8. Copiar JAR da pública → privada
+      - name: BE - Enviar JAR da pública para a privada e reiniciar API
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.REMOTE_HOST }}
@@ -74,20 +74,37 @@ jobs:
           script: |
             set -e
 
-            mkdir -p /home/ec2-user/backend/api
-            chmod -R 755 /home/ec2-user/backend
-
+            # Criar chave temporária
             ARQUIVO_PEM="/home/${{ secrets.REMOTE_USER }}/chavetmp.pem"
             rm -f $ARQUIVO_PEM
             echo "${{ secrets.EC2_SSH_KEY }}" > $ARQUIVO_PEM
             chmod 400 $ARQUIVO_PEM
 
-            USUARIO_IP=${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST_PRIVADO }}
+            # Variáveis
+            USUARIO_IP="ec2-user@${{ secrets.REMOTE_HOST_PRIVADO }}"
 
-            ssh -i $ARQUIVO_PEM $USUARIO_IP 'sudo docker-compose down'
+            echo "==> Corrigindo permissões na EC2 PRIVADA"
+            ssh -o StrictHostKeyChecking=no -i $ARQUIVO_PEM $USUARIO_IP "
+              sudo mkdir -p /home/ec2-user/backend/api &&
+              sudo chown -R ec2-user:ec2-user /home/ec2-user/backend &&
+              sudo chmod -R 755 /home/ec2-user/backend
+            "
 
-            # Enviar jar da pública para a privada
-            scp -o StrictHostKeyChecking=no -i $ARQUIVO_PEM /home/${{ secrets.REMOTE_USER }}/backend/app_loko.jar $USUARIO_IP:/home/ec2-user/backend/api/app_loko.jar
+            echo "==> Parando apenas a API (sem remover RabbitMQ)"
+            ssh -o StrictHostKeyChecking=no -i $ARQUIVO_PEM $USUARIO_IP "
+              cd /home/ec2-user &&
+              sudo docker-compose stop api || true
+            "
 
-            # Reiniciar serviço na privada
-            ssh -i $ARQUIVO_PEM $USUARIO_IP 'sudo docker-compose up -d api'
+            echo '==> Enviando novo app_loko.jar...'
+            scp -o StrictHostKeyChecking=no -i $ARQUIVO_PEM \
+              /home/${{ secrets.REMOTE_USER }}/backend/app_loko.jar \
+              $USUARIO_IP:/home/ec2-user/backend/api/app_loko.jar
+
+            echo "==> Subindo API novamente"
+            ssh -o StrictHostKeyChecking=no -i $ARQUIVO_PEM $USUARIO_IP "
+              cd /home/ec2-user &&
+              sudo docker-compose up -d api
+            "
+
+            echo "==> Deploy finalizado com sucesso!"

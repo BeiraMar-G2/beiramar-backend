@@ -64,17 +64,6 @@ jobs:
           ARGS: "-rltgoDzvO --delete"
           SOURCE: "./beiramar.api/target/app_loko.jar"
 
-      # 7.5. Reiniciar serviço na EC2 pública
-      - name: BE - Parar containers no backend
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: ${{ secrets.REMOTE_HOST_PRIVADO }}
-          username: ec2-user
-          key: ${{ secrets.EC2_SSH_KEY }}
-          script: |
-            cd /home/ec2-user
-            docker-compose down || true
-
       # 8. Enviar jar da EC2 pública para a privada
       - name: BE - Executar Comando Shell na EC2
         uses: appleboy/ssh-action@v1.0.3
@@ -95,16 +84,10 @@ jobs:
 
             USUARIO_IP=${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST_PRIVADO }}
 
+            ssh -i $ARQUIVO_PEM $USUARIO_IP 'sudo docker-compose down'
+
             # Enviar jar da pública para a privada
             scp -o StrictHostKeyChecking=no -i $ARQUIVO_PEM /home/${{ secrets.REMOTE_USER }}/backend/app_loko.jar $USUARIO_IP:/home/ec2-user/backend/api/app_loko.jar
 
-
-      - name: BE - Subir containers no backend
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: ${{ secrets.REMOTE_HOST_PRIVADO }}
-          username: ec2-user
-          key: ${{ secrets.EC2_SSH_KEY }}
-          script: |
-            cd /home/ec2-user
-            docker-compose up -d
+            # Reiniciar serviço na privada
+            ssh -i $ARQUIVO_PEM $USUARIO_IP 'sudo docker-compose up -d api'

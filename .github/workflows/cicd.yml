@@ -48,10 +48,18 @@ jobs:
       # 6. Renomear JAR
       - name: BE - Renomear JAR para app_loko.jar
         run: |
-          JAR_NAME=$(ls target/*.jar)
-          mv $JAR_NAME target/app_loko.jar
-          echo "Renomeado para: target/app_loko.jar"
+          JAR_NAME=$(find ./target -maxdepth 1 -type f -name "*.jar" | head -n 1)
+          if [ -z "$JAR_NAME" ]; then
+            echo "ERRO: Nenhum JAR encontrado em ./beiramar.api/target/"
+            ls -lh ./target
+            exit 1
+          fi
+          
+          echo "JAR encontrado: $JAR_NAME"
+          mv "$JAR_NAME" ./target/app_loko.jar
+          ls -lh ./target
         working-directory: ./beiramar.api
+
 
       # 7. Deploy para EC2 pública via rsync
       - name: BE - Copiar arquivos e Deploy para EC2 pública
@@ -106,7 +114,6 @@ jobs:
             ssh -o StrictHostKeyChecking=no -i $ARQUIVO_PEM $USUARIO_IP "
               echo \'${{ secrets.ENV_FILE_API }}' > /home/ec2-user/backend/api/.env && chmod 600 /home/ec2-user/backend/api/.env
             "
-
 
             echo "==> Subindo serviços (API, RabbitMQ, Redis)"
             ssh -o StrictHostKeyChecking=no -i $ARQUIVO_PEM $USUARIO_IP "

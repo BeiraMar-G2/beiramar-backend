@@ -104,7 +104,7 @@ jobs:
 
             echo "==> Enviando .env..."
             ssh -o StrictHostKeyChecking=no -i $ARQUIVO_PEM $USUARIO_IP "
-              echo \'${{ secrets.ENV_FILE_CONTENTS }}' > /home/ec2-user/backend/api/.env && chmod 600 /home/ec2-user/backend/api/.env
+              echo \'${{ secrets.ENV_FILE_API }}' > /home/ec2-user/backend/api/.env && chmod 600 /home/ec2-user/backend/api/.env
             "
 
 

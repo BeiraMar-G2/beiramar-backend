@@ -64,8 +64,8 @@ jobs:
           ARGS: "-rltgoDzvO --delete"
           SOURCE: "./beiramar.api/target/app_loko.jar"
 
-      # 8. Copiar JAR da pública → privada
-      - name: BE - Enviar JAR da pública para a privada e reiniciar API
+      # 8. Copiar JAR da pública → privada e reiniciar serviços
+      - name: BE - Enviar JAR da pública para a privada e reiniciar serviços
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.REMOTE_HOST }}
@@ -92,10 +92,10 @@ jobs:
               sudo chmod -R 755 /home/ec2-user/backend
             "
 
-            echo "==> Parando apenas a API (sem remover RabbitMQ)"
+            echo "==> Parando serviços (API, RabbitMQ, Redis)"
             ssh -o StrictHostKeyChecking=no -i $ARQUIVO_PEM $USUARIO_IP "
               cd /home/ec2-user &&
-              sudo docker-compose stop api || true
+              sudo docker-compose stop || true
             "
 
             echo '==> Enviando novo app_loko.jar...'
@@ -103,10 +103,10 @@ jobs:
               /home/${{ secrets.REMOTE_USER }}/backend/app_loko.jar \
               $USUARIO_IP:/home/ec2-user/backend/api/app_loko.jar
 
-            echo "==> Subindo API novamente"
+            echo "==> Subindo serviços (API, RabbitMQ, Redis)"
             ssh -o StrictHostKeyChecking=no -i $ARQUIVO_PEM $USUARIO_IP "
               cd /home/ec2-user &&
-              sudo docker-compose up -d api
+              sudo docker-compose up -d
             "
 
             echo "==> Deploy finalizado com sucesso!"

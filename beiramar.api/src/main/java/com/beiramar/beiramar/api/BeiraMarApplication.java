@@ -11,7 +11,7 @@ public class BeiraMarApplication {
 	public static void main(String[] args) {
 
 		// Carrega as variáveis definidas no arquivo .env
-		Dotenv dotenv = Dotenv.configure().directory("/home/ec2-user/backend/api").load();
+		Dotenv dotenv = Dotenv.load();
 
 		// Itera sobre todas as variáveis do .env e seta cada uma delas como propriedade do sistema System.setProperty
 		dotenv.entries().forEach(entry -> System.setProperty(entry.getKey(), entry.getValue()));

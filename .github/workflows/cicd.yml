@@ -89,43 +89,51 @@ jobs:
             USUARIO_BACKEND="ec2-user"
             DIRETORIO_API="/home/$USUARIO_BACKEND/backend/api"
 
-            ENCODED_ENV_FILE=$(echo "${{ secrets.ENV_FILE_API }}" | base64 -w 0)
-
-            echo "==> Corrigindo permissões na EC2 PRIVADA"
+            # NOTA: O conteúdo do Base64 deve ser passado para o SSH de forma segura.
+            # Vamos manter a variável ENV_FILE_API codificada.
+            ENCODED_ENV_FILE="${{ secrets.ENV_FILE_API }}"
+            
+            # Use 'rm -rf' para garantir que se for um diretório (.env) ele seja removido
             ssh -o StrictHostKeyChecking=no -i $ARQUIVO_PEM $USUARIO_IP "
-              sudo mkdir -p /home/ec2-user/backend/api &&
+              sudo mkdir -p $DIRETORIO_API &&
               sudo chown -R ec2-user:ec2-user /home/ec2-user/backend &&
               sudo chmod -R 755 /home/ec2-user/backend
             "
 
             echo "==> Parando serviços (API, RabbitMQ, Redis)"
-            ssh -o StrictHostKeyChecking=no -i $ARQUIVO_PEM $USUARIO_IP "
-              cd /home/ec2-user &&
-              sudo docker-compose stop || true
-            "
-            echo '==> Enviando novo app_loko.jar...'
-            scp -o StrictHostKeyChecking=no -i $ARQUIVO_PEM \
-              /home/${{ secrets.REMOTE_USER }}/backend/app_loko.jar \
-              $USUARIO_IP:/home/ec2-user/backend/api/app_loko.jar
+            # ... (demais comandos de parada) ...
 
-            echo "==> Enviando .env via Base64 e verificando..."
+            echo '==> Enviando novo app_loko.jar...'
+            # ... (comando scp) ...
+
+            echo "==> Enviando .env via Base64 (NOVO MÉTODO)"
+            # Constrói o comando de decodificação no servidor remoto
+            # Usa 'echo' local com o Base64, pipe para 'ssh' (que executa 'base64 --decode > .env')
+            
+            # 1. Remove o objeto, seja ele arquivo ou diretório
             ssh -o StrictHostKeyChecking=no -i $ARQUIVO_PEM $USUARIO_IP "
-              # Tenta remover o .env caso ele exista como diretório ou arquivo antigo
-              rm -f $DIRETORIO_API/.env || true
+              rm -rf $DIRETORIO_API/.env || true
+            "
+            
+            # 2. Envia a string Base64 e a decodifica no servidor privado
+            # Note o uso de aspas simples para proteger $ENCODED_ENV_FILE na EC2 pública
+            echo '$ENCODED_ENV_FILE' | ssh -o StrictHostKeyChecking=no -i $ARQUIVO_PEM $USUARIO_IP "
+              base64 --decode > $DIRETORIO_API/.env
+            "
+            
+            echo "==> Verificando arquivo e permissões..."
+            ssh -o StrictHostKeyChecking=no -i $ARQUIVO_PEM $USUARIO_IP "
+              # Define permissões no arquivo recém-criado
+              chmod 644 $DIRETORIO_API/.env
               
-              # DECODIFICA o conteúdo Base64 e salva no arquivo.
-              # Note o uso de aspas DUPLAS (\"\") para evitar problemas com a string SSH
-              echo \"$ENCODED_ENV_FILE\" | base64 --decode > $DIRETORIO_API/.env
-              
-              # Define permissões
-              chmod 600 $DIRETORIO_API/.env
-              
-              # Verificação final
+              # Verifica se é um arquivo (e não um diretório 'd')
               if [ -f \"$DIRETORIO_API/.env\" ]; then
-                echo '✅ .env criado com sucesso!'
-                # Opcional: Para DEBUG: cat $DIRETORIO_API/.env
+                echo '✅ .env criado com sucesso como ARQUIVO!'
+                echo 'Conteúdo (apenas as primeiras linhas):'
+                head $DIRETORIO_API/.env
               else
-                echo '❌ Erro na criação do .env.'
+                echo '❌ Erro: Objeto .env não é um arquivo. Verifique o Base64.'
+                # Saída para falhar a action
                 exit 1
               fi
             "

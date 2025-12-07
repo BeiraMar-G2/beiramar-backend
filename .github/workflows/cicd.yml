@@ -112,6 +112,16 @@ jobs:
               echo '${{ secrets.ENV_FILE_API }}' > /home/ec2-user/backend/api/.env && chmod 600 /home/ec2-user/backend/api/.env
             "
 
+            # Verificar se o .env ao lado do JAR é um arquivo (não diretório)
+              if [ -f "/usr/share/api-email/.env" ]; then
+                echo "✅ /usr/share/api-email/.env é um arquivo válido"
+                ls -la /usr/share/api-email/.env
+              else
+                echo "❌ Erro: /usr/share/api-email/.env não é um arquivo válido"
+                ls -la /usr/share/api-email/.env 2>/dev/null || echo "Arquivo não existe"
+                exit 1
+              fi
+
             echo "==> Subindo serviços (API, RabbitMQ, Redis)"
             ssh -o StrictHostKeyChecking=no -i $ARQUIVO_PEM $USUARIO_IP "
               cd /home/ec2-user &&

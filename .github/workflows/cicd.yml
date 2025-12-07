@@ -66,8 +66,8 @@ jobs:
           ARGS: "-rltgoDzvO --delete"
           SOURCE: "./beiramar.api/target/app_loko.jar"
 
-      # 8. Copiar JAR da pública → privada e reiniciar serviços
-      - name: BE - Enviar JAR da pública para a privada e reiniciar serviços
+      # 8. Copiar JAR da pública → privada e reiniciar serviços (SEM .ENV)
+      - name: BE - Enviar JAR da pública para a privada e reiniciar serviços (SEM .ENV)
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.REMOTE_HOST }}
@@ -88,55 +88,27 @@ jobs:
             USUARIO_IP="ec2-user@${{ secrets.REMOTE_HOST_PRIVADO }}"
             USUARIO_BACKEND="ec2-user"
             DIRETORIO_API="/home/$USUARIO_BACKEND/backend/api"
-
-            # NOTA: O conteúdo do Base64 deve ser passado para o SSH de forma segura.
-            # Vamos manter a variável ENV_FILE_API codificada.
-            ENCODED_ENV_FILE="${{ secrets.ENV_FILE_API }}"
             
-            # Use 'rm -rf' para garantir que se for um diretório (.env) ele seja removido
+            echo "==> Corrigindo permissões na EC2 PRIVADA"
             ssh -o StrictHostKeyChecking=no -i $ARQUIVO_PEM $USUARIO_IP "
-              sudo mkdir -p $DIRETORIO_API &&
+              sudo mkdir -p /home/ec2-user/backend/api &&
               sudo chown -R ec2-user:ec2-user /home/ec2-user/backend &&
               sudo chmod -R 755 /home/ec2-user/backend
             "
 
             echo "==> Parando serviços (API, RabbitMQ, Redis)"
-            # ... (demais comandos de parada) ...
-
+            ssh -o StrictHostKeyChecking=no -i $ARQUIVO_PEM $USUARIO_IP "
+              cd /home/ec2-user &&
+              sudo docker-compose stop || true
+            "
             echo '==> Enviando novo app_loko.jar...'
-            # ... (comando scp) ...
+            scp -o StrictHostKeyChecking=no -i $ARQUIVO_PEM \
+              /home/${{ secrets.REMOTE_USER }}/backend/app_loko.jar \
+              $USUARIO_IP:/home/ec2-user/backend/api/app_loko.jar
 
-            echo "==> Enviando .env via Base64 (NOVO MÉTODO)"
-            # Constrói o comando de decodificação no servidor remoto
-            # Usa 'echo' local com o Base64, pipe para 'ssh' (que executa 'base64 --decode > .env')
-            
-            # 1. Remove o objeto, seja ele arquivo ou diretório
-            ssh -o StrictHostKeyChecking=no -i $ARQUIVO_PEM $USUARIO_IP "
-              rm -rf $DIRETORIO_API/.env || true
-            "
-            
-            # 2. Envia a string Base64 e a decodifica no servidor privado
-            # Note o uso de aspas simples para proteger $ENCODED_ENV_FILE na EC2 pública
-            echo '$ENCODED_ENV_FILE' | ssh -o StrictHostKeyChecking=no -i $ARQUIVO_PEM $USUARIO_IP "
-              base64 --decode > $DIRETORIO_API/.env
-            "
-            
-            echo "==> Verificando arquivo e permissões..."
-            ssh -o StrictHostKeyChecking=no -i $ARQUIVO_PEM $USUARIO_IP "
-              # Define permissões no arquivo recém-criado
-              chmod 644 $DIRETORIO_API/.env
-              
-              # Verifica se é um arquivo (e não um diretório 'd')
-              if [ -f \"$DIRETORIO_API/.env\" ]; then
-                echo '✅ .env criado com sucesso como ARQUIVO!'
-                echo 'Conteúdo (apenas as primeiras linhas):'
-                head $DIRETORIO_API/.env
-              else
-                echo '❌ Erro: Objeto .env não é um arquivo. Verifique o Base64.'
-                # Saída para falhar a action
-                exit 1
-              fi
-            "
+            # --------------------------------------------------------------------
+            # ATENÇÃO: Os comandos para criar/enviar o .env foram removidos aqui!
+            # --------------------------------------------------------------------
 
             echo "==> Subindo serviços (API, RabbitMQ, Redis)"
             ssh -o StrictHostKeyChecking=no -i $ARQUIVO_PEM $USUARIO_IP "
@@ -144,4 +116,4 @@ jobs:
               sudo docker-compose up -d
             "
 
-            echo "==> Deploy finalizado com sucesso!"
+            echo "==> Deploy finalizado com sucesso! (Lembre-se de verificar o .env)"

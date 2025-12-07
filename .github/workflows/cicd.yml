@@ -109,8 +109,11 @@ jobs:
               # Tenta remover o .env caso ele exista como diretório ou arquivo antigo
               rm -f /home/ec2-user/backend/api/.env || true
               # Cria o novo arquivo .env com o conteúdo do Secret
-              echo '${{ secrets.ENV_FILE_API }}' > /home/ec2-user/backend/api/.env && chmod 600 /home/ec2-user/backend/api/.env
-            "
+              ssh -o StrictHostKeyChecking=no -i $ARQUIVO_PEM $USUARIO_IP \
+              'export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin" && \
+              /usr/bin/sudo mkdir -p /home/ec2-user/backend/api/ && \
+              /usr/bin/sudo rm -rf /home/ec2-user/backend/api/.env && \
+              /usr/bin/sudo tee /home/ec2-user/backend/api/.env > /dev/null << "ENV_EOF""
 
             # Verificar se o .env ao lado do JAR é um arquivo (não diretório)
               if [ -f "/home/ec2-user/backend/api/.env" ]; then

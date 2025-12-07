@@ -48,16 +48,13 @@ jobs:
       # 6. Renomear JAR
       - name: BE - Renomear JAR para app_loko.jar
         run: |
-          JAR_NAME=$(find ./target -maxdepth 1 -type f -name "*.jar" | head -n 1)
-          if [ -z "$JAR_NAME" ]; then
-            echo "ERRO: Nenhum JAR encontrado em ./beiramar.api/target/"
-            ls -lh ./target
-            exit 1
-          fi
+          # Este é o nome que o JAR executável possui após o 'repackage'.
+          # Movemos ele para o nome que o seu CI/CD espera.
+          mv ./target/beiramar.api-0.0.1-SNAPSHOT.jar ./target/app_loko.jar
           
-          echo "JAR encontrado: $JAR_NAME"
-          mv "$JAR_NAME" ./target/app_loko.jar
-          ls -lh ./target
+          # Adicionamos um log de verificação para confirmar que o arquivo existe
+          echo "Verificação do arquivo a ser enviado:"
+          ls -lh ./target/app_loko.jar
         working-directory: ./beiramar.api
 
 

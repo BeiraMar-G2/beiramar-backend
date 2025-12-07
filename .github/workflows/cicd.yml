@@ -113,12 +113,12 @@ jobs:
             "
 
             # Verificar se o .env ao lado do JAR é um arquivo (não diretório)
-              if [ -f "/usr/share/api-email/.env" ]; then
-                echo "✅ /usr/share/api-email/.env é um arquivo válido"
-                ls -la /usr/share/api-email/.env
+              if [ -f "/home/ec2-user/backend/api/.env" ]; then
+                echo "✅ /home/ec2-user/backend/api/.env é um arquivo válido"
+                ls -la /home/ec2-user/backend/api/.env
               else
-                echo "❌ Erro: /usr/share/api-email/.env não é um arquivo válido"
-                ls -la /usr/share/api-email/.env 2>/dev/null || echo "Arquivo não existe"
+                echo "❌ Erro: /home/ec2-user/backend/api/.env não é um arquivo válido"
+                ls -la /home/ec2-user/backend/api/.env 2>/dev/null || echo "Arquivo não existe"
                 exit 1
               fi
 

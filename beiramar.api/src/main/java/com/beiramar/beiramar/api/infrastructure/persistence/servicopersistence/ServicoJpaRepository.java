@@ -17,7 +17,7 @@ public interface ServicoJpaRepository extends JpaRepository<ServicoEntity, Integ
                     "FROM servico s " +
                     "LEFT JOIN agendamento a ON s.id_servico = a.fk_servico " +
                     "AND a.dt_hora BETWEEN :dataInicio AND :dataFim " +
-                    "AND UPPER(a.status_agendamento) = UPPER('Agendado')" +
+                    "AND UPPER(a.status_agendamento) = UPPER('Concluido')" +
                     "GROUP BY s.id_servico, s.nome " +
                     "ORDER BY total DESC " +
                     "LIMIT 3",
@@ -33,6 +33,7 @@ public interface ServicoJpaRepository extends JpaRepository<ServicoEntity, Integ
                     "FROM servico s " +
                     "LEFT JOIN agendamento a ON s.id_servico = a.fk_servico " +
                     "AND a.dt_hora BETWEEN :dataInicio AND :dataFim " +
+                    "AND UPPER(a.status_agendamento) = UPPER('Concluido')" +
                     "GROUP BY s.id_servico, s.nome " +
                     "ORDER BY total ASC " +
                     "LIMIT 3",
@@ -66,7 +67,7 @@ public interface ServicoJpaRepository extends JpaRepository<ServicoEntity, Integ
             "END as dia_semana, COUNT(a.id_agendamento) as total_agendamentos " +
             "FROM servico s " +
             "INNER JOIN agendamento a ON s.id_servico = a.fk_servico " +
-            "WHERE s.nome = ?1 AND a.status = 'Agendado' " +
+            "WHERE s.nome = ?1 AND a.status = 'Concluido' " +
             "AND a.dt_hora >= DATE_SUB(CURDATE(), INTERVAL 30 DAY) " +
             "GROUP BY CASE DAYOFWEEK(a.dt_hora) " +
             "WHEN 1 THEN 'Domingo' " +

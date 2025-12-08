@@ -21,6 +21,7 @@ INSERT INTO cargo (nome) VALUES
 -- usuario
 INSERT INTO usuario (foto_perfil_id, nome, email, telefone, senha, dt_nasc, fk_cargo) VALUES
 (1,'Carla Dias','carla.dias@beiramar.com','11977889900','$2a$10$RWnGTZiqVGs9WqUXkbyps.78KPRu79gph1KQJL4sgWDHQKd/ETod.','1988-11-01',3),
+(NULL,'Ana Dias','ana@beiramar.com','11977889900','$2a$10$RWnGTZiqVGs9WqUXkbyps.78KPRu79gph1KQJL4sgWDHQKd/ETod.','1988-11-01',1),
 (2,'Daniel Rocha','daniel.rocha@beiramar.com','11966554433','daniel6789','1982-05-10',4),
 (3,'Eduarda Souza','eduarda.s@beiramar.com','11955443322','eduarda123','1995-09-20',5),
 (4,'Bruno Costa','bruno.costa@beiramar.com','11991234567','senha67890','1990-07-22',2),
@@ -54,9 +55,9 @@ INSERT INTO disponibilidade_entity (fk_funcionario, dia_semana, hora_inicio, hor
 
 -- pacote
 INSERT INTO pacote (nome, preco_total_sem_desconto, qtd_sessoes_total, tempo_limite_dias) VALUES
-('Pacote Revitalização Corporal', 800.00, 6, 80),
-('Pacote Foco Fisioterapia', 450.00, 4, 50),
-('Pacote Estética Plus', 900.00, 8, 100);
+('Pacote Arrasou no Natal', 800.00, 6, 80),
+('Pacote Vem Calor', 450.00, 4, 50),
+('Pacote Ano Novo', 900.00, 8, 100);
 
 -- valorPacoteComDesconto
 INSERT INTO valorPacoteComDesconto (fk_usuario, fk_pacote, valorTotal) VALUES
